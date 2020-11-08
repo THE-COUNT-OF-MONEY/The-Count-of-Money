@@ -1,0 +1,34 @@
+version: '3.7'
+
+services:
+  front:
+    restart: always
+    build: 
+      context: ./front-end/.
+      dockerfile: Dockerfile
+    ports:
+      - '3000:3000'
+
+#    image: <Docker Hub user name>/front:<version> # Maybe I will switch to this type
+  back:
+    build:
+      context: ./back-end/.
+      dockerfile: Dockerfile
+    ports:
+      - '4000:4000'
+    restart: always
+    depends_on:
+      - persistance
+
+#+    image: <Docker Hub user name>/back:<version> # Same
+
+  persistance:
+    image: mysql:latest
+    ports:
+      - '3306:3306'
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_USER: epitech
+      MYSQL_PASSWORD: password
