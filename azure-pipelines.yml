@@ -15,14 +15,14 @@ stages:
     - job: BuildSql
       steps:
         - bash: echo Bash SQL
-        - bash: echo ls -R $(Build.ArtifactStagingDirectory)
-        - bash: echo ls -R ..$(System.DefaultWorkingDirectory)
+        - bash:  ls -R $(Build.ArtifactStagingDirectory)
+        - bash:  ls -R ..$(System.DefaultWorkingDirectory)
         - task: CopyFiles@2
           inputs:
             SourceFolder: '$(System.DefaultWorkingDirectory)'
             Contents: '**/*.yaml'
             TargetFolder: '$(Build.ArtifactStagingDirectory)'
-        - bash: echo ls -R $(Build.ArtifactStagingDirectory)
+        - bash:  ls -R $(Build.ArtifactStagingDirectory)
 
     - job: BuildApi
       steps:
