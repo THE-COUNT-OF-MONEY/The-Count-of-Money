@@ -15,6 +15,14 @@ stages:
     - job: BuildSql
       steps:
         - bash: echo Bash SQL
+        - bash: echo ls -R $(Build.ArtifactStagingDirectory)
+        - task: CopyFiles@2
+          inputs:
+            SourceFolder: '$(System.DefaultWorkingDirectory)'
+            Contents: '**/*.yaml'
+            TargetFolder: '$(Build.ArtifactStagingDirectory)'
+        - bash: echo ls -R $(Build.ArtifactStagingDirectory)
+
     - job: BuildApi
       steps:
         - bash: echo Bash Api
@@ -32,6 +40,6 @@ stages:
   - stage:  ProdDeploy
     dependsOn: Build
     jobs:
-    - job: DeployDev
+    - job: DeployProd
       steps:
       - bash: echo Prod Deployment
