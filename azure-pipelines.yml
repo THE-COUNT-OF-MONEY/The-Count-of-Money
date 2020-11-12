@@ -23,12 +23,14 @@ stages:
         - bash: echo Bash Front
 
   - stage:  DevDeploy
+    dependsOn: Build
     jobs:
     - job: DeployDev
       steps:
       - bash: echo Dev Deployment
 
   - stage:  ProdDeploy
+    dependsOn: Build
     jobs:
     - job: DeployDev
       steps:
