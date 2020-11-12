@@ -9,11 +9,24 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 
-steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+jobs:
+  - job: SQL
+    steps:
+    - script: |
+        echo Build SQL.
+      displayName: 'Run a SQL Build-line script'
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+  - job: API
+    dependsOn: SQL
+    steps:
+    - script: |
+        echo Build Back.
+      displayName: 'Run a Back Build-line script'
+
+  - job: Front
+    dependsOn: API
+    steps:
+    - script: |
+        echo Build Front.
+      displayName: 'Run a Font Build-line script'
+
