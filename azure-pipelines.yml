@@ -16,7 +16,7 @@ stages:
       steps:
         - bash: echo Bash SQL
         - bash:  ls -R $(Build.ArtifactStagingDirectory)
-        - bash:  ls -R ..$(System.DefaultWorkingDirectory)
+        - bash:  ls -R $(System.DefaultWorkingDirectory)
         - task: CopyFiles@2
           inputs:
             SourceFolder: '$(System.DefaultWorkingDirectory)'
