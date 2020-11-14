@@ -5,7 +5,9 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 
 RUN npm install
-RUN npm install -g create-react-app@4.0.0
+RUN npm install -g create-react-app
+RUN npm install --save @nestjs/mongoose mongoose
+RUN npm install --save-dev @types/mongoose
 
 # If you are building your code for production
 # RUN npm ci --only=production
