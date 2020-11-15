@@ -12,15 +12,6 @@ pool:
 stages:
   - stage:  Build
     jobs:
-    - job: BuildSql
-      steps:
-        - bash: echo Bash SQL
-        - bash:  ls -R $(Build.ArtifactStagingDirectory)
-        # SQL not used
-        # - bash:  ls -R $(System.DefaultWorkingDirectory)
-
-
-
     - job: BuildApi
       steps:
         - bash: echo Bash Api
@@ -52,17 +43,5 @@ stages:
             PathtoPublish: '$(Build.ArtifactStagingDirectory)'
             ArtifactName: 'Front'
             publishLocation: 'Container'
-    
-  - stage:  DevDeploy
-    dependsOn: Build
-    jobs:
-      - job: DeployDev
-      - deployment: DevDeployJob
-        environment: Dev
-        strategy:
-          runOnce:
-            deploy:
-              steps:
-              - script: echo Deploy to Dev
 # steps:
 # - bash: echo Dev Deployment
