@@ -14,8 +14,8 @@ stages:
     jobs:
     - job: BuildApiAndFront
       steps:
-        # - bash: echo Bash Api
         # - bash: docker-compose build back
+          - bash: echo Build them
           - task: DockerCompose@0
             inputs:
               containerregistrytype: 'Azure Container Registry'
@@ -23,6 +23,16 @@ stages:
               azureContainerRegistry: '{"loginServer":"countofmoneyregistre.azurecr.io", "id" : "/subscriptions/6ba21073-4eea-490f-8ff2-480dd146985b/resourceGroups/CountOfMoney/providers/Microsoft.ContainerRegistry/registries/CountOfMoneyRegistre"}'
               dockerComposeFile: '**/docker-compose.yml'
               action: 'Build services'
+
+          - bash: echo Push them
+          - task: DockerCompose@0
+            inputs:
+              containerregistrytype: 'Azure Container Registry'
+              azureSubscription: 'Azure pour les étudiants(6ba21073-4eea-490f-8ff2-480dd146985b)'
+              azureContainerRegistry: '{"loginServer":"countofmoneyregistre.azurecr.io", "id" : "/subscriptions/6ba21073-4eea-490f-8ff2-480dd146985b/resourceGroups/CountOfMoney/providers/Microsoft.ContainerRegistry/registries/CountOfMoneyRegistre"}'
+              dockerComposeFile: '**/docker-compose.yml'
+              action: 'Push services'
+
         # - task: PublishBuildArtifacts@1
         #   inputs:
         #     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
