@@ -16,7 +16,31 @@ stages:
       steps:
         - bash: echo Bash SQL
         - bash:  ls -R $(Build.ArtifactStagingDirectory)
+        # SQL not used
         # - bash:  ls -R $(System.DefaultWorkingDirectory)
+
+
+
+    - job: BuildApi
+      steps:
+        - bash: echo Bash Api
+        - bash: docker-compose build back
+        - task: CopyFiles@2 
+          inputs:
+            SourceFolder: '$(System.DefaultWorkingDirectory)'
+            Contents: 'azure-pipelines.yml'
+            TargetFolder: '$(Build.ArtifactStagingDirectory)'
+        - bash:  ls -R $(Build.ArtifactStagingDirectory)
+        - task: PublishBuildArtifacts@1
+          inputs:
+            PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+            ArtifactName: 'Api'
+            publishLocation: 'Container'
+
+    - job: BuildFront
+      steps:
+        - bash: echo Bash Front
+        - bash: docker-compose build front
         - task: CopyFiles@2
           inputs:
             SourceFolder: '$(System.DefaultWorkingDirectory)'
@@ -26,27 +50,19 @@ stages:
         - task: PublishBuildArtifacts@1
           inputs:
             PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-            ArtifactName: 'drop'
+            ArtifactName: 'Front'
             publishLocation: 'Container'
-
-
-    - job: BuildApi
-      steps:
-        - bash: echo Bash Api
-    - job: BuildFront
-      steps:
-        - bash: echo Bash Front
-
+    
   - stage:  DevDeploy
     dependsOn: Build
     jobs:
-    - job: DeployDev
-      steps:
-      - bash: echo Dev Deployment
-
-  - stage:  ProdDeploy
-    dependsOn: Build
-    jobs:
-    - job: DeployProd
-      steps:
-      - bash: echo Prod Deployment
+      - job: DeployDev
+      - deployment: DevDeployJob
+        environment: Dev
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+              - script: echo Deploy to Dev
+# steps:
+# - bash: echo Dev Deployment
