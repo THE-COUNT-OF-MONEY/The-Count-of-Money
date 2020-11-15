@@ -16,19 +16,27 @@ stages:
       steps:
         - bash: echo Bash Api
         - bash: docker-compose build back
+        - task: DockerCompose@0
+          inputs:
+            containerregistrytype: 'Azure Container Registry'
+            azureSubscription: 'Azure pour les étudiants(6ba21073-4eea-490f-8ff2-480dd146985b)'
+            azureContainerRegistry: '{"loginServer":"countofmoneyregistre.azurecr.io", "id" : "/subscriptions/6ba21073-4eea-490f-8ff2-480dd146985b/resourceGroups/CountOfMoney/providers/Microsoft.ContainerRegistry/registries/CountOfMoneyRegistre"}'
+            dockerComposeFile: '**/docker-compose.yml'
+            action: 'Run a Docker Compose command'
         # - task: PublishBuildArtifacts@1
         #   inputs:
         #     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
         #     ArtifactName: 'Api'
         #     publishLocation: 'Container'
 
-        - bash:  ls -R /var/lib/docker/*
-        - task: CopyFiles@2 
-          inputs:
-            SourceFolder: '/var/lib/docker/*'
-            Contents: 'azure-pipelines.yml'
-            TargetFolder: '$(Build.ArtifactStagingDirectory)'
+        # - bash:  ls -R /var/lib/docker/*
+        # - task: CopyFiles@2 
+        #   inputs:
+        #     SourceFolder: '/var/lib/docker/*'
+        #     Contents: 'azure-pipelines.yml'
+        #     TargetFolder: '$(Build.ArtifactStagingDirectory)'
 # On pourrait copier /var/lib/docker/* et le publish en tant qu'artifact, puis dans le release le push...
+
 
     - job: BuildFront
       steps:
@@ -46,4 +54,5 @@ stages:
         #     ArtifactName: 'Front'
         #     publishLocation: 'Container'
 # steps:
+
 # - bash: echo Dev Deployment
