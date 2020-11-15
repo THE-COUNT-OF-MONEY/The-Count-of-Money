@@ -16,32 +16,34 @@ stages:
       steps:
         - bash: echo Bash Api
         - bash: docker-compose build back
+        # - task: PublishBuildArtifacts@1
+        #   inputs:
+        #     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+        #     ArtifactName: 'Api'
+        #     publishLocation: 'Container'
+
+        - bash:  ls -R /var/lib/docker/*
         - task: CopyFiles@2 
           inputs:
-            SourceFolder: '$(System.DefaultWorkingDirectory)'
+            SourceFolder: '/var/lib/docker/*'
             Contents: 'azure-pipelines.yml'
             TargetFolder: '$(Build.ArtifactStagingDirectory)'
-        - bash:  ls -R $(Build.ArtifactStagingDirectory)
-        - task: PublishBuildArtifacts@1
-          inputs:
-            PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-            ArtifactName: 'Api'
-            publishLocation: 'Container'
+# On pourrait copier /var/lib/docker/* et le publish en tant qu'artifact, puis dans le release le push...
 
     - job: BuildFront
       steps:
         - bash: echo Bash Front
         - bash: docker-compose build front
-        - task: CopyFiles@2
-          inputs:
-            SourceFolder: '$(System.DefaultWorkingDirectory)'
-            Contents: 'azure-pipelines.yml'
-            TargetFolder: '$(Build.ArtifactStagingDirectory)'
-        - bash:  ls -R $(Build.ArtifactStagingDirectory)
-        - task: PublishBuildArtifacts@1
-          inputs:
-            PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-            ArtifactName: 'Front'
-            publishLocation: 'Container'
+        # - task: CopyFiles@2
+        #   inputs:
+        #     SourceFolder: '$(System.DefaultWorkingDirectory)'
+        #     Contents: 'azure-pipelines.yml'
+        #     TargetFolder: '$(Build.ArtifactStagingDirectory)'
+        # - bash:  ls -R $(Build.ArtifactStagingDirectory)
+        # - task: PublishBuildArtifacts@1
+        #   inputs:
+        #     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+        #     ArtifactName: 'Front'
+        #     publishLocation: 'Container'
 # steps:
 # - bash: echo Dev Deployment
