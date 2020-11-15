@@ -12,13 +12,13 @@ services:
   #  image: <Docker Hub user name>/front:<version> # Maybe I will switch to this type
   back:
     build:
-      context: ./back-end/.
+      context: ./back-end/backapp/.
       dockerfile: Dockerfile
     ports:
       - '4000:4000'
     restart: always
-    depends_on:
-      - db-mongo
+    # depends_on:
+    #   - db-mongo
       # - persistance
 
 #+    image: <Docker Hub user name>/back:<version> # Same
@@ -40,11 +40,11 @@ services:
   #   # command: firebase serve --only database -p 9000
   #   restart: always
 
-  db-mongo:
-    image: mongo
-    container_name: mongodb
-    ports:
-      - 27017:27017
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: root
+  # db-mongo:
+  #   image: mongo
+  #   container_name: mongodb
+  #   ports:
+  #     - 27017:27017
+  #   environment:
+  #     MONGO_INITDB_ROOT_USERNAME: root
+  #     MONGO_INITDB_ROOT_PASSWORD: root
