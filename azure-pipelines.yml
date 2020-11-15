@@ -12,17 +12,17 @@ pool:
 stages:
   - stage:  Build
     jobs:
-    - job: BuildApi
+    - job: BuildApiAndFront
       steps:
-        - bash: echo Bash Api
-        - bash: docker-compose build back
-        - task: DockerCompose@0
-          inputs:
-            containerregistrytype: 'Azure Container Registry'
-            azureSubscription: 'Azure pour les étudiants(6ba21073-4eea-490f-8ff2-480dd146985b)'
-            azureContainerRegistry: '{"loginServer":"countofmoneyregistre.azurecr.io", "id" : "/subscriptions/6ba21073-4eea-490f-8ff2-480dd146985b/resourceGroups/CountOfMoney/providers/Microsoft.ContainerRegistry/registries/CountOfMoneyRegistre"}'
-            dockerComposeFile: '**/docker-compose.yml'
-            action: 'Run a Docker Compose command'
+        # - bash: echo Bash Api
+        # - bash: docker-compose build back
+          - task: DockerCompose@0
+            inputs:
+              containerregistrytype: 'Azure Container Registry'
+              azureSubscription: 'Azure pour les étudiants(6ba21073-4eea-490f-8ff2-480dd146985b)'
+              azureContainerRegistry: '{"loginServer":"countofmoneyregistre.azurecr.io", "id" : "/subscriptions/6ba21073-4eea-490f-8ff2-480dd146985b/resourceGroups/CountOfMoney/providers/Microsoft.ContainerRegistry/registries/CountOfMoneyRegistre"}'
+              dockerComposeFile: '**/docker-compose.yml'
+              action: 'Build services'
         # - task: PublishBuildArtifacts@1
         #   inputs:
         #     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
@@ -38,10 +38,10 @@ stages:
 # On pourrait copier /var/lib/docker/* et le publish en tant qu'artifact, puis dans le release le push...
 
 
-    - job: BuildFront
-      steps:
-        - bash: echo Bash Front
-        - bash: docker-compose build front
+    # - job: BuildFront
+    #   steps:
+    #     - bash: echo Bash Front
+    #     - bash: docker-compose build front
         # - task: CopyFiles@2
         #   inputs:
         #     SourceFolder: '$(System.DefaultWorkingDirectory)'
