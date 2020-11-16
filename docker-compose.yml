@@ -12,8 +12,11 @@ services:
   #  image: <Docker Hub user name>/front:<version> # Maybe I will switch to this type
   back:
     build:
-      context: ./back-end/backapp/.
+      context: ./back-end/.
       dockerfile: Dockerfile
+    env_file:
+      - ./back-end/.env
+
     ports:
       - '4000:4000'
     restart: always
