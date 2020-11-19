@@ -2,7 +2,6 @@ const express = require('express');
 const env = require('./config/env.js')
 const { Database } = require('./services/database.js');
 
-
 // App
 const app = express();
 
