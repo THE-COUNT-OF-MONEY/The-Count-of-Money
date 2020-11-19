@@ -98,6 +98,7 @@ var Database = class Firebase {
     }
 
     updateDocument(collectionName, data, id) {
+        // TO-DO
         return "Work In progess";
     }
 
@@ -111,10 +112,12 @@ var Database = class Firebase {
     }
 
     signInWithEmailAndPassword(email, password) {
+        // TO-DO
         return "Work In progess";
     }
 
     signInWithGoogle(email, password) {
+        // TO-DO
         return "Work In progess";
     }
 }
