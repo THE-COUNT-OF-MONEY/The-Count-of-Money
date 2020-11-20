@@ -16,9 +16,8 @@ services:
       dockerfile: Dockerfile
     env_file:
       - ./back-end/.env
-
     ports:
-      - '4000:4000'
+      - '8000:8000'
     restart: always
     # depends_on:
     #   - db-mongo

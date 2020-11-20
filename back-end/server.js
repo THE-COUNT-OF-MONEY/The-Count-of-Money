@@ -1,33 +1,31 @@
 const express = require('express');
-const env = require('./config/env.js')
-const { Database } = require('./services/database.js');
+const cors = require('cors');
 
-// App
 const app = express();
+// var http = require('http');
 
-app.get('/', (req, res) => {
-  res.send('Hello World');
+app.use(cors());
+
+// var app = http.createServer(function(req,res){
+// });
+
+
+app.listen(8000, () => {
+  console.log('App server now listening on port 8000');
 });
 
-// Check environment required variables persistence
-if (env.isConform() === false)
-  throw "Error, wrong .env format.\nPlease refer to the README.md";
+app.get('/test', (req, res) => {
+  console.log("gg test success");
+  res.setHeader('Content-Type', 'application/json');
+  res.json({"foo": "bar"});
+  res.send();
+  // res.end(JSON.stringify({ a: 1 }));
 
-// Initialize Environment Variables
-let { database, server } = env.getVariables();
+});
 
-// Initialize Database
-let firebase = new Database(database.credentials, database.databaseUrl);
-
-// Example of data recuperation
-async function test()
-{
-  let users = await firebase.getDocument("Users", "test");
-  console.log("test: ", users);
-}
-
-test();
-
-app.listen(server.port, server.host);
-
-console.log(`Running on http://${server.host}:${server.port}`);
+app.get('/', (req, res) => {
+  console.log("gg");
+  res.setHeader('Content-Type', 'application/json'); // || res.type('json')
+  res.json({"foo": "bar"});
+  res.send();
+});

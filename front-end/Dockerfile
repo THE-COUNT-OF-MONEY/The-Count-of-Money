@@ -8,6 +8,9 @@ RUN npm install
 RUN npm install -g create-react-app
 RUN npm install --save @nestjs/mongoose mongoose
 RUN npm install --save-dev @types/mongoose
+RUN npm install react-router-dom
+RUN npm install @material-ui/core
+RUN npm install firebase
 
 # If you are building your code for production
 # RUN npm ci --only=production
