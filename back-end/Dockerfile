@@ -5,7 +5,7 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 
 RUN npm install
-RUN npm i cors
+
 # If you are building your code for production
 # RUN npm ci --only=production
 
@@ -13,8 +13,6 @@ RUN npm i cors
 # Bundle app source
 COPY . .
 
-
-# EXPOSE 4000
 EXPOSE 8000
 
 CMD [ "node", "server.js" ]

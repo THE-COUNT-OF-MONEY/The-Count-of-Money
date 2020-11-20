@@ -81,7 +81,7 @@ var Database = class Firebase {
         return data;
     }
 
-    async newDocumentWithId(collectionName, data, id) {
+    async new(collectionName, data, id) {
         const db = admin.firestore();
         const collectionRef = db.collection(collectionName);
         const newDocumentReference = collectionRef.doc(id);
@@ -97,12 +97,12 @@ var Database = class Firebase {
             });
     }
 
-    updateDocument(collectionName, data, id) {
+    update(collectionName, data, id) {
         // TO-DO
         return "Work In progess";
     }
 
-    deleteDocument(collectionName, id) {
+    delete(collectionName, id) {
         const db = admin.firestore();
         const collectionRef = db.collection(collectionName);
         

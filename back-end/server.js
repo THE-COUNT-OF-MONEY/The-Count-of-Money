@@ -1,31 +1,29 @@
 const express = require('express');
+
 const cors = require('cors');
 
+const env = require('./config/env.js')
+const { Database } = require('./services/database.js');
+const router = require('./routes/router.js');
+
+// App
 const app = express();
-// var http = require('http');
 
 app.use(cors());
 
-// var app = http.createServer(function(req,res){
-// });
+// Check environment required variables persistence
+if (env.isConform() === false)
+  throw "Error, wrong .env format.\nPlease refer to the README.md";
 
+// Initialize Environment Variables
+let { database, server } = env.getVariables();
 
-app.listen(8000, () => {
-  console.log('App server now listening on port 8000');
-});
+// Initialize Database
+let firebase = new Database(database.credentials, database.databaseUrl);
 
-app.get('/test', (req, res) => {
-  console.log("gg test success");
-  res.setHeader('Content-Type', 'application/json');
-  res.json({"foo": "bar"});
-  res.send();
-  // res.end(JSON.stringify({ a: 1 }));
+app.use(express.json());
+app.use(router)
 
-});
+app.listen(server.port);
 
-app.get('/', (req, res) => {
-  console.log("gg");
-  res.setHeader('Content-Type', 'application/json'); // || res.type('json')
-  res.json({"foo": "bar"});
-  res.send();
-});
+console.log(`Running on http://${server.host}:${server.port}`);
