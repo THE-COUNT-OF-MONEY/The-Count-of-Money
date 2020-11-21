@@ -3,7 +3,7 @@ const express = require('express');
 const cors = require('cors');
 
 const env = require('./config/env.js')
-const { Database } = require('./services/database.js');
+const db = require('./services/database.js');
 const router = require('./routes/router.js');
 
 // App
@@ -19,7 +19,7 @@ if (env.isConform() === false)
 let { database, server } = env.getVariables();
 
 // Initialize Database
-let firebase = new Database(database.credentials, database.databaseUrl);
+let firebase = db.initialize(database.credentials, database.databaseUrl);
 
 app.use(express.json());
 app.use(router)

@@ -1,23 +1,26 @@
 const database = require('./database.js')
 
-const service = class UserService {
-    find(userId) {
-        return database.getDocument('Users', userId);
-    }
 
-    create(data) {
-        return database.newDocument('Users', data);
-    }
+function find(userId) {
+    return database.getDocument('Users', userId);
+}
 
-    update(userId, data) {
-        return database.updateDocument('Users', data, userId);
-    }
+function create(data) {
+    return database.newUser(data);
+}
 
-    delete(userId) {
-        return database.deleteDocument('Users', userId);
-    }
+function update(userId, data) {
+    return database.updateDocument('Users', data, userId);
+}
+
+function remove(userId) {
+    // work in progress
+    // return database.deleteDocument('Users', userId);
 }
 
 module.exports = {
-
+    find,
+    create,
+    update,
+    remove
 }
