@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const userRoutes = require('./user.js')
+const userRoutes = require('./userRoutes.js')
+const currenciesRoutes = require('./currenciesRoutes.js')
 
 router
     .route('/users/profile')
@@ -26,5 +27,9 @@ router
 router
     .route('/users/auth/:provider/callback')
     .get();
+
+router
+    .route('/currency/getAll')
+    .get(currenciesRoutes.getAll)
 
 module.exports = router;

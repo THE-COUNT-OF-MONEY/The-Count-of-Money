@@ -132,7 +132,16 @@ module.exports = {
             
         return true;
     },
-
+    DeleteAllCryptos(collectionName) {
+        const db = admin.firestore();
+        db.collection(collectionName)
+            .get()
+            .then(res => {
+                res.forEach(element => {
+                    element.ref.delete();
+                });
+            });
+    },
     newUser(fields)
     {
         if (fields.email === undefined || fields.password === undefined)

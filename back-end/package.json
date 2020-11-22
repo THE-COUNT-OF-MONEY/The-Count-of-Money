@@ -16,6 +16,7 @@
     "firebase": "^4.8.0",
     "firebase-admin": "^9.4.1",
     "firebase-functions": "0.7.0",
-    "nodemon": "^2.0.6"
+    "nodemon": "^2.0.6",
+    "request": "^2.88.2"
   }
 }
