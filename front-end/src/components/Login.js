@@ -6,8 +6,8 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-//import {loginPost} from '../services/ApiFunctions'
-import axios from 'axios';
+import {loginPost} from '../services/ApiFunctions'
+//import axios from 'axios';
 
 const useStyles = {
   paper: {
@@ -76,7 +76,7 @@ class Login extends Component{
     //   })
     //   }
     //   console.log(Response)
-    // }
+     }
   }
    validateForm() {
     return this.email !== '' && this.password !== '';
