@@ -1,6 +1,5 @@
-const { generateToken } = require('./database.js');
 const userService = require('./userService.js')
-const database = require('./database.js')
+const database = require('./database.js');
 
 async function login(email, password) {
     
@@ -28,6 +27,11 @@ async function getUserFromAuthorization(authorization) {
     const user = await userService.find(userId);
 
     return user;
+}
+
+/** SigIn Google Account to firebase with tokenId */
+async function googleAuth (token) {
+    return await database.signInWithGoogle(token);
 }
 
 
