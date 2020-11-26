@@ -26,6 +26,11 @@ const useStyles = makeStyles((theme) => ({
 
 export default function MediaCard() {
   const classes = useStyles();
+  const description = `Le Bitcoin est une cryptomonnaie autrement appelée monnaie cryptographique.
+  Dans le cas de la dénomination unitaire, on l'écrit « bitcoin » et,
+  dans le cas du système de paiement pair-à-pair on l'écrit « Bitcoin ».`
+  const img = "https://www.freepnglogos.com/uploads/bitcoin-png/bitcoinpaygate-bitcoin-payment-gateway-payment-processor-7.png"
+  const title = "Bitcoin"
 
   return (
     <div className={classes.frame}>
@@ -33,17 +38,14 @@ export default function MediaCard() {
         <CardActionArea>
             <CardMedia
             className={classes.media}
-            image="https://www.freepnglogos.com/uploads/bitcoin-png/bitcoinpaygate-bitcoin-payment-gateway-payment-processor-7.png"
-            title="Contemplative Reptile"
+            image= {img}
             />
             <CardContent>
             <Typography gutterBottom variant="h5" component="h2">
-                Bitcoin
+                {title}
             </Typography>
             <Typography variant="body2" color="textSecondary" component="p">
-            Le Bitcoin est une cryptomonnaie autrement appelée monnaie cryptographique.
-            Dans le cas de la dénomination unitaire, on l'écrit « bitcoin » et,
-            dans le cas du système de paiement pair-à-pair on l'écrit « Bitcoin ».
+                {description}
             </Typography>
             </CardContent>
         </CardActionArea>
