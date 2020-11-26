@@ -1,25 +1,56 @@
-const currenciesService = require('../services/currencyService.js')
+// const currenciesService = require('../services/currencyService.js')
 // const http = require('http')
 const https = require('https');
 const request = require('request');
 
+const { CurrencyService } = require('../services/currencyService.js'); // c comme ca quon import une klasse
+
+let CryptoDb = new CurrencyService();
+
+
 class CurrencyController {
-    pushIt(res, body) {
-        try {
-            request('https://min-api.cryptocompare.com/data/all/coinlist', { json: true }, (err, newres, body) => {
-            if (err) { console.log(err);
-                return 'Error';
-            }
-            console.log("ErroR?");
-            return res.status(200).send(newres);
+    delay() {
+        // `delay` returns a promise
+        return new Promise(function(resolve, reject) {
+          // Only `delay` is able to resolve or reject the promise
+          setTimeout(function() {
+            resolve(0); // After 3 seconds, resolve the promise with value 0
+          }, 3000);
         });
-        } catch(e) {
-            res.status(400).send('Error');
+      }
+
+    async pushIt(res, body) {
+        let ObjRes = new Object();
+        let idx = 0;
+        ObjRes = { Cryptos : [],
+        };
+        try {
+            await request('https://min-api.cryptocompare.com/data/all/coinlist', { json: true }, (err, newres, body) => {
+            if (err) { //console.log(err);
+                return 'Error api request';
+            }
+            Object.keys(body).forEach(key => {
+            // console.log(x[body]); // the value of the current key.
+            Object.keys(body[key]).forEach(newkey => {
+                if (isNaN(newkey.toString()) && idx < 2) {
+                    // console.log(body[key][newkey].Id);        // the name of the current key.
+                    ObjRes.Cryptos.push( { "Id" : body[key][newkey].Id, "Name" : body[key][newkey].Name, "Description" : body[key][newkey].Description, "ImageUrl" : body[key][newkey].ImageUrl, "BaseImageUrl" : body['BaseImageUrl']});
+                    idx++;
+                }
+            });
+          });
+          res.status(200).send(ObjRes);
+        });
+        await this.delay();
+        return await ObjRes;
+    } catch(e) {
+        res.status(400).send('Error');
+        return 'Error 400 On Api Request' 
             // unpushit();
             // return ('Error');
             // next(e);
         }
-        // return ('Error '  );
+        return null;
     }
 
     constructor() {
@@ -38,14 +69,22 @@ class CurrencyController {
     find(cureId) {
     }
 
-    async createAll(data, res) {
+    createAll(data, res) {
        const request = require('request');
-        console.log("Bfor?");
-        let ObjRes = new Object();
-        var x = await this.pushIt(res);
-    
+        var x = this.pushIt(res);
+        var Obj;
+        x.then(function(result) {
+            Obj = result;
+            Object.keys(result).forEach(function(key) {
+                // console.log(key, result[key]);
+                CryptoDb.create(result);
+            });
+         });
+
+        // var tmp = currenciesService.find(1);
+        // console.log(" Ttmp ==> " + tmp);
         // if (x != 'Error')
-        return x
+        // return x;
         // return x;
     // console.log("AfTr? " + user);
     // const req = http.request(this.options, res => {
@@ -62,11 +101,8 @@ class CurrencyController {
     //   req.end()
     // if (data === undefined)
         // return res.status(400).send({message: 'Error API is down'})
-    const response = {
-        'message': "Getting List of Coins from API successfully gotten",
-        'Coins': "hahaha",
-    }
-    // return currenciesService.create('Users', data);
+
+      return Obj;
     }
 }
 

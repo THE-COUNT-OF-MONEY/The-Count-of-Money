@@ -161,7 +161,6 @@ module.exports = {
                 return undefined
             });
     },
-
     signInWithEmailAndPassword(email, password) {
 
         return firebase.auth().signInWithEmailAndPassword(email, password)
@@ -201,5 +200,15 @@ module.exports = {
 
     signInWithGoogle(email, password) {
         return "Work In progress";
-    }
+    },
+    newCrypto(fields)
+    {
+        fields.id = fields.Id;
+        fields.Id = null;
+        if (fields.id === undefined || fields.Name === undefined)
+            return undefined;
+        // this.newDocumentWithId("Cryptos", fields, fields.Id);
+        var tmp = this.newDocumentWithId("Cryptos", fields, fields.id);
+        return "Pushed Successfully";
+    },
 }
