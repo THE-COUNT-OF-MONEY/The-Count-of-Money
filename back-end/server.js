@@ -9,22 +9,25 @@ const router = require('./routes/router.js');
 // App
 const app = express();
 
-app.use(cors({
-    origin: true,
-    credentials: true,
-}));
+var corsOptions = {
+  origin: 'http://localhost:3000',
+  optionsSuccessStatus: 200, // For legacy browser support
+  methods: "GET, PUT"
+}
+
+app.use(cors(corsOptions));
 
 app.use(function(req, res, next) {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Credentials", "true");
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+  res.setHeader('Access-Control-Allow-Credentials', true);
   res.setHeader(
-  "Access-Control-Allow-Methods",
-  "GET,HEAD,OPTIONS,POST,PUT,DELETE"
+  'Access-Control-Allow-Methods',
+  'GET,HEAD,OPTIONS,POST,PUT,DELETE'
   );
 
   res.setHeader(
-    "Access-Control-Allow-Headers",
-    "Origin,Cache-Control,Accept,X-Access-Token ,X-Requested-With, Content-Type, Access-Control-Request-Method"
+    'Access-Control-Allow-Headers',
+    'Origin,Cache-Control,Accept,X-Access-Token ,X-Requested-With, Content-Type, Access-Control-Request-Method'
     );
     if (req.method === "OPTIONS") {
       return res.status(200).end();
