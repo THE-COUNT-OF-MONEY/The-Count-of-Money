@@ -1,65 +1,38 @@
 import React, { useEffect } from 'react';
-import axios from 'axios';
+import Axios from 'axios';
 
-//const apiBaseUrl = 'http://locahost:8000';
+const axiosInstance = Axios.create({
+    baseURL: "http://localhost:8000",
+    headers: {
+        'Content-Type': 'application/json',
+    }
+})
+
+const api = {
+    get(url, config) {
+        return axiosInstance.get(url, config)
+    },
+    post(url, data, config) {
+        return axiosInstance.post(url, data, config)
+    },
+    put(url, data, config) {
+        return axiosInstance.put(url, data, config)
+    },
+    delete(url) {
+        return axiosInstance.delete(url)
+    }
+}
 
 export function loginPost(userData){
-    let dataJson = JSON.stringify(userData);
-    console.log(dataJson);
-    // return new Promise((resolve, reject) =>{
-    //     fetch(apiBaseUrl+'/users/login', {
-    //         method: 'POST',
-    //         headers: {
-    //             "Content-Type": "text/plain"
-    //         },
-    //         body: JSON.stringify(userData)
-    //     })
-    //     .then((response) =>{
-    //         console.log(response.json());
-    //         return response.json();
-    //     })
-    // })
-    // fetch(apiBaseUrl+'/users/login', {
-    //     method: 'POST',
-    //     headers: {
-    //         "Content-Type": "text/plain"
-    //     },
-    //     body: JSON.stringify(userData)
-    // })
-    // .then(res => res.json())
-    // .then(response => console.log('Success: ', response))
-    // .catch(error => console.error('Error: ', error));
+    let dataJson = userData;
 
-    //    React.useEffect(() =>{
-    //         axios.post('/users/login', {dataJson},
-    //     {
-    //         'Access-Control-Allow-Origin': '*',
-    //         'Content-Type': 'application/json'
-    //     },
-    //     {withCredentials: true})
-    //         .then((res) => {
-    //             console.log(res.data)
-    //         }).catch((error) => {
-    //             console.log('insideError');
-    //             console.log(error.config)
-    //             console.log(error.status)
-    //             console.log(error.code)
-    //         });
-    //     })
+    // parse les paramètres
 
-    axios.post('http://locahost:8000/users/login', {dataJson},
-        {
-            'Access-Control-Allow-Origin': '*',
-            'Content-Type': 'application/json'
-        },
-        {withCredentials: true})
-            .then((res) => {
-                console.log(res.data)
-            }).catch((error) => {
-                console.log('insideError');
-                console.log(error.config)
-                console.log(error.status)
-                console.log(error.code)
-            });
- 
+    // test requetes
+    api.post('/users/login', dataJson)
+        .then((res) => {
+            console.log(res.data)
+        }).catch((error) => {
+            console.log('error: ', error);
+        });
 }

@@ -11,7 +11,9 @@ async function getProfile(req, res)
 
     const response = {
         'message': "User profile successfully gotten",
-        'user': user,
+        'content': {
+            'user': user,
+        }
     }
 
     return res.status(200).send(response);
@@ -91,6 +93,7 @@ async function register(req, res)
         'password': password,
         'firstname': firstname,
         'lastname': lastname,
+        'role': 'ROLE_USER'
     }
 
     const result = await userService.create(data);

@@ -9,32 +9,21 @@ import Container from '@material-ui/core/Container';
 import {loginPost} from '../services/ApiFunctions'
 //import axios from 'axios';
 
-const useStyles = {
+const useStyles = theme => ({
   paper: {
-    //marginTop: theme.spacing(8),
+    marginTop: theme.spacing(8),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
   },
   form: {
     width: '100%',
-    //marginTop: theme.spacing(1),
+    marginTop: theme.spacing(1),
   },
   submit: {
-    //margin: theme.spacing(3, 0, 2),
+    margin: theme.spacing(3, 0, 2),
   }
-}
-
-// function login() {
-//   const classes = useStyles();
-
-//   const [email, setEmail] = useState("");
-//   const [password, setPassword] = useState("");
-
- 
-
-    
-//}
+});
 
 class Login extends Component{
   constructor(){
@@ -44,10 +33,8 @@ class Login extends Component{
      email: '',
      password: ''
     };
-
     this.handleSubmit = this.handleSubmit.bind(this);
     this.onChange = this.onChange.bind(this);
-
   }
 
    handleSubmit(event) {
@@ -55,27 +42,6 @@ class Login extends Component{
     if(this.state.email && this.state.password)
     {
       loginPost(this.state);
-    //   let dataJson = JSON.stringify(this.state);
-    //   console.log(dataJson);
-    //   const Response = () =>{
-    //     React.useEffect(() =>{
-    //       axios.post('http://locahost:8000/users/login', {dataJson},
-    //   {
-    //       'Access-Control-Allow-Origin': '*',
-    //       'Content-Type': 'application/json'
-    //   },
-    //   {withCredentials: true})
-    //       .then((res) => {
-    //           console.log(res.data)
-    //       }).catch((error) => {
-    //           console.log('insideError');
-    //           console.log(error.config)
-    //           console.log(error.status)
-    //           console.log(error.code)
-    //       });
-    //   })
-    //   }
-    //   console.log(Response)
      }
   }
    validateForm() {

@@ -1,7 +1,5 @@
 const express = require('express');
-
 const cors = require('cors');
-
 const env = require('./config/env.js')
 const db = require('./services/database.js');
 const router = require('./routes/router.js');
@@ -9,31 +7,7 @@ const router = require('./routes/router.js');
 // App
 const app = express();
 
-var corsOptions = {
-  origin: 'http://localhost:3000',
-  optionsSuccessStatus: 200, // For legacy browser support
-  methods: "GET, PUT"
-}
-
-app.use(cors(corsOptions));
-
-app.use(function(req, res, next) {
-  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
-  res.setHeader('Access-Control-Allow-Credentials', true);
-  res.setHeader(
-  'Access-Control-Allow-Methods',
-  'GET,HEAD,OPTIONS,POST,PUT,DELETE'
-  );
-
-  res.setHeader(
-    'Access-Control-Allow-Headers',
-    'Origin,Cache-Control,Accept,X-Access-Token ,X-Requested-With, Content-Type, Access-Control-Request-Method'
-    );
-    if (req.method === "OPTIONS") {
-      return res.status(200).end();
-    }
-    next();
-});
+app.use(cors());
 
 // Check environment required variables persistence
 if (env.isConform() === false)
@@ -43,7 +17,7 @@ if (env.isConform() === false)
 let { database, server } = env.getVariables();
 
 // Initialize Database
-let firebase = db.initialize(database.credentials, database.databaseUrl);
+db.initialize(database.credentials, database.databaseUrl);
 
 app.use(express.json());
 app.use(router)
