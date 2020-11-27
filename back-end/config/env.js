@@ -15,7 +15,7 @@ module.exports = {
             credentials: isInProduction() ? process.env.CREDENTIALS_PROD : process.env.CREDENTIALS_DEV,
             databaseUrl: isInProduction() ? process.env.DATABASE_URL_PROD : process.env.DATABASE_URL_DEV
         }
-    
+
         return {
             database: database,
             server: {

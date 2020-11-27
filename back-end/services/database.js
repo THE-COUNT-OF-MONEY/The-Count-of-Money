@@ -160,8 +160,8 @@ module.exports = {
                 return user.uid;
             })
             .catch((error) => {
-                console.log("sign In failed: ", error.code, ", ", error.message);
-                return false;
+                console.log("signInWithEmailAndPassword failed:\n", error.message);
+                return undefined;
             });
     },
 

@@ -1,6 +1,5 @@
 const database = require('./database.js')
 
-
 function find(userId) {
     return database.getDocument('Users', userId);
 }
@@ -14,7 +13,6 @@ function update(userId, data) {
 }
 
 function remove(userId) {
-    // work in progress
     // return database.deleteDocument('Users', userId);
 }
 

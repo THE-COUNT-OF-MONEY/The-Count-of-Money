@@ -51,12 +51,16 @@ async function login(req, res)
 
     const token = await authService.login(email, password)
 
+    if (token === undefined)
+        return res.status(400).send({'message': 'Wrong credentials.'});
+
     const response = {
         'content': {
             'token': token
         },
         'message': 'User successfully authentificated.'
     }
+
     return res.send(response);
 }
 

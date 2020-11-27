@@ -1,11 +1,16 @@
-const { generateToken } = require('./database.js');
 const userService = require('./userService.js')
 const database = require('./database.js')
 
 async function login(email, password) {
     
-    const userId = await database.signInWithEmailAndPassword(email, password);
+    let userId = undefined;
     
+    try {
+        userId = await database.signInWithEmailAndPassword(email, password);
+    } catch (e) {
+        return undefined;
+    }
+
     if (userId === undefined)
         return undefined;
 
