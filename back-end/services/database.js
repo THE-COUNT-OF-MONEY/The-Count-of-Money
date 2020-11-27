@@ -155,11 +155,13 @@ exports.signInWithEmailAndPassword = async function (email, password) {
 
     return firebase.auth().signInWithEmailAndPassword(email, password)
         .then((user) => {
+            if (!user)
+                return undefined;
             return user.uid;
         })
         .catch((error) => {
             console.log("sign In failed: ", error.code, ", ", error.message);
-            return false;
+            return undefined;
         });
 }
 
@@ -168,6 +170,9 @@ exports.generateToken = async function (userId) {
       premiumAccount: true
     };
     
+    if (userId === undefined)
+        return undefined;
+
     return admin.auth().createCustomToken(userId, additionalClaims)
         .then(function(customToken) {
             return customToken;
