@@ -59,6 +59,7 @@ class Register extends Component{
         if(result === 'created')
         {
           this.setState({redirect: true});
+          this.props.history.push('/')
         }
         else{
           this.setState({errorMessage: result});
