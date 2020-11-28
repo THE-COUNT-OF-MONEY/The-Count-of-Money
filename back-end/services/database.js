@@ -224,5 +224,39 @@ module.exports = {
         const db = firebase.firestore();
         let Data = await db.collection('Cryptos').doc(id).get();
         return await Data;
+    },
+    async getOneCryptoDocumentByName(collectionName, name) {
+        let status = false;
+        const db = firebase.firestore();
+        const citiesRef = db.collection(collectionName);
+        const snapshot = await citiesRef.where('Name', '==', name).get();
+        if (snapshot.empty) {
+            status = false;
+            console.log('No matching documents.');
+        } else {
+            status = true;
+        }
+        return await status;
+    },
+    async deleteOneCryptoDocument(collectionName, id) {
+        const db = firebase.firestore();
+        let Data = await db.collection('Cryptos').doc(id).delete();
+        return await Data;
+    },
+
+    async createNewCryptowithId(collectionName, fields) {
+        const db = firebase.firestore();
+        const docRef = await db.collection('_').doc(); // db.createId(); Ne marche pas il faut crée virtuellement un doc puis recup l'id que ca lui attribu
+        const newId = docRef.id;
+        let data = await db.collection(collectionName).doc(newId+"Manual").set(fields)
+        .then((documentReference) => {
+            fields.id = documentReference.id;
+            return fields;
+        })
+        .catch((error) => {
+            console.log("Error newDocumentWithId: ", error)
+            return undefined;
+        });
+        return null;
     }
 }

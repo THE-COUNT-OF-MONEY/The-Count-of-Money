@@ -10,6 +10,11 @@ class CurrencyService {
     return await datagot; 
   }
 
+  async findByName(name) {
+    let datagot = await database.getOneCryptoDocumentByName('Cryptos', name);
+    return await datagot; 
+  }
+
   create(data) {
     //console.log("Content Creation ?");
     // Add a new document in collection "cities" with ID 'LA'
@@ -20,17 +25,22 @@ class CurrencyService {
     // return database.newCrypto('Currencies', data, id);
   }
 
+  newCryptowithId(collectionName, fields) {
+    return database.createNewCryptowithId(collectionName, fields);
+  }
+
   update(curid, data) {
-    return database.updateDocument('Currencies', data, curid);
+    return database.updateDocument('Cryptos', data, curid);
   }
 
-  delete(curid) {
-    return database.deleteDocument('Currencies', curid);
+  async delete(curid) {
+    let data = await database.deleteOneCryptoDocument('Cryptos', curid);
+    return await data;
   }
 
-  deleteAll() {
-    return database.DeleteAllCryptos('Currencies', userId);
-  }
+  // deleteAll() {
+  //   return database.DeleteAllCryptos('Currencies', userId);
+  // }
 }
 
 module.exports = {

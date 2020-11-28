@@ -36,4 +36,12 @@ router
     .route('/currency/getOneCrypto/:CurId')
     .get(currenciesRoutes.getOneCrypto)
 
+router
+    .route('/currency/getOneCrypto/:CurId')
+    .delete(currenciesRoutes.deleteOneCryptoDocument)
+
+router
+    .route('/currency/getOneCrypto/')
+    .post(currenciesRoutes.createOneCryptoDocument)
+
 module.exports = router;

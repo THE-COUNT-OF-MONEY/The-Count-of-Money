@@ -14,7 +14,20 @@ function getOneCrypto(req, res)
     // return res.send('Get All Cryptos Ez');
 }
 
+function deleteOneCryptoDocument(req, res)
+{
+    return CryptoService.deleteOne(req, res);
+    // return res.send('Get All Cryptos Ez');
+}
+
+function createOneCryptoDocument(req, res)
+{
+    return CryptoService.createOne(req, res);
+}
+
 module.exports = {
     getAll,
-    getOneCrypto
+    getOneCrypto,
+    deleteOneCryptoDocument,
+    createOneCryptoDocument
 }

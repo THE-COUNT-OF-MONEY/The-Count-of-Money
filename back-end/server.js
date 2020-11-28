@@ -9,6 +9,7 @@ const router = require('./routes/router.js');
 // App
 const app = express();
 
+var bodyParser = require('body-parser');
 app.use(cors());
 
 // Check environment required variables persistence
@@ -22,7 +23,7 @@ let { database, server } = env.getVariables();
 let firebase = db.initialize(database.credentials, database.databaseUrl);
 
 app.use(express.json());
-app.use(router)
+app.use(router);
 
 app.listen(server.port);
 
