@@ -32,4 +32,8 @@ router
     .route('/currency/getAll')
     .get(currenciesRoutes.getAll)
 
+router
+    .route('/currency/getOneCrypto/:CurId')
+    .get(currenciesRoutes.getOneCrypto)
+
 module.exports = router;

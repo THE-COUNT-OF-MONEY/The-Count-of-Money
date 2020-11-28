@@ -66,8 +66,8 @@ class CurrencyController {
         //     method: 'GET'
         // }
     }
-    find(cureId) {
-    }
+    // find(cureId) {
+    // }
 
     createAll(data, res) {
        const request = require('request');
@@ -103,6 +103,26 @@ class CurrencyController {
         // return res.status(400).send({message: 'Error API is down'})
 
       return Obj;
+    }
+
+    async getOne(data, res) {
+        let myres;
+        myres = await CryptoDb.find(data.params.CurId);
+        // myres.then(function(doc) {
+            if (myres.exists) {
+                console.log("Document data:", myres.exists);
+                res.status(200).send(myres.data());
+            } else {
+                console.log("No such document!");
+                res.status(400).send('This ID doesn\'t exist in this DB');
+        }
+        // });
+        // }).catch(function(error) {
+        //     console.log("Error getting document:", error);
+        // });
+            
+        // console.log(myres);
+        return await myres;
     }
 }
 

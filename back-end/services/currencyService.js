@@ -4,8 +4,10 @@ class CurrencyService {
   constructor() {
   }
 
-  find(curid) {
-    return database.getDocument('Currencies', curid);
+  async find(curid) {
+    let datagot = await database.getOneCryptoDocument('Cryptos', curid);
+    // await this.delay();
+    return await datagot; 
   }
 
   create(data) {

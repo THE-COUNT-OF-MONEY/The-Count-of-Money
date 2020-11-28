@@ -211,4 +211,18 @@ module.exports = {
         var tmp = this.newDocumentWithId("Cryptos", fields, fields.id);
         return "Pushed Successfully";
     },
+    // async getOneCryptoDocument(collectionName, id) {
+
+    //     const db = firebase.firestore();
+    //     const collectionRef = db.collection(collectionName);
+    //     console.log("TEST000");
+    //     let data = await db.collection(collectionRef).where(firebase.firestore.FieldPath.documentId(), '==', id).get();
+    //     console.log("TEST099");
+    //     return data;
+    // },
+    async getOneCryptoDocument(collectionName, id) {
+        const db = firebase.firestore();
+        let Data = await db.collection('Cryptos').doc(id).get();
+        return await Data;
+    }
 }
