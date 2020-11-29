@@ -183,12 +183,32 @@ exports.generateToken = async function (userId) {
         });
 }
 
+exports.signInWithGoogle = async function (idToken) {
+    let credential = firebase.auth.GoogleAuthProvider.credential(idToken)
+    
+    firebase.auth().signInWithCredential(credential)
+        .catch((error) => {
+            console.log("An error occur in signInWithGoogle:\n", error)
+            return false;
+        })
+        .then((user) => {
+            const data = {
+                "email": user.email,
+                "firstname": null,
+                "lastname": null,
+            }
+            this.newDocument("Users", data, user.uid);
+            return true;
+        })
+}
+
 exports.verifyToken = async function (token) {
     return firebase.auth().signInWithCustomToken(token)
         .then((user) => {
             return user.uid;
         })
         .catch((error) => {
+            console.log("An error occur in signInWithGoogle:\n", error)
             return undefined;
         })
 }

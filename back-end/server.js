@@ -1,13 +1,12 @@
-const express = require('express');
-const cors = require('cors');
 const env = require('./config/env.js')
 const db = require('./services/database.js');
 const router = require('./routes/router.js');
-
-// App
+const security = require('./config/security');
+const express = require('express');
 const app = express();
 
-app.use(cors());
+security.initializeCORS(app);
+security.initializeCSRF(app);
 
 // Check environment required variables persistence
 if (env.isConform() === false)

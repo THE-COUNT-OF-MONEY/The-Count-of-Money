@@ -1,27 +1,29 @@
 const express = require('express');
 const router = express.Router();
-const userRoutes = require('./user.js')
+
+const user = require('./user.js')
+const auth = require('./auth.js')
 
 router
     .route('/users/profile')
-    .get(userRoutes.getProfile)
-    .put(userRoutes.editProfile)
+    .get(user.getProfile)
+    .put(user.editProfile)
 
 router
     .route('/users/register')
-    .post(userRoutes.register)
+    .post(user.register)
 
 router
     .route('/users/login')
-    .post(userRoutes.login)
+    .post(auth.login)
 
 router
     .route('/users/logout')
-    .post(userRoutes.logout)
+    .post(auth.logout)
 
 router
     .route('/users/auth/:provider')
-    .get();
+    .get(auth.loginWithProvider);
 
 router
     .route('/users/auth/:provider/callback')

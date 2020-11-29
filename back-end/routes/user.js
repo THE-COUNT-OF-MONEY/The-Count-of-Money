@@ -43,44 +43,6 @@ async function editProfile(req, res)
     return res.send(response);
 }
 
-async function login(req, res)
-{
-    const email = req.body.email;
-    const password = req.body.password;
- 
-    if (email === undefined || password === undefined)
-        return res.status(400).send({message: 'Parameter missing'})
-
-    const token = await authService.login(email, password)
-
-    if (token === undefined)
-        return res.status(400).send({'message': 'Wrong credentials.'});
-
-    const response = {
-        'content': {
-            'token': token
-        },
-        'message': 'User successfully authentificated.'
-    }
-
-    return res.send(response);
-}
-
-async function logout(req, res)
-{
-    const authorization = req.headers.authorization;
-    const user = await authService.getUserFromAuthorization(authorization);
-
-    if (user === undefined)
-        return res.status(400).send({message: 'Error user is not logged.'})
-    
-    const data = {
-        'message': 'User successfully signedOut',
-    }
-
-    return res.send(data);
-}
-
 async function register(req, res)
 {
     const {email, firstname, lastname, password} = req.body;
@@ -114,7 +76,5 @@ async function register(req, res)
 module.exports = {
     getProfile,
     editProfile,
-    login,
-    logout,
     register,
 }
