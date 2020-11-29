@@ -6,8 +6,11 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import {loginPost} from '../services/ApiFunctions'
-//import axios from 'axios';
+import {loginPost, signInWithGoogle} from '../services/ApiFunctions'
+//import {GoogleLogin} from 'react-google-login'
+import GoogleButton from 'react-google-button'
+import Alert from '@material-ui/lab/Alert';
+import AlertTitle from '@material-ui/lab/AlertTitle';
 
 const useStyles = theme => ({
   paper: {
@@ -31,18 +34,40 @@ class Login extends Component{
    
     this.state = {
      email: '',
-     password: ''
+     password: '',
+     errorMessage: '',
+     redirect: false
     };
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.login = this.login.bind(this);
     this.onChange = this.onChange.bind(this);
   }
 
    handleSubmit(event) {
     event.preventDefault();
+  }
+  login()
+  {
     if(this.state.email && this.state.password)
     {
-      loginPost(this.state);
-     }
+      let data = {'email': this.state.email, 'password': this.state.password}
+      let dataJson = JSON.stringify(data)
+      loginPost(dataJson).then((result) =>{
+        console.log(result);
+        if(result)
+        {          
+          if(result === 'logined')
+        {
+          this.setState({redirect: true});
+          this.props.history.push('/')
+        }
+        else{
+          this.setState({errorMessage: result});
+        }
+        }
+      })
+      
+      
+    }
   }
    validateForm() {
     return this.email !== '' && this.password !== '';
@@ -52,17 +77,28 @@ class Login extends Component{
     this.setState({[e.target.name]: e.target.value});
     }
 
+    renderErrrorMessage(){
+      if(this.state.errorMessage !== ''){
+        return <Alert severity="error">
+        <AlertTitle>Error</AlertTitle>
+          {this.state.errorMessage} — <strong>check it out!</strong>
+      </Alert>
+      }
+      else return '';
+    }
+
   render()
   {
     const {classes} = this.props;
     return (
+      
       <Container component="main" maxWidth="xs">
-        <CssBaseline />
+        <CssBaseline />          
         <div className={classes.paper}>
           <Typography component="h1" variant="h5">
             Login
-          </Typography>
-          <form className={classes.form} noValidate onSubmit={this.handleSubmit} >
+          </Typography>          
+          <form className={classes.form} noValidate onSubmit={this.handleSubmit}>
             <TextField
               variant="outlined"
               margin="normal"
@@ -85,7 +121,7 @@ class Login extends Component{
               id="password"
               onChange={this.onChange}
             />
-            <Button
+            <Button onClick={this.login}
               type="submit"
               fullWidth
               variant="contained"
@@ -97,6 +133,15 @@ class Login extends Component{
             <Grid container>
             </Grid>
           </form>
+            <div>
+              <GoogleButton
+                type="dark" // can be light or dark
+                onClick={() => { signInWithGoogle() }}
+              />
+            </div>
+            <div>              
+              {this.renderErrrorMessage()}
+            </div>
         </div>
       </Container>
     );

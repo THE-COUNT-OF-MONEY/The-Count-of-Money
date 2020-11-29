@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react';
+//import React, { useEffect } from 'react';
+import firebase from 'firebase';
 import Axios from 'axios';
 
 const axiosInstance = Axios.create({
@@ -24,15 +25,49 @@ const api = {
 }
 
 export function loginPost(userData){
-    let dataJson = userData;
 
     // parse les paramètres
-
-    // test requetes
-    api.post('/users/login', dataJson)
+    return new Promise((resolve) =>{
+        api.post('/users/login', userData)
         .then((res) => {
-            console.log(res.data)
+            console.log('insideLogin')
+            console.log(res)
+            let token = res.data.content.token
+            localStorage.setItem("token",token);
+            resolve('logined');
+            
         }).catch((error) => {
-            console.log('error: ', error);
+            console.log('error: ', error.response);
+            resolve(error.response.data.message);
         });
+    })            
+}
+
+export function RegisterPost(userData){
+    // parse les paramètres
+    console.log(userData)
+    return new Promise((resolve) =>{
+        api.post('/users/register', userData)
+        .then((res) => {
+            console.log(res)
+            resolve('created');
+            
+        }).catch((error) => {
+            resolve(error.response.data.message);
+        });
+    })
+}
+
+export function signInWithGoogle() {
+    var provider = new firebase.auth.GoogleAuthProvider();
+    //var token = ''
+    firebase.auth().signInWithPopup(provider)
+        .then(function(googleUser) {
+            //window.location = '/auth/google/' + googleUser.credential.idToken
+            console.log(googleUser.credential.idToken)
+            
+        })
+        .catch(function(error){
+            console.log(error)
+        })
 }
