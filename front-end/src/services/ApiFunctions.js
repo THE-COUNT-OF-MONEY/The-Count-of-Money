@@ -60,12 +60,17 @@ export function RegisterPost(userData){
 
 export function signInWithGoogle() {
     var provider = new firebase.auth.GoogleAuthProvider();
-    //var token = ''
     firebase.auth().signInWithPopup(provider)
         .then(function(googleUser) {
-            //window.location = '/auth/google/' + googleUser.credential.idToken
-            console.log(googleUser.credential.idToken)
-            
+            let idToken = googleUser.credential.idToken;
+
+            api.get('/users/auth/google?token=' + idToken, {})
+                .then((res) => {
+                    // Authentified => redirect to next page
+                })
+                .catch((error) => {
+                    console.log("error: ", error);
+                })
         })
         .catch(function(error){
             console.log(error)

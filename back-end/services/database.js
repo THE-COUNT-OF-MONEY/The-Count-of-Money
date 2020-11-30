@@ -39,6 +39,10 @@ exports.getDocument = async function (collectionName, id) {
         return undefined;
     
     const document = collectionRef.doc(id)
+
+    if (!document.exists)
+        return undefined;
+
     let data = undefined;
 
     await document.get().then((snapshot) => {
@@ -186,19 +190,27 @@ exports.generateToken = async function (userId) {
 exports.signInWithGoogle = async function (idToken) {
     let credential = firebase.auth.GoogleAuthProvider.credential(idToken)
     
-    firebase.auth().signInWithCredential(credential)
+    return firebase.auth().signInWithCredential(credential)
+        .then(async (googleUser) => {
+            let names = googleUser.displayName.split(' ');
+            const id = googleUser.uid;
+            const user = await this.getDocument('Users', id);
+
+            if (user === undefined) {
+                const data = {
+                    "email": googleUser.email,
+                    "firstname": names[0] ?? "",
+                    "lastname": names[1] ?? "",
+                    "role": "ROLE_USER"
+                }
+                this.newDocument("Users", data, id);
+            }
+
+            return true;
+        })
         .catch((error) => {
             console.log("An error occur in signInWithGoogle:\n", error)
             return false;
-        })
-        .then((user) => {
-            const data = {
-                "email": user.email,
-                "firstname": null,
-                "lastname": null,
-            }
-            this.newDocument("Users", data, user.uid);
-            return true;
         })
 }
 

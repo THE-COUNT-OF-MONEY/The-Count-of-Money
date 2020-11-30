@@ -43,5 +43,6 @@ async function googleAuth (token) {
 
 module.exports = {
     login,
-    getUserFromAuthorization
+    getUserFromAuthorization,
+    googleAuth
 }

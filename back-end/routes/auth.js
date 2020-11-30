@@ -36,7 +36,7 @@ async function loginWithProvider(req, res)
     if (token === undefined)
         return res.status(400).send({'message': 'The token is missing in query.'})
 
-    const status = await authService.googleAuth(req.query.token)
+    const status = await authService.googleAuth(token)
 
     if (status === false)
         return res.status(400).send({'message': 'Oauth2 for provider ' + provider + ' failed.'})
