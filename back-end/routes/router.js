@@ -29,8 +29,8 @@ router
     .get();
 
 router
-    .route('/currency/getAll')
-    .get(currenciesRoutes.getAll)
+    .route('/currency/getAll') 
+    .get(currenciesRoutes.getAll) // Appel pour syncro les cryptos via api externe
 
 router
     .route('/currency/getOneCrypto/:CurId')
@@ -39,6 +39,10 @@ router
 router
     .route('/currency/getOneCrypto/:CurId')
     .delete(currenciesRoutes.deleteOneCryptoDocument)
+
+router
+    .route('/currency/getAllCrypto')
+    .get(currenciesRoutes.getAllCrypto)
 
 router
     .route('/currency/getOneCrypto/')

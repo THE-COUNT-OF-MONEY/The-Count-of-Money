@@ -69,6 +69,25 @@ class CurrencyController {
   }
   // find(cureId) {
   // }
+  async getAllCryptos(data, res) {
+    let myres;
+    myres = await CryptoDb.getall();
+    // myres.then(function(doc) {
+      if (myres.length != 0) {
+      console.log("Document data:", myres);
+      res.status(200).send(myres);
+    } else {
+      console.log("No such document!");
+      res.status(400).send('This ID doesn\'t exist in this DB');
+    }
+    // });
+    // }).catch(function(error) {
+    //     console.log("Error getting document:", error);
+    // });
+
+    // console.log(myres);
+    return await myres;
+  }
 
   createAll(data, res) {
     const request = require('request');

@@ -10,6 +10,12 @@ class CurrencyService {
     return await datagot; 
   }
 
+  async getall(curid) {
+    let datagot = await database.getCollection('Cryptos');
+    // await this.delay();
+    return await datagot; 
+  }
+
   async findByName(name) {
     let datagot = await database.getOneCryptoDocumentByName('Cryptos', name);
     return await datagot; 
