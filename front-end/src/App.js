@@ -16,13 +16,12 @@ const App = () => {
   return (
     <Router>
       <div>
-        {/* <Route exact path="/" component={ Dashboard } /> */}
         <Route exact path="/feeds" component={ Feeds } />
         <Route exact path="/currencies" component={ Currencies } />
         {/* <Route exact path="/" component={Home} /> */}
         {/* <Route exact path="/login" component={Login} /> */}
         <Route exact path="/register" component={Register} />
-        <Route exact path="/dashboard" component={Dashboard} />
+        <Route exact path="/" component={Dashboard} />
       </div>
     </Router>
   );
