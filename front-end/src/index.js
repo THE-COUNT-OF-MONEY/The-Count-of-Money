@@ -27,7 +27,7 @@ const theme = createMuiTheme({
       light: grey[100],
       dark: grey[900]
     },
-    type: "dark"
+    type: "light"
   }
 })
 
