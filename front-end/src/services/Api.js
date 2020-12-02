@@ -62,5 +62,16 @@ export const Api = {
             .catch(function(error){
                 console.log(error)
             })
+    },
+
+    getCurrencies() {
+        return new Promise((resolve) =>{
+            apiRequest.get('/currency/getAllCrypto')
+                .then((res) => {
+                    console.log(res)
+                }).catch((error) => {
+                    resolve(error.response.data.message);
+                });
+        })
     }
 }
