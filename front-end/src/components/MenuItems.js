@@ -6,39 +6,36 @@ import DashboardIcon from '@material-ui/icons/Dashboard';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import PeopleIcon from '@material-ui/icons/People';
 import BarChartIcon from '@material-ui/icons/BarChart';
-// import LayersIcon from '@material-ui/icons/Layers';
+
+
+const items = [
+  {
+    icon: <DashboardIcon/>,
+    flag: "Dashboard"
+  },
+  {
+    icon: <ShoppingCartIcon/>,
+    flag: "Crypto-monnaies"
+  },
+  {
+    icon: <BarChartIcon/>,
+    flag: "Articles"
+  },
+]
 
 export const mainListItems = (
   <div>
-    <ListItem button>
-      <ListItemIcon>
-        <DashboardIcon />
-      </ListItemIcon>
-      <ListItemText primary="Dashboard" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <ShoppingCartIcon />
-      </ListItemIcon>
-      <ListItemText primary="Crypto Currency" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <BarChartIcon />
-      </ListItemIcon>
-      <ListItemText primary="Articles" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <PeopleIcon />
-      </ListItemIcon>
-      <ListItemText primary="User Profile" />
-    </ListItem>    
-    {/* <ListItem button>
-      <ListItemIcon>
-        <LayersIcon />
-      </ListItemIcon>
-      <ListItemText primary="Integrations" />
-    </ListItem> */}
+    {
+      items.map((item) => {
+        return (
+          <ListItem button>
+            <ListItemIcon>
+              {item.icon}
+            </ListItemIcon>
+            <ListItemText primary={item.flag} />
+          </ListItem>
+        )
+      })
+    }
   </div>
 );
