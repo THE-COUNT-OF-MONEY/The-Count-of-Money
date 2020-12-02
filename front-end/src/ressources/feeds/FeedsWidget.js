@@ -23,7 +23,7 @@ export const Feeds = () => {
 
     return (
         <div>
-            <Grid container alignItems="center" justify="center" direction='column' spacing={2}>
+            <Grid container alignItems="center" justify="center" spacing={2}>
                 {
                     feeds.map((feed, key) => {
                         return(

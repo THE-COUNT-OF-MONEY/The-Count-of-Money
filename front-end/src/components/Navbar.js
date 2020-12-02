@@ -1,28 +1,76 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
+import { Link } from 'react-router-dom';
+import { Grid } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
-  login: {
-    marginLeft: theme.spacing(190),
+  root: {
+  },
+  menuButton: {
+    marginRight: theme.spacing(2),
+  },
+  title: {
+    flexGrow: 1,
   },
 }));
 
-export default function ButtonAppBar() {
+const navigationItems = [
+    {
+        'url': "/",
+        'label': "Crypto Monnaies",
+        'index': 0
+    },
+    {
+        'url': "/feeds",
+        'label': "Articles",
+        'index': 1
+    },
+]
+
+export const Navbar = () => {
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
-      <AppBar position="static">
+      <AppBar position="static" width="100%">
         <Toolbar>
-          <Button component={Link} to="/login" color="inherit" className={classes.login}>Login</Button>
-          <Button component={Link} to="/register" color="inherit" className={classes.register}>Register</Button>
-          <Button color="inherit" className={classes.logout}>Logout</Button>
+
+                <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+                    <MenuIcon />
+                </IconButton>
+                <Typography variant="h6" className={classes.title}>
+                    Count of Money
+                </Typography>
+
+                <Grid container item xs={2}></Grid>
+                {
+                    navigationItems.map((navigationItem, key) => {
+                        return (
+                            <Button
+                                color="inherit"
+                                className={classes.menuButton}
+                                component={Link}
+                                to={navigationItem.url}
+                                key={key}
+                            >
+                                {navigationItem.label}
+                            </Button>
+                        )
+                    })
+                }
+                <Grid container item xs={4}></Grid>
+                <Button color="inherit" component={Link} to={"/login"} className={classes.menuButton}>Login</Button>
+                <Button color="inherit" component={Link} to={"/register"} className={classes.menuButton}>Register</Button>
         </Toolbar>
       </AppBar>
     </div>
   );
 }
+
+export default Navbar;

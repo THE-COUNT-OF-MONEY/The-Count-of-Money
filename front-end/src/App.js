@@ -6,18 +6,29 @@ import Register from "./components/Register"
 import Dashboard from "./ressources/dashboard/Dashboard";
 import {Currencies} from './ressources/currencies/CurrenciesWidget'
 import {Feeds} from './ressources/feeds/FeedsWidget'
+import Navbar from "./components/Navbar";
+import { Grid } from "@material-ui/core";
 
 const App = () => {
   return (
-    <Router>
-      <div>
-        <Route exact path="/feeds" component={ Feeds } />
-        <Route exact path="/currencies" component={ Currencies } />
-        {/* <Route exact path="/login" component={Login} /> */}
-        <Route exact path="/register" component={Register} />
-        <Route exact path="/" component={Dashboard} />
-      </div>
-    </Router>
+    <div>
+      <Grid container direction="column" spacing={2}>
+          <Router>
+            <Grid item>
+              <Navbar></Navbar>
+            </Grid>
+
+            <Grid item>
+              <Route exact path="/" component={ Currencies } />
+              <Route exact path="/feeds" component={ Feeds } />
+              <Route exact path="/login" component={Login} />
+              <Route exact path="/register" component={Register} />
+            </Grid>
+          
+          </Router>
+      </Grid>
+
+    </div>
   );
 };
 
