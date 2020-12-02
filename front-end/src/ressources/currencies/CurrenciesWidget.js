@@ -42,11 +42,11 @@ export const Currencies = () => {
 
     return (
         <div>
-            <Grid container alignItems="center" justify="center" spacing={2}>
+            <Grid container alignItems="left" justify="left" spacing={2}>
                 {
                     currencies.map((currency, key) => {
                         return(
-                            <Grid item xs={1} key={key} >
+                            <Grid item xs={2} key={key} >
                                 <Grid container justify="center">
                                     <CurrencyCard currency={currency}></CurrencyCard>
                                 </Grid>
