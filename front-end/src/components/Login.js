@@ -6,7 +6,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import {loginPost, signInWithGoogle} from '../services/ApiFunctions'
+import { Api } from '../services/Api'
 //import {GoogleLogin} from 'react-google-login'
 import GoogleButton from 'react-google-button'
 import Alert from '@material-ui/lab/Alert';
@@ -51,18 +51,13 @@ class Login extends Component{
     {
       let data = {'email': this.state.email, 'password': this.state.password}
       let dataJson = JSON.stringify(data)
-      loginPost(dataJson).then((result) =>{
-        console.log(result);
-        if(result)
-        {          
-          if(result === 'logined')
-        {
-          this.setState({redirect: true});
-          this.props.history.push('/')
-        }
-        else{
+
+      Api.login(dataJson).then((result) =>{
+        if (result) {          
+            this.setState({redirect: true});
+            this.props.history.push('/')
+        } else {
           this.setState({errorMessage: result});
-        }
         }
       })
       
@@ -136,7 +131,7 @@ class Login extends Component{
             <div>
               <GoogleButton
                 type="dark" // can be light or dark
-                onClick={() => { signInWithGoogle() }}
+                onClick={() => { Api.signInWithGoogle() }}
               />
             </div>
             <div>              
