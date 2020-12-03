@@ -65,6 +65,7 @@ export const Navbar = () => {
                     })
                 }
                 <Grid container item xs={4}></Grid>
+                <Button color="inherit" component={Link} to={"/users"} className={classes.menuButton}>Users</Button>
                 <Button color="inherit" component={Link} to={"/login"} className={classes.menuButton}>Login</Button>
                 <Button color="inherit" component={Link} to={"/register"} className={classes.menuButton}>Register</Button>
         </Toolbar>
