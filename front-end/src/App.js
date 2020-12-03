@@ -3,7 +3,6 @@ import {BrowserRouter as Router, Route} from "react-router-dom"
 import Login from "./components/Login"
 import Register from "./components/Register"
 
-import Dashboard from "./ressources/dashboard/Dashboard";
 import {Currencies} from './ressources/currencies/CurrenciesWidget'
 import {Feeds} from './ressources/feeds/FeedsWidget'
 import Navbar from "./components/Navbar";
