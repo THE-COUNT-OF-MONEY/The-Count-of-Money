@@ -6,6 +6,7 @@ const axiosInstance = Axios.create({
     baseURL: "http://localhost:8000",
     headers: {
         'Content-Type': 'application/json',
+        'authorization': ''
     }
 })
 
@@ -30,8 +31,14 @@ export const Api = {
         return new Promise((resolve) => {
             apiRequest.post('/users/login', userData)
                 .then((res) => {
-                    let token = res.data.content.token
+                    let token = res.data.content.token;
                     localStorage.setItem("token", token);
+                    
+                    axiosInstance.headers = {
+                        'Content-Type': 'application/json',
+                        'authorization': token
+                    }
+                    
                     resolve(true);
                 }).catch((error) => {
                     console.log('error: ', error.response);
@@ -67,6 +74,17 @@ export const Api = {
     getCurrencies() {
         return new Promise((resolve) =>{
             apiRequest.get('/currency/getAllCrypto')
+                .then((res) => {
+                    console.log(res)
+                }).catch((error) => {
+                    resolve(error.response.data.message);
+                });
+        })
+    },
+
+    getProfile() {
+        return new Promise((resolve) =>{
+            apiRequest.get('/users/profile')
                 .then((res) => {
                     console.log(res)
                 }).catch((error) => {

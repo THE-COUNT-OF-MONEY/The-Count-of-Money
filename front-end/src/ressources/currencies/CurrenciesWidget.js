@@ -42,7 +42,7 @@ export const Currencies = () => {
 
     return (
         <div>
-            <Grid container alignItems="left" justify="left" spacing={2}>
+            <Grid container alignItems="flex-start" justify="flex-start" spacing={2}>
                 {
                     currencies.map((currency, key) => {
                         return(
