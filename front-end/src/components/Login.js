@@ -29,62 +29,62 @@ const useStyles = theme => ({
 });
 
 class Login extends Component{
-  constructor(){
+  constructor() {
     super();
    
     this.state = {
-     email: '',
-     password: '',
-     errorMessage: '',
-     redirect: false
+        email: '',
+        password: '',
+        errorMessage: '',
+        redirect: false
     };
     this.login = this.login.bind(this);
     this.onChange = this.onChange.bind(this);
   }
 
-   handleSubmit(event) {
-    event.preventDefault();
-  }
-  login()
-  {
-    if(this.state.email && this.state.password)
-    {
-      let data = {'email': this.state.email, 'password': this.state.password}
-      let dataJson = JSON.stringify(data)
+    handleSubmit(event) {
+        event.preventDefault();
+    }
 
-      Api.login(dataJson).then((result) =>{
-        if (result) {          
-            this.setState({redirect: true});
-            this.props.history.push('/')
-        } else {
-          this.setState({errorMessage: result});
+    login() {
+        if (this.state.email && this.state.password) {
+            let data = {'email': this.state.email, 'password': this.state.password}
+            let dataJson = JSON.stringify(data)
+
+            Api.login(dataJson).then((result) =>{
+                if (result === true) {          
+                    this.setState({redirect: true});
+                    this.props.history.push('/')
+                } else {
+                    this.setState({errorMessage: result});
+                }
+            })
         }
-      })
-      
-      
     }
-  }
-   validateForm() {
-    return this.email !== '' && this.password !== '';
-  }    
-    
+
+    validateForm() {
+        return this.email !== '' && this.password !== '';
+    }    
+      
     onChange(e){
-    this.setState({[e.target.name]: e.target.value});
+        this.setState({[e.target.name]: e.target.value});
     }
 
-    renderErrrorMessage(){
-      if(this.state.errorMessage !== ''){
-        return <Alert severity="error">
-        <AlertTitle>Error</AlertTitle>
-          {this.state.errorMessage} — <strong>check it out!</strong>
-      </Alert>
-      }
-      else return '';
+    renderErrrorMessage() {
+        if (this.state.errorMessage !== ''){
+            return (
+                <Alert severity="error">
+                    <AlertTitle>Error</AlertTitle>
+                    {this.state.errorMessage} — <strong>check it out!</strong>
+                </Alert>
+            )
+        }
+        else return '';
     }
 
-  render()
-  {
+  render() {
     const {classes} = this.props;
+  
     return (
       
       <Container component="main" maxWidth="xs">
