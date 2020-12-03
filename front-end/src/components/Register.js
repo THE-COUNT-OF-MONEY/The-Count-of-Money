@@ -6,7 +6,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import {RegisterPost} from '../services/ApiFunctions'
+import { Api } from '../services/Api'
 import Alert from '@material-ui/lab/Alert';
 import AlertTitle from '@material-ui/lab/AlertTitle';
 
@@ -55,7 +55,7 @@ class Register extends Component{
     {
       let data = {'firstname' : this.state.firstname, 'lastname': this.state.lastname, 'email': this.state.email, 'password': this.state.password}
       let dataJson = JSON.stringify(data)
-      RegisterPost(dataJson).then((result)=>{
+      Api.register(dataJson).then((result)=>{
         if(result === 'created')
         {
           this.setState({redirect: true});
