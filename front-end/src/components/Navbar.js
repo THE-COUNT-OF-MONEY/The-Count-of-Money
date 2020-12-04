@@ -11,6 +11,7 @@ import { Grid } from '@material-ui/core';
 
 import { UserContext } from "../context/userContext";
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import {Api} from '../services/Api';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -41,6 +42,12 @@ const navigationItems = [
 export const Navbar = () => {
   const classes = useStyles();
   const { user } = useContext(UserContext);
+
+  const logout = async () => {
+    const result = await Api.logout();
+    window.location.reload();
+    return true
+  }
 
   return (
     <div>
@@ -130,7 +137,7 @@ export const Navbar = () => {
                             </Typography>
                           </Grid>
                           <Grid item style={{textAlign: "center"}}>
-                            <IconButton className={classes.menuButton} color="inherit" aria-label="menu">
+                            <IconButton className={classes.menuButton} color="inherit" aria-label="menu" onClick={logout}>
                               <ExitToAppIcon />
                             </IconButton>
                           </Grid>

@@ -101,5 +101,21 @@ export const Api = {
                     resolve(error.response.data.message);
                 });
         })
+    },
+
+    logout() {
+        return new Promise((resolve) =>{
+            apiRequest.post('/users/logout')
+                .then((res) => {
+                    localStorage.setItem("token", null);
+                    firebase.auth().signOut().then(function() {
+                        resolve(true)
+                    }).catch(function(error) {
+                        resolve(error)
+                    });
+
+                }).catch((error) => {
+                });
+        })
     }
 }
