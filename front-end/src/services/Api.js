@@ -6,7 +6,7 @@ const axiosInstance = Axios.create({
     baseURL: "http://localhost:8000",
     headers: {
         'Content-Type': 'application/json',
-        'authorization': ''
+        'authorization': localStorage.token ?? ''
     }
 })
 
@@ -38,11 +38,10 @@ export const Api = {
                         'Content-Type': 'application/json',
                         'authorization': token
                     }
-                    
-                    resolve(true);
+                    resolve(token);
                 }).catch((error) => {
                     console.log('error: ', error.response);
-                    resolve(error.response.data.message);
+                    resolve(false);
                 });
         })            
     },
@@ -86,9 +85,9 @@ export const Api = {
         return new Promise((resolve) =>{
             apiRequest.get('/users/profile')
                 .then((res) => {
-                    console.log(res)
+                    resolve(res);
                 }).catch((error) => {
-                    resolve(error.response.data.message);
+                    resolve(false);
                 });
         })
     },

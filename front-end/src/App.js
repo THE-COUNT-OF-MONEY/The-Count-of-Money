@@ -9,24 +9,29 @@ import Navbar from "./components/Navbar";
 import { Grid } from "@material-ui/core";
 import Users from "./ressources/Users/UsersWidget"
 
+import { UserProvider } from "./context/userContext";
+
 const App = () => {
   return (
     <div>
       <Grid container direction="column" spacing={2}>
           <Router>
-            <Grid item>
-              <Navbar></Navbar>
-            </Grid>
+            <UserProvider>
 
-            <Grid item>
-              <Route exact path="/" component={ Currencies } />
-              <Route exact path="/feeds" component={ Feeds } />
-              <Route exact path="/login" component={Login} />
-              <Route exact path="/register" component={Register} />
-              <Route exact path="/profile" component={Profile} />
-              <Route exact path="/users" component={Users} />
-            </Grid>
-          
+              <Grid item>
+                <Navbar></Navbar>
+              </Grid>
+
+              <Grid item>
+                <Route exact path="/" component={ Currencies } />
+                <Route exact path="/feeds" component={ Feeds } />
+                <Route exact path="/login" component={Login} />
+                <Route exact path="/register" component={Register} />
+                <Route exact path="/profile" component={Profile} />
+                <Route exact path="/users" component={Users} />
+              </Grid>
+
+            </UserProvider>
           </Router>
       </Grid>
 

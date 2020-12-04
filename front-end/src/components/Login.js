@@ -7,10 +7,11 @@ import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { Api } from '../services/Api'
-//import {GoogleLogin} from 'react-google-login'
 import GoogleButton from 'react-google-button'
 import Alert from '@material-ui/lab/Alert';
 import AlertTitle from '@material-ui/lab/AlertTitle';
+
+import firebase from 'firebase'
 
 const useStyles = theme => ({
   paper: {
@@ -52,11 +53,22 @@ class Login extends Component{
             let dataJson = JSON.stringify(data)
 
             Api.login(dataJson).then((result) =>{
-                if (result === true) {          
-                    this.setState({redirect: true});
-                    this.props.history.push('/')
+
+                if (result) {     
+                    const token = result;
+                    
+                    firebase.auth().signInWithCustomToken(token)
+                      .then((user) => {
+                        this.setState({redirect: true});
+                        this.props.history.push('/')
+                      })
+                      .catch((error) => {
+                        console.log("error: ", error)
+                      })
+
+
                 } else {
-                    this.setState({errorMessage: result});
+                    this.setState({errorMessage: "Wrong credentials"});
                 }
             })
         }

@@ -37,11 +37,6 @@ export const FeedCard = ({feed}) => {
     const getLink = (content) => {
         let startOfContent = content.indexOf("href=") + 6
         let split = content.slice(startOfContent);
-
-        console.log(content)
-        console.log("split here: ", split);
-
-        
         let endOfContent = split.indexOf('">');
 
         return split.substr(0, endOfContent);
@@ -50,7 +45,6 @@ export const FeedCard = ({feed}) => {
     feed.picture = getPicture(feed.content)
     feed.text = getText(feed.content)
     feed.link = getLink(feed.content)
-
 
     return (
         <div>
