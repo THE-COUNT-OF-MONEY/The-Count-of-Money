@@ -68,6 +68,7 @@ export const Navbar = () => {
                 <Button color="inherit" component={Link} to={"/users"} className={classes.menuButton}>Users</Button>
                 <Button color="inherit" component={Link} to={"/login"} className={classes.menuButton}>Login</Button>
                 <Button color="inherit" component={Link} to={"/register"} className={classes.menuButton}>Register</Button>
+                <Button color="inherit" component={Link} to={"/profile"} className={classes.menuButton}>Profile</Button>
         </Toolbar>
       </AppBar>
     </div>
