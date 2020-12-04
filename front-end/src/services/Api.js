@@ -110,6 +110,18 @@ export const Api = {
         })
     },
 
+    putProfile(userData) {
+        return new Promise((resolve) =>{
+            apiRequest.put('/users/profile', userData)
+                .then((res) => {
+                    resolve('updated');
+                    
+                }).catch((error) => {
+                    resolve(error.response.data.message);
+                });
+        })
+    },
+
     getUsers() {
         return new Promise((resolve) =>{
             apiRequest.get('/users')

@@ -6,6 +6,11 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import SaveIcon from '@material-ui/icons/Save';
+import CancelIcon from '@material-ui/icons/Cancel';
+import { Api } from '../services/Api'
+import Alert from '@material-ui/lab/Alert';
+import AlertTitle from '@material-ui/lab/AlertTitle';
 
 const useStyles = theme => ({
   paper: {
@@ -32,15 +37,19 @@ class Profile extends Component{
     super();
 
     this.state = {
-      firstname: 'callas',
-      lastname: 'iyad',
-      email: 'iyad.callas@epitech.eu',
-      password: 'test1234',
-      readOnly: true
+      firstname: '',
+      lastname: '',
+      email: '',
+      password: '',
+      readOnly: true,
+      errorMessage: '',
+      redirect: false
     };
     
     this.isDisabled = this.isDisabled.bind(this);
     this.switch = this.switch.bind(this);
+    this.putProfile = this.putProfile.bind(this);
+    this.onChange = this.onChange.bind(this);
   }
 
     isDisabled() {
@@ -57,6 +66,42 @@ class Profile extends Component{
         else {
             this.setState({ readOnly: true })
         }
+    }
+
+    handleSubmit(event) {
+      event.preventDefault();
+    }
+    putProfile()
+    {
+      if(this.state.firstname && this.state.lastname && this.state.email && this.state.password )
+      {
+        let data = {'firstname' : this.state.firstname, 'lastname': this.state.lastname, 'email': this.state.email, 'password': this.state.password}
+        let dataJson = JSON.stringify(data)
+        Api.putProfile(dataJson).then((result)=>{
+          if(result === 'updated')
+          {
+            this.setState({redirect: true});
+            this.props.history.push('/profile')
+          }
+          else{
+            this.setState({errorMessage: result});
+          }
+        })
+       }
+    }
+      
+    onChange(e){
+    this.setState({[e.target.name]: e.target.value});
+    }
+
+    renderErrrorMessage(){
+      if(this.state.errorMessage !== ''){
+        return <Alert severity="error">
+        <AlertTitle>Error</AlertTitle>
+          {this.state.errorMessage} — <strong>check it out!</strong>
+      </Alert>
+      }
+      else return '';
     }
 
     render () {
@@ -82,7 +127,7 @@ class Profile extends Component{
                     fullWidth
                     id="firstname"
                     label="First Name"
-                    autoFocus
+                    onChange={this.onChange}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -96,6 +141,7 @@ class Profile extends Component{
                     label="Last Name"
                     name="lastname"
                     autoComplete="lname"
+                    onChange={this.onChange}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -109,6 +155,7 @@ class Profile extends Component{
                     label="Email Address"
                     name="email"
                     autoComplete="email"
+                    onChange={this.onChange}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -123,18 +170,58 @@ class Profile extends Component{
                     type="password"
                     id="password"
                     autoComplete="current-password"
+                    onChange={this.onChange}
                   />
                 </Grid>
               </Grid>
-              <Button onClick={this.switch}
-                fullWidth
-                variant="contained"
-                color="primary"
-                className={classes.submit}
-              >
-                Edit
-              </Button>
+              {
+                this.state.readOnly?
+                <div>
+                <Button onClick={this.switch}
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  className={classes.submit}
+                >
+                  Edit
+                </Button>
+                </div>
+                :null
+              }
+              {
+                !this.state.readOnly?
+                <div>
+                  <Grid container spacing={2}>
+                    <Grid item xs={12} sm={6}>
+                      <Button onClick={this.switch}
+                        fullWidth
+                        variant="contained"
+                        color="primary"
+                        startIcon={<CancelIcon/>}
+                        className={classes.submit}
+                      >
+                        Cancel
+                      </Button>
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                      <Button onClick={this.putProfile}
+                        fullWidth
+                        variant="contained"
+                        color="primary"
+                        startIcon={<SaveIcon/>}
+                        className={classes.submit}
+                      >
+                        Save
+                      </Button>
+                    </Grid>
+                  </Grid>
+                </div>
+                :null
+              }
             </form>
+            <div>              
+              {this.renderErrrorMessage()}
+            </div>
           </div>
         </Container>
       );
