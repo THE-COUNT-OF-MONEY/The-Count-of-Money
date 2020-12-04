@@ -1,7 +1,6 @@
 import React from "react";
 import {BrowserRouter as Router, Route} from "react-router-dom"
 import Login from "./components/Login"
-import Dashboard from "./components/Dashboard";
 import Register from "./components/Register"
 import Profile from "./components/Profile"
 import {Currencies} from './ressources/currencies/CurrenciesWidget'
