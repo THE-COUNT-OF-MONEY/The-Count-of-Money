@@ -164,8 +164,9 @@ class CryptosBankController {
       });
       if (myres.exists != 0) {
         // console.log('Document data:', myres);
-        await CryptoDb.delete(CurrId).then(function (data) {
-          res.status(200).send(CurrId + ' Deleted');
+
+        await CryptoDb.delete(MyResRet[0].id).then(function (data) {
+          res.status(200).send(MyResRet[0].id + ' Deleted');
         });
         // res.status(200).send(MyResRet);
       } else {

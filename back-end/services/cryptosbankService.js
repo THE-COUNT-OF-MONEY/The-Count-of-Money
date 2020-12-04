@@ -19,7 +19,7 @@ class CryptosBankService {
   }
 
   async getall() {
-    let datagot = await database.getCollection('Cryptosbank');
+    const datagot = await database.getPkCryptoBankrow('Cryptosbank');
     return await datagot;
   }
 

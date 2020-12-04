@@ -311,5 +311,17 @@ module.exports = {
     const db = firebase.firestore();
     let Data = await db.collection(collectionName).doc(id).delete();
     return await Data;
+  },
+  async getPkCryptoBankrow(collectionName) {
+    const db = firebase.firestore();
+    const data = db.collection(collectionName);
+    let dataretrn = [];
+    const snapshot = await data.get();
+    snapshot.forEach((doc) => {
+      let tmp = doc.data();
+      tmp.id = doc.id;
+      dataretrn.push(tmp);
+    });
+    return dataretrn;
   }
 };
