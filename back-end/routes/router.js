@@ -3,6 +3,10 @@ const router = express.Router();
 const userRoutes = require('./user.js')
 
 router
+    .route('/users')
+    .get(userRoutes.getAllUsers)
+    
+router
     .route('/users/profile')
     .get(userRoutes.getProfile)
     .put(userRoutes.editProfile)

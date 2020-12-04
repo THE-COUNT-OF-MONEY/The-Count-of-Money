@@ -4,6 +4,10 @@ function find(userId) {
     return database.getDocument('Users', userId);
 }
 
+function findAll() {
+    return database.getCollection('Users');
+}
+
 function create(data) {
     return database.newUser(data);
 }
