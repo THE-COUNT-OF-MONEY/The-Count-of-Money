@@ -36,86 +36,108 @@ const navigationItems = [
         'url': "/feeds",
         'label': "Feeds",
     },
-    {
-      'url': "/profile",
-      'label': "Profile",
-  },
 ]
 
 export const Navbar = () => {
   const classes = useStyles();
   const { user } = useContext(UserContext);
 
-  console.log("user gotten: ", user);
-
   return (
     <div>
       <AppBar position="static" width="100%" className={classes.root}>
         <Toolbar>
 
-              <Grid container justify="flex-start" alignItems="center">
-                <Grid item xs={1}>
+              <Grid container justify="flex-start" alignItems="center" item xs={4}>
+                <Grid item >
                   <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
                       <MenuIcon />
                   </IconButton>
                 </Grid>
 
-                <Grid item xs={3}>
+                <Grid item >
                   <Typography variant="h6" className={classes.title}>
                       CountOfMoney
                   </Typography>
                 </Grid>
               </Grid>
 
-                <Grid container justify="center">
-                {
-                    navigationItems.map((navigationItem, key) => {
-                        return (
-                            <Grid item>
-                              <Button
-                                  color="inherit"
-                                  className={classes.menuButton}
-                                  component={Link}
-                                  to={navigationItem.url}
-                                  key={key}
-                              >
-                                  {navigationItem.label}
-                              </Button>
-                            </Grid>
-                        )
-                    })
-                }
-                </Grid>
-                {/* <Button color="inherit" component={Link} to={"/users"} className={classes.menuButton}>Users</Button> */}
 
+                {/*    START MIDDLE APP BUTTONS     */}
+                <Grid container justify="center" item xs={4}>
 
-                <Grid container direction="row">
+                  {/*   COMMONS BUTTON    */}
                   {
-                    user === null &&
-                      <div>
-                        <Button color="inherit" component={Link} to={"/login"} className={classes.menuButton}>Login</Button>
-                        <Button color="inherit" component={Link} to={"/register"} className={classes.menuButton}>Register</Button>
-                      </div>
+                      navigationItems.map((navigationItem, key) => {
+                          return (
+                              <Grid item key={key}>
+                                <Button
+                                    color="inherit"
+                                    className={classes.menuButton}
+                                    component={Link}
+                                    to={navigationItem.url}
+                                    key={key}
+                                >
+                                    {navigationItem.label}
+                                </Button>
+                              </Grid>
+                          )
+                      })
                   }
 
+                  {/*   DISPLAY PROFILE BUTTON IF LOGIN   */}
                   {
                     user &&
-                      <div>
-                        <Grid item>
-                          <Typography variant="h6" spacing={1}>
-                            {user.firstname + ' ' + user.lastname }
-                          </Typography>
+                    <Grid item>
+                      <Button
+                          color="inherit"
+                          className={classes.menuButton}
+                          component={Link}
+                          to={"/profile"}
+                      >
+                          Profile
+                      </Button>
+                    </Grid>
 
-                          <IconButton className={classes.menuButton} color="inherit" aria-label="menu" spacing={1}>
-                            <ExitToAppIcon />
-                          </IconButton>
+                  }
 
-                        </Grid>
-
-
-                      </div>
+                  {/*   ADMINS BUTTON IF LOGIN    */}
+                  {
+                    (user && user.role == "ROLE_ADMIN") &&
+                      <Grid item>
+                        <Button color="inherit" component={Link} to={"/users"} className={classes.menuButton}>Users</Button>
+                      </Grid>
                   }
                 </Grid>
+                {/*    END OF MIDDLE APP BUTTONS     */}
+
+
+                {/*    START RIGHTS APP BUTTONS     */}
+                {
+                    user === null &&
+                      <Grid container justify="flex-end" direction="row"  item xs={4}>
+                        <Button color="inherit" component={Link} to={"/login"} className={classes.menuButton}>Login</Button>
+                        <Button color="inherit" component={Link} to={"/register"} className={classes.menuButton}>Register</Button>
+                      </Grid>
+                }
+
+                {
+                  user &&
+                      <Grid container justify="flex-end" direction="row"  alignItems="center" item xs={4}>
+
+                          <Grid item style={{textAlign: "center"}}>
+                            <Typography variant="h6">
+                              {user.firstname + ' ' + user.lastname }
+                            </Typography>
+                          </Grid>
+                          <Grid item style={{textAlign: "center"}}>
+                            <IconButton className={classes.menuButton} color="inherit" aria-label="menu">
+                              <ExitToAppIcon />
+                            </IconButton>
+                          </Grid>
+
+                      </Grid>
+                }
+                {/*    END RIGHTS APP BUTTONS     */}
 
         </Toolbar>
       </AppBar>
