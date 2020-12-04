@@ -1,8 +1,12 @@
 const database = require('./database.js')
 
-
 function find(userId) {
     return database.getDocument('Users', userId);
+}
+
+async function findnoerror(userId) {
+    // console.log(" really ? " + await database.getOneUserNoError('Users', userId));
+    return await database.getOneUserNoError('Users', userId);
 }
 
 function create(data) {
@@ -22,5 +26,6 @@ module.exports = {
     find,
     create,
     update,
-    remove
+    remove,
+    findnoerror
 }

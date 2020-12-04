@@ -78,7 +78,7 @@ class CurrencyController {
       res.status(200).send(myres);
     } else {
       console.log("No such document!");
-      res.status(400).send('This ID doesn\'t exist in this DB');
+      res.status(400).send('This doesn\'t exist in this DB');
     }
     // });
     // }).catch(function(error) {
@@ -89,7 +89,7 @@ class CurrencyController {
     return await myres;
   }
 
-  createAll(data, res) {
+  setAll(data, res) {
     const request = require('request');
     var x = this.pushIt(res);
     var Obj;

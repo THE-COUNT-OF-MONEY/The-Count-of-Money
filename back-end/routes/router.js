@@ -1,51 +1,51 @@
 const express = require('express');
 const router = express.Router();
-const userRoutes = require('./userRoutes.js')
-const currenciesRoutes = require('./currenciesRoutes.js')
+const userRoutes = require('./userRoutes.js');
+const currenciesRoutes = require('./currenciesRoutes.js');
+const cryptosbankRoutes = require('./cryptosbankRoutes.js');
 
 router
-    .route('/users/profile')
-    .get(userRoutes.getProfile)
-    .put(userRoutes.editProfile)
+  .route('/users/profile')
+  .get(userRoutes.getProfile)
+  .put(userRoutes.editProfile);
+
+router.route('/users/register').post(userRoutes.register);
+
+router.route('/users/login').post(userRoutes.login);
+
+router.route('/users/logout').post(userRoutes.logout);
+
+router.route('/users/auth/:provider').get();
+
+router.route('/users/auth/:provider/callback').get();
+
+router.route('/currencies/setAll').get(currenciesRoutes.setAll); // Appel pour syncro les cryptos via api externe
+
+router.route('/currencies/getAll').get(currenciesRoutes.getAllCrypto); // Appel pour syncro les cryptos via api externe
 
 router
-    .route('/users/register')
-    .post(userRoutes.register)
+  .route('/currencies/getOneCrypto/:CurId')
+  .get(currenciesRoutes.getOneCrypto);
 
 router
-    .route('/users/login')
-    .post(userRoutes.login)
+  .route('/currencies/getOneCrypto/:CurId')
+  .delete(currenciesRoutes.deleteOneCryptoDocument);
+
+//Crypto Bank
+router
+  .route('/currencies/getAllCryptos/:UserId')
+  .get(cryptosbankRoutes.getAllhisCryptos);
 
 router
-    .route('/users/logout')
-    .post(userRoutes.logout)
+  .route('/currencies/getOneCryptos/:UserId/:CurrId')
+  .get(cryptosbankRoutes.getOneCryptos);
 
 router
-    .route('/users/auth/:provider')
-    .get();
+  .route('/currencies/setOneCryptos/:UserId/:CurrId')
+  .get(cryptosbankRoutes.setOneCrypto);
 
 router
-    .route('/users/auth/:provider/callback')
-    .get();
-
-router
-    .route('/currency/getAll') 
-    .get(currenciesRoutes.getAll) // Appel pour syncro les cryptos via api externe
-
-router
-    .route('/currency/getOneCrypto/:CurId')
-    .get(currenciesRoutes.getOneCrypto)
-
-router
-    .route('/currency/getOneCrypto/:CurId')
-    .delete(currenciesRoutes.deleteOneCryptoDocument)
-
-router
-    .route('/currency/getAllCrypto')
-    .get(currenciesRoutes.getAllCrypto)
-
-router
-    .route('/currency/getOneCrypto/')
-    .post(currenciesRoutes.createOneCryptoDocument)
+  .route('/currencies/deleteOneCryptos/:UserId/:CurrId')
+  .delete(cryptosbankRoutes.deleteOneCrypto);
 
 module.exports = router;

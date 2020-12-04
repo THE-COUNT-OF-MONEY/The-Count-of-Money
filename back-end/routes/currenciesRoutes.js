@@ -2,9 +2,9 @@ const { CurrencyController } = require('../controller/currenciesController.js');
 
 let CryptoService = new CurrencyController();
 
-function getAll(req, res)
+function setAll(req, res)
 {
-    return CryptoService.createAll(req, res);
+    return CryptoService.setAll(req, res);
     // return res.send('Get All Cryptos Ez');
 }
 
@@ -32,9 +32,9 @@ function createOneCryptoDocument(req, res)
 
 
 module.exports = {
-    getAll,
+    setAll,
     getOneCrypto,
     deleteOneCryptoDocument,
     createOneCryptoDocument,
-    getAllCrypto
+    getAllCrypto,
 }
