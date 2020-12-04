@@ -13,8 +13,10 @@ export const UserProvider = ({ children }) => {
 
             Api.getProfile().then((res) => {
                 if (res.status === 200) {
-                    const userData = res.data.content.user;
-                    setUser(res.data.content.user)
+                    if (res.data !== undefined || res.data.content !== undefined){
+                        const userData = res.data.content.user;
+                        setUser(res.data.content.user)
+                    }
                 }
             });
         });
