@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react';
+import React, { useState, useContext } from 'react';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
@@ -12,6 +12,7 @@ import { Api } from '../services/Api'
 import Alert from '@material-ui/lab/Alert';
 import AlertTitle from '@material-ui/lab/AlertTitle';
 import { useHistory } from 'react-router-dom';
+import { UserContext } from "../context/userContext";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -36,16 +37,14 @@ const useStyles = makeStyles((theme) => ({
 
 
 export const Profile = () => {
-
-    const [email, setEmail] = useState("");
-    const [firstname, setFirstname] = useState("");
-    const [lastname, setLastname] = useState("");
-    const [password, setPassword] = useState("");
-    const [readOnly, setReadOnly] = useState("");
+    const { user } = useContext(UserContext);
+    const [email, setEmail] = useState(user.email);
+    const [firstname, setFirstname] = useState(user.firstname);
+    const [lastname, setLastname] = useState(user.lastname);
+    const [readOnly, setReadOnly] = useState(true);
     const [error, setError] = useState("");
     const history = useHistory();
     const classes = useStyles();
-
 
     const isDisabled = () => {
         if (readOnly)
@@ -58,8 +57,8 @@ export const Profile = () => {
     }
 
     const putProfile = () => {
-        if (firstname && lastname && email && password ) {
-          let data = {'firstname' : firstname, 'lastname': lastname, 'email': email, 'password': password}
+        if (firstname && lastname && email) {
+          let data = {'firstname' : firstname, 'lastname': lastname, 'email': email}
 
           Api.putProfile(data)
             .then((result) => {
@@ -83,7 +82,6 @@ export const Profile = () => {
       }
       else return '';
     }
-
     return (
       <Container component="main" maxWidth="xs">
         <CssBaseline />
@@ -133,21 +131,6 @@ export const Profile = () => {
                   name="email"
                   autoComplete="email"
                   onChange={setEmail}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  {...isDisabled()}
-                  defaultValue={password}
-                  variant="outlined"
-                  required
-                  fullWidth
-                  name="password"
-                  label="Password"
-                  type="password"
-                  id="password"
-                  autoComplete="current-password"
-                  onChange={setPassword}
                 />
               </Grid>
             </Grid>
