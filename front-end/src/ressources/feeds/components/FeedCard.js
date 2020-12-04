@@ -27,8 +27,8 @@ export const FeedCard = ({feed}) => {
     }
 
     const getText = (content) => {
-        let startOfContent = content.indexOf("<p>") + 3;
-        let endOfContent = content.indexOf("</p>") - startOfContent;
+        let startOfContent = content.indexOf("<p>") + 11;
+        let endOfContent = content.indexOf("</p>") - (startOfContent+9);
         let text = content.substr(startOfContent, endOfContent);
 
         return text;
@@ -67,7 +67,7 @@ export const FeedCard = ({feed}) => {
 
             <CardActions>
                 <Button size="small" href={feed.link}>
-                    En savoir plus
+                    To Know More
                 </Button>
             </CardActions>
             
