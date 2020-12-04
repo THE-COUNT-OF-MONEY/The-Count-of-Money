@@ -7,7 +7,7 @@ import {Currencies} from './ressources/currencies/CurrenciesWidget'
 import {Feeds} from './ressources/feeds/FeedsWidget'
 import Navbar from "./components/Navbar";
 import { Grid } from "@material-ui/core";
-import Users from "./ressources/Users/UsersWidget"
+import Users from "./ressources/Users/Users"
 
 import { UserProvider } from "./context/userContext";
 
