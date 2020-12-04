@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-import { MuiThemeProvider, createMuiTheme } from '@material-ui/core'
 import firebase from 'firebase'
 import { grey } from '@material-ui/core/colors';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core'
 
 <script src="https://www.gstatic.com/firebasejs/8.0.2/firebase-app.js"></script>
 

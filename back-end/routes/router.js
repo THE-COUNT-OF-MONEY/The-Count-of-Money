@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const userRoutes = require('./user.js')
+const authRoutes = require('./auth.js');
 
 router
     .route('/users')
@@ -17,15 +18,15 @@ router
 
 router
     .route('/users/login')
-    .post(userRoutes.login)
+    .post(authRoutes.login)
 
 router
     .route('/users/logout')
-    .post(userRoutes.logout)
+    .post(authRoutes.logout)
 
 router
     .route('/users/auth/:provider')
-    .get();
+    .get(authRoutes.loginWithProvider);
 
 router
     .route('/users/auth/:provider/callback')

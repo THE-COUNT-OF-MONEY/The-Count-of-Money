@@ -6,10 +6,16 @@ const axiosInstance = Axios.create({
     baseURL: "http://localhost:8000",
     headers: {
         'Content-Type': 'application/json',
-        'authorization': localStorage.token ?? ''
     }
 })
 
+axiosInstance.interceptors.request.use(function (config) {
+    config.headers.authorization = localStorage.getItem('token')
+    return config;
+  }, function (error) {
+    return Promise.reject(error);
+});
+  
 const apiRequest = {
     get(url, config) {
         return axiosInstance.get(url, config)
@@ -32,12 +38,6 @@ export const Api = {
             apiRequest.post('/users/login', userData)
                 .then((res) => {
                     let token = res.data.content.token;
-                    localStorage.setItem("token", token);
-                    
-                    axiosInstance.headers = {
-                        'Content-Type': 'application/json',
-                        'authorization': token
-                    }
                     resolve(token);
                 }).catch((error) => {
                     console.log('error: ', error.response);
@@ -46,6 +46,36 @@ export const Api = {
         })            
     },
     
+    getGoogleToken() {
+        var provider = new firebase.auth.GoogleAuthProvider();
+
+        return firebase.auth().signInWithPopup(provider)
+            .then(function(googleUser) {
+                // const token = googleUser.token
+                const token = googleUser.credential.idToken;
+
+                return token;
+                // redirect to dashboard
+            })
+            .catch(function(error){
+                console.log(error)
+            })
+    },
+
+    signInWithProvider(provider) {
+        const url = '/users/auth/' + provider;
+
+        return new Promise((resolve) => {
+            apiRequest.get(url)
+                .then((res) => {
+                    resolve(res)
+                }).catch((error) => {
+                    resolve(false);
+                });
+        })
+
+    },
+
     register(userData) {
         return new Promise((resolve) =>{
             apiRequest.post('/users/register', userData)
@@ -56,18 +86,6 @@ export const Api = {
                     resolve(error.response.data.message);
                 });
         })
-    },
-    
-    signInWithGoogle() {
-        var provider = new firebase.auth.GoogleAuthProvider();
-
-        firebase.auth().signInWithPopup(provider)
-            .then(function(googleUser) {
-                // redirect to dashboard
-            })
-            .catch(function(error){
-                console.log(error)
-            })
     },
 
     getCurrencies() {

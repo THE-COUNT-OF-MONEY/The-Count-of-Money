@@ -37,17 +37,20 @@ exports.getDocument = async function (collectionName, id) {
 
     if (collectionRef === undefined)
         return undefined;
-    
+
     const document = collectionRef.doc(id)
     let data = undefined;
 
-    await document.get().then((snapshot) => {
-        data = snapshot.data();
-        if (data !== undefined)
-            data.id = snapshot.id;
-    });
-
-    return data;
+    return document.get()
+        .then((snapshot) => {
+            data = snapshot.data();
+            if (data !== undefined)
+                data.id = snapshot.id;
+            return data;
+        })
+        .catch((e) => {
+            return undefined
+        });
 }
 
 exports.getDocuments = async function (collectionName, ids) {
@@ -190,5 +193,32 @@ exports.verifyToken = async function (token) {
         })
         .catch((error) => {
             return undefined;
+        })
+}
+
+exports.signInWithGoogle = async function (idToken) {
+    let credential = firebase.auth.GoogleAuthProvider.credential(idToken)
+    
+    return firebase.auth().signInWithCredential(credential)
+        .then(async (googleUser) => {
+            const id = googleUser.uid;
+            const user = await this.getDocument('Users', id);
+
+            if (user === undefined) {
+                const names = googleUser.displayName.split(' ');
+                const data = {
+                    "email": googleUser.email,
+                    "firstname": names[0] ?? "",
+                    "lastname": names[1] ?? "",
+                    "role": "ROLE_USER"
+                }
+                this.newDocumentWithId("Users", data, id);
+            }
+
+            return this.generateToken(id);
+        })
+        .catch((error) => {
+            console.log("An error occur in signInWithGoogle:\n", error)
+            return false;
         })
 }
