@@ -91,5 +91,16 @@ export const Api = {
                     resolve(error.response.data.message);
                 });
         })
+    },
+
+    getUsers() {
+        return new Promise((resolve) =>{
+            apiRequest.get('/users')
+                .then((res) => {
+                    resolve(res);
+                }).catch((error) => {
+                    resolve(error.response.data.message);
+                });
+        })
     }
 }

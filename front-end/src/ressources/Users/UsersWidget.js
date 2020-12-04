@@ -1,6 +1,6 @@
 import React from "react"
 import { useState, useEffect } from 'react';
-//import { Api } from "../../services/Api";
+import { Api } from "../../services/Api";
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -44,30 +44,14 @@ export default function Users() {
     useEffect(() => {
 
         const getData = async () => {
-            // let users = await Api.getUsers();
+            const res = await Api.getUsers();
 
-            let users = [
-                {
-                    "email": "toto@gmail.com",
-                    "firstname": "toto",
-                    "lastname": "moto",
-                    "role": "Admin"
-                },
-                {
-                    "email": "yoto@gmail.com",
-                    "firstname": "yoto",
-                    "lastname": "moto",
-                    "role": "User"
-                },
-                {
-                    "email": "John@gmail.com",
-                    "firstname": "john",
-                    "lastname": "Nicolas",
-                    "role": "User"
-                },
-            ]
+            if (res.status === 200) {
+              const users = res.data.content.users;
+              setUsers(users);
+            }
+      
             setIsLoading(false)
-            setUsers(users)
         }
 
         if (isLoading === true)
@@ -86,8 +70,8 @@ export default function Users() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {users.map((row) => (
-            <StyledTableRow key={row.name}>
+          {users.map((row, key) => (
+            <StyledTableRow key={key}>
               <StyledTableCell component="th" scope="row">
                 {row.firstname}
               </StyledTableCell>

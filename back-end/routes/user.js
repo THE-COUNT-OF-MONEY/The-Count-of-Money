@@ -3,13 +3,7 @@ const authService = require('../services/authService.js');
 
 async function getAllUsers(req, res)
 {
-    const authorization = req.headers.authorization;
-    const user = await authService.getUserFromAuthorization(authorization);
-
-    if (user === undefined)
-        return res.status(400).send({message: 'Error user is not logged.'})
-
-    const users = userService.findAll();
+    const users = await userService.findAll();
 
     const response = {
         'message': "Users successfully gotten",

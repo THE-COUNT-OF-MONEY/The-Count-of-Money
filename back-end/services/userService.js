@@ -24,5 +24,6 @@ module.exports = {
     find,
     create,
     update,
-    remove
+    remove,
+    findAll
 }
