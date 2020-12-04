@@ -11,6 +11,7 @@ import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import CloseIcon from '@material-ui/icons/Close';
 import { TextField } from '@material-ui/core';
 import { Button} from "@material-ui/core";
+import { Api } from "../../services/Api";
 
 const useStyles = makeStyles(theme => ({
     pageContent: {
@@ -80,30 +81,14 @@ export default function Users() {
     useEffect(() => {
 
         const getData = async () => {
-            // let users = await Api.getUsers();
+            const res = await Api.getUsers();
 
-            let users = [
-                {
-                    "email": "toto@gmail.com",
-                    "firstname": "toto",
-                    "lastname": "moto",
-                    "role": "Admin"
-                },
-                {
-                    "email": "yoto@gmail.com",
-                    "firstname": "yoto",
-                    "lastname": "moto",
-                    "role": "User"
-                },
-                {
-                    "email": "John@gmail.com",
-                    "firstname": "john",
-                    "lastname": "Nicolas",
-                    "role": "User"
-                },
-            ]
+            if (res.status === 200) {
+                const users = res.data.content.users;
+                setUsers(users);
+            }
+        
             setIsLoading(false)
-            setUsers(users)
         }
 
         if (isLoading === true)
@@ -116,7 +101,7 @@ export default function Users() {
     }
 
     return (
-        <>
+        <div>
             <Paper className={classes.pageContent}>
 
                 <Toolbar>
@@ -176,6 +161,6 @@ export default function Users() {
                     recordForEdit={recordForEdit}
                     addOrEdit={addOrEdit} />
             </Popup>
-        </>
+        </div>
     )
 }
