@@ -84,7 +84,6 @@ class CurrencyController {
     myres = await CryptoDb.getall();
     // myres.then(function(doc) {
     if (myres.length != 0) {
-      console.log('Document data:', myres);
       res.status(200).send(myres);
     } else {
       console.log('No such document!');

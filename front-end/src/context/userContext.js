@@ -17,16 +17,19 @@ export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(userData);
 
   useEffect(() => {
+
     const updateUserContext = async () => {
       const response = await Api.getProfile();
   
       if (response.status === 200 && response.data && response.data.content) {
-        setUser(response.data.content.user);
+        const userGotten = response.data.content.user
+        setUser(userGotten);
       }
     }
 
-    if (localStorage.token && userData.role === "")
+    if (localStorage.token && user.role === ""){
       updateUserContext();
+    }
   })
 
   return (

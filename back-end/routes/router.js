@@ -1,64 +1,72 @@
 const express = require('express');
 const router = express.Router();
-const userRoutes = require('./userRoutes.js');
-const currenciesRoutes = require('./currenciesRoutes.js');
-const cryptosbankRoutes = require('./cryptosbankRoutes.js');
-const settingTabRoutes = require('./settingsRoutes.js');
 
-// User Call
-router
-  .route('/users/profile')
-  .get(userRoutes.getProfile)
-  .put(userRoutes.editProfile);
-router.route('/users/register').post(userRoutes.register);
-router.route('/users/login').post(userRoutes.login);
-router.route('/users/logout').post(userRoutes.logout);
-router.route('/users/auth/:provider').get();
-router.route('/users/auth/:provider/callback').get();
+const authFunctions = require('./authRoutes.js');
+const userFunctions = require('./userRoutes.js');
+const currenciesFunctions = require('./currenciesRoutes.js');
+const cryptosBankFunctions = require('./cryptosbankRoutes.js');
+const settingFunctions = require('./settingsRoutes.js');
 
-const user = require('./user.js');
-const auth = require('./auth.js');
+const none = () => {}
 
-router.route('/users').get(user.getAllUsers);
 
-router.route('/users/profile').get(user.getProfile).put(user.editProfile);
 
-// Currencies General
-router.route('/currencies/setAll').get(currenciesRoutes.setAll); // Appel pour syncro les cryptos via api externe
-router.route('/currencies/getAll').get(currenciesRoutes.getAllCrypto); // Appel pour syncro les cryptos via api externe
-router
-  .route('/currencies/getOneCrypto/:CurId')
-  .get(currenciesRoutes.getOneCrypto);
-router
-  .route('/currencies/getOneCrypto/:CurId')
-  .delete(currenciesRoutes.deleteOneCryptoDocument);
-router.route('/users/register').post(user.register);
+const setupRoutes = (routes) => {
+  // Basic route format : { path: string, method: 'GET' || 'POST' || 'PUT' || 'DELETE', bind: function }
+  routes.forEach(route => {
+      if (route.method === 'GET')
+        router.route(route.path).get(route.bind)
+      if (route.method === 'POST')
+        router.route(route.path).post(route.bind)
+      if (route.method === 'PUT')
+        router.route(route.path).put(route.bind)
+      if (route.method === 'DELETE')
+        router.route(route.path).delete(route.bind)
+  });
+}
 
-router
-  .route('/users/login')
+// User Routes
+const userRoutes = new Array(
+  { path: '/users', method: 'GET', bind: userFunctions.getAllUsers },
+  { path: '/users/profile', method: 'GET', bind: userFunctions.getProfile },
+  { path: '/users/profile', method: 'PUT', bind: userFunctions.editProfile },
+  { path: '/users/register', method: 'POST', bind: userFunctions.register }
+)
+  
+// Auth Routes
+const authRoutes = new Array(
+  { path: '/users/login', method: 'POST', bind: authFunctions.login },
+  { path: '/users/logout', method: 'POST', bind: authFunctions.logout },
+  { path: '/users/auth/:provider', method: 'GET', bind: authFunctions.loginWithProvider },
+  { path: '/users/auth/:provider/callback', method: 'GET', bind: none },
+)
 
-  .post(auth.login);
+// Currencies Routes
+const currenciesRoutes = new Array(
+  { path: '/currencies/refresh', method: 'GET', bind: currenciesFunctions.setAll },
+  { path: '/currencies', method: 'GET', bind: currenciesFunctions.getAllCrypto },
+  { path: '/currencies/:CurId', method: 'GET', bind: currenciesFunctions.getOneCrypto },
+  { path: '/currencies/:CurId', method: 'DELETE', bind: currenciesFunctions.deleteOneCryptoDocument },
+)
 
-//Crypto Bank
-router
-  .route('/currencies/getAllCryptos/:UserId')
-  .get(cryptosbankRoutes.getAllhisCryptos);
-router
-  .route('/currencies/getOneCryptos/:UserId/:CurrId')
-  .get(cryptosbankRoutes.getOneCryptos);
-router.route('/users/logout').post(auth.logout);
+// Crypto Bank
+const cryptoBankRoutes = new Array(
+  { path: '/users/:UserId/currencies', method: 'GET', bind: cryptosBankFunctions.getAllhisCryptos },
+  { path: '/users/:UserId/currencies/:CurrId', method: 'GET', bind: cryptosBankFunctions.getOneCryptos },
+  { path: '/users/:UserId/currencies/:CurrId', method: 'PUT', bind: cryptosBankFunctions.setOneCrypto },
+  { path: '/users/:UserId/currencies/:CurrId', method: 'DELETE', bind: cryptosBankFunctions.deleteOneCrypto },
+)
 
-router.route('/users/auth/:provider').get(auth.loginWithProvider);
+// Settings
+const settingsRoutes = new Array(
+  { path: '/settings/:UserId', method: 'PUT', bind: settingFunctions.update },
+  { path: '/settings/:UserId', method: 'GET', bind: settingFunctions.getSettings },
+)
 
-router
-  .route('/currencies/setOneCryptos/:UserId/:CurrId')
-  .get(cryptosbankRoutes.setOneCrypto);
-router
-  .route('/currencies/deleteOneCryptos/:UserId/:CurrId')
-  .delete(cryptosbankRoutes.deleteOneCrypto);
-
-// Settings Tab
-router.route('/settings/:UserId').put(settingTabRoutes.update);
-router.route('/settings/:UserId').get(settingTabRoutes.getSettings);
+setupRoutes(userRoutes)
+setupRoutes(authRoutes)
+setupRoutes(currenciesRoutes)
+setupRoutes(settingsRoutes)
+setupRoutes(cryptoBankRoutes)
 
 module.exports = router;

@@ -7,58 +7,54 @@ import Register from './components/Register';
 import { UserContext } from './context/userContext';
 import { Currencies } from './ressources/currencies/CurrenciesWidget';
 import { Feeds } from './ressources/feeds/FeedsWidget';
+import Users from './ressources/Users/Users';
 
 export const Routes = () => {
     const {user} = useContext(UserContext);
-
     const routes = [
         {
             path: '/',
-            component: Currencies,
+            widget: Currencies,
             role: ['', 'ROLE_USER', 'ROLE_ADMIN']
         },
         {
             path: '/feeds',
-            component: Feeds,
+            widget: Feeds,
             role: ['', 'ROLE_USER', 'ROLE_ADMIN']
         },
         {
             path: '/login',
-            component: Login,
+            widget: Login,
             role: ['']
         },
         {
             path: '/register',
-            component: Register,
+            widget: Register,
             role: ['']
         },
         {
             path: '/profile',
-            component: Profile,
-            role: ['ROLE_USER', 'ROLE_ADMIN']
+            widget: Profile,
+            role: ['', 'ROLE_USER', 'ROLE_ADMIN']
         },
         {
             path: '/users',
-            component: Profile,
-            role: ['ROLE_ADMIN']
+            widget: Users,
+            role: ['', 'ROLE_USER', 'ROLE_ADMIN']
         },
     ]
 
     return (
         <div>
-            <Switch>
-                {
-                    routes.map((route, key) => {
-                        if (route.role.includes(user.role)) {
-                            return  <Route exact path={route.path} component={route.component} key={key}/>
-                        } else {
-                            return <div></div>
-                        }
-                    })
-                }
-                <Route exact path="*" component={NotFound}/>
-
-            </Switch>
+            {
+                routes.map((route, key) => {
+                    if (route.role.includes(user.role)) {
+                        return  <Route exact path={route.path} component={route.widget} key={key}/>
+                    } else {
+                        return <div key={key}></div>
+                    }
+                })
+            }
         </div>
 
     )

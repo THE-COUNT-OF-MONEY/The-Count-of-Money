@@ -37,6 +37,9 @@ const useStyles = makeStyles((theme) => ({
 
 
 export const Profile = () => {
+
+
+    console.log("inside profile bruh")
     const { user } = useContext(UserContext);
     const [email, setEmail] = useState(user.email);
     const [firstname, setFirstname] = useState(user.firstname);

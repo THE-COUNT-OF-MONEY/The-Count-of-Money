@@ -90,9 +90,10 @@ export const Api = {
 
     getCurrencies() {
         return new Promise((resolve) =>{
-            apiRequest.get('/currency/getAllCrypto')
+            apiRequest.get('/currencies')
                 .then((res) => {
-                    return res;
+                    console.log("here: ", res)
+                    resolve(res);
                 }).catch((error) => {
                     resolve(error.response.data.message);
                 });
