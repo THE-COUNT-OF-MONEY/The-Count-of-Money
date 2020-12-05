@@ -92,7 +92,7 @@ export const Api = {
         return new Promise((resolve) =>{
             apiRequest.get('/currency/getAllCrypto')
                 .then((res) => {
-                    console.log(res)
+                    return res;
                 }).catch((error) => {
                     resolve(error.response.data.message);
                 });
@@ -111,13 +111,14 @@ export const Api = {
     },
 
     putProfile(userData) {
+
+        console.log("user: ", userData)
         return new Promise((resolve) =>{
             apiRequest.put('/users/profile', userData)
                 .then((res) => {
-                    resolve('updated');
-                    
+                    resolve(true);
                 }).catch((error) => {
-                    resolve(error.response.data.message);
+                    resolve(false);
                 });
         })
     },

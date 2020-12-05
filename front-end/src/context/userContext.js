@@ -6,7 +6,29 @@ import firebase from 'firebase'
 export const UserContext = React.createContext();
 
 export const UserProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+
+  const userData = {
+    firstname: "",
+    lastname: "",
+    email: "",
+    role: ""
+  }
+
+  const [user, setUser] = useState(userData);
+
+  useEffect(() => {
+    const updateUserContext = async () => {
+
+      const response = await Api.getProfile();
+  
+      if (response.status === 200 && response.data && response.data.content) {
+        setUser(response.data.content.user);
+      }
+    }
+
+    if (localStorage.token)
+      updateUserContext();
+  })
 
   return (
     <UserContext.Provider value={{ user, setUser }}>{children}</UserContext.Provider>

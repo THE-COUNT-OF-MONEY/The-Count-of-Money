@@ -93,7 +93,7 @@ export const Navbar = () => {
 
                   {/*   DISPLAY PROFILE BUTTON IF LOGIN   */}
                   {
-                    user &&
+                    user.role !== "" &&
                     <Grid item>
                       <Button
                           color="inherit"
@@ -109,7 +109,7 @@ export const Navbar = () => {
 
                   {/*   ADMINS BUTTON IF LOGIN    */}
                   {
-                    (user && user.role == "ROLE_ADMIN") &&
+                    (user.role == "ROLE_ADMIN") &&
                       <Grid item>
                         <Button color="inherit" component={Link} to={"/users"} className={classes.menuButton}>Users</Button>
                       </Grid>
@@ -120,7 +120,7 @@ export const Navbar = () => {
 
                 {/*    START RIGHTS APP BUTTONS     */}
                 {
-                    user === null &&
+                    user.role === ""  &&
                       <Grid container justify="flex-end" direction="row"  item xs={4}>
                         <Button color="inherit" component={Link} to={"/login"} className={classes.menuButton}>Login</Button>
                         <Button color="inherit" component={Link} to={"/register"} className={classes.menuButton}>Register</Button>
@@ -128,7 +128,7 @@ export const Navbar = () => {
                 }
 
                 {
-                  user &&
+                  user.role !== "" &&
                       <Grid container justify="flex-end" direction="row"  alignItems="center" item xs={4}>
 
                           <Grid item style={{textAlign: "center"}}>

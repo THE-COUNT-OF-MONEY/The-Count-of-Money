@@ -42,8 +42,7 @@ export const Profile = () => {
     const [firstname, setFirstname] = useState(user.firstname);
     const [lastname, setLastname] = useState(user.lastname);
     const [readOnly, setReadOnly] = useState(true);
-    const [error, setError] = useState("");
-    const history = useHistory();
+    const [error, setError] = useState('');
     const classes = useStyles();
 
     const isDisabled = () => {
@@ -56,14 +55,31 @@ export const Profile = () => {
         setReadOnly(!readOnly)
     }
 
+    const onEmailChange = (e) => {
+      setEmail(e.target.value);
+    }
+    
+    const onFirstnameChange = (e) => {
+      setFirstname(e.target.value);
+    }
+
+    const onLastnameChange = (e) => {
+      setLastname(e.target.value);
+    }
+
     const putProfile = () => {
         if (firstname && lastname && email) {
-          let data = {'firstname' : firstname, 'lastname': lastname, 'email': email}
+          let data = {
+            'firstname': firstname,
+            'lastname': lastname,
+            'email': email
+          }
 
           Api.putProfile(data)
             .then((result) => {
-                if (result === 'updated') {
-                    history.push('/profile')
+                console.log("result:", result)
+                if (result) {
+                  switchReadOnly()
                 } else {
                     setError('Error during modification')
                 }
@@ -82,6 +98,7 @@ export const Profile = () => {
       }
       else return '';
     }
+
     return (
       <Container component="main" maxWidth="xs">
         <CssBaseline />
@@ -102,7 +119,7 @@ export const Profile = () => {
                   fullWidth
                   id="firstname"
                   label="First Name"
-                  onChange={setFirstname}
+                  onChange={onFirstnameChange}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -116,7 +133,7 @@ export const Profile = () => {
                   label="Last Name"
                   name="lastname"
                   autoComplete="lname"
-                  onChange={setLastname}
+                  onChange={onLastnameChange}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -130,7 +147,7 @@ export const Profile = () => {
                   label="Email Address"
                   name="email"
                   autoComplete="email"
-                  onChange={setEmail}
+                  onChange={onEmailChange}
                 />
               </Grid>
             </Grid>
