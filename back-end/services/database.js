@@ -323,5 +323,84 @@ module.exports = {
       dataretrn.push(tmp);
     });
     return dataretrn;
+  },
+  async getOneSettingDocument(collectionName, id) {
+    // const collectionRef = db.collection(collectionName);
+    // if (collectionRef === undefined) return undefined;
+    const db = firebase.firestore();
+    const collectionRef = db.collection(collectionName);
+    let object = [];
+
+    if (collectionRef === undefined) return undefined;
+
+    const document = collectionRef.doc(id);
+    let data = undefined;
+
+    await document.get().then((snapshot) => {
+      data = snapshot.data();
+      if (data !== undefined) data.id = snapshot.id;
+    });
+
+    if (data.role == 'ROLE_ADMIN') {
+      const settingsRef = db.collection('Settings').doc('config');
+      const doc = await settingsRef.get();
+      if (!doc.exists) {
+        let settingData = {
+          cryptoLimit: 0,
+          feedLimit: 0
+        };
+        object.push(await settingsRef.set(settingData));
+        console.log('No such document!');
+      } else {
+        object.push(doc.data());
+        console.log('Document data:', doc.data());
+      }
+    }
+    return object;
+  },
+  async updateOneSettingDocument(collectionName, id, params) {
+    const db = firebase.firestore();
+    const collectionRef = db.collection(collectionName);
+    let object = [];
+
+    if (collectionRef === undefined) return undefined;
+
+    const document = collectionRef.doc(id);
+    let data = undefined;
+
+    await document.get().then((snapshot) => {
+      data = snapshot.data();
+      if (data !== undefined) data.id = snapshot.id;
+    });
+
+    if (data.role == 'ROLE_ADMIN') {
+      const settingsRef = db.collection('Settings').doc('config');
+      const doc = await settingsRef.get();
+      if (!doc.exists) {
+        let settingData = {
+          cryptoLimit: params.cryptoLimit,
+          feedLimit: params.feedLimit
+        };
+        await settingsRef.set(settingData).then(function () {
+          console.log('No such document! But initalised now', settingData);
+        });
+      } else {
+        let settingData = {
+          cryptoLimit: params.cryptoLimit,
+          feedLimit: params.feedLimit
+        };
+        await settingsRef.set(settingData).then(function () {
+          object.push(doc.data());
+          console.log('Document data:', doc.data());
+          settingsRef.get().then(function (sedata) {
+            console.log(
+              "If well saved it wouldn't be empty -->",
+              sedata.data()
+            );
+          });
+        });
+      }
+    }
+    return object;
   }
 };
