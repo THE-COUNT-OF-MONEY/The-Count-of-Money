@@ -5,6 +5,10 @@ const user = require('./user.js')
 const auth = require('./auth.js')
 
 router
+    .route('/users')
+    .get(user.getAllUsers)
+    
+router
     .route('/users/profile')
     .get(user.getProfile)
     .put(user.editProfile)
@@ -15,6 +19,7 @@ router
 
 router
     .route('/users/login')
+
     .post(auth.login)
 
 router

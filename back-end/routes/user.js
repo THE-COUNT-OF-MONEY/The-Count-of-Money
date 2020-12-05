@@ -1,6 +1,19 @@
 const userService = require('../services/userService.js')
 const authService = require('../services/authService.js');
 
+async function getAllUsers(req, res)
+{
+    const users = await userService.findAll();
+
+    const response = {
+        'message': "Users successfully gotten",
+        'content': {
+            'users': users,
+        }
+    }
+    return res.status(200).send(response);
+}
+
 async function getProfile(req, res)
 {
     const authorization = req.headers.authorization;
@@ -74,6 +87,7 @@ async function register(req, res)
 }
 
 module.exports = {
+    getAllUsers,
     getProfile,
     editProfile,
     register,

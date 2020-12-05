@@ -1,4 +1,4 @@
-import React from 'react';
+import {React, useContext} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -9,8 +9,16 @@ import MenuIcon from '@material-ui/icons/Menu';
 import { Link } from 'react-router-dom';
 import { Grid } from '@material-ui/core';
 
+import { UserContext } from "../context/userContext";
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import {Api} from '../services/Api';
+
 const useStyles = makeStyles((theme) => ({
   root: {
+    padding: theme.spacing(3, 2),
+    height: 100,
+    display: "flex",
+    justifyContent: "center"
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -23,51 +31,121 @@ const useStyles = makeStyles((theme) => ({
 const navigationItems = [
     {
         'url': "/",
-        'label': "Crypto Monnaies",
-        'index': 0
+        'label': "Cryptos",
     },
     {
         'url': "/feeds",
-        'label': "Articles",
-        'index': 1
+        'label': "Feeds",
     },
 ]
 
 export const Navbar = () => {
   const classes = useStyles();
+  const { user } = useContext(UserContext);
+
+  const logout = async () => {
+    const result = await Api.logout();
+    window.location.reload();
+    return true
+  }
 
   return (
-    <div className={classes.root}>
-      <AppBar position="static" width="100%">
+    <div>
+      <AppBar position="static" width="100%" className={classes.root}>
         <Toolbar>
 
-                <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-                    <MenuIcon />
-                </IconButton>
-                <Typography variant="h6" className={classes.title}>
-                    Count of Money
-                </Typography>
+              <Grid container justify="flex-start" alignItems="center" item xs={4}>
+                <Grid item >
+                  <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+                      <MenuIcon />
+                  </IconButton>
+                </Grid>
 
-                <Grid container item xs={2}></Grid>
+                <Grid item >
+                  <Typography variant="h6" className={classes.title}>
+                      CountOfMoney
+                  </Typography>
+                </Grid>
+              </Grid>
+
+
+                {/*    START MIDDLE APP BUTTONS     */}
+                <Grid container justify="center" item xs={4}>
+
+                  {/*   COMMONS BUTTON    */}
+                  {
+                      navigationItems.map((navigationItem, key) => {
+                          return (
+                              <Grid item key={key}>
+                                <Button
+                                    color="inherit"
+                                    className={classes.menuButton}
+                                    component={Link}
+                                    to={navigationItem.url}
+                                    key={key}
+                                >
+                                    {navigationItem.label}
+                                </Button>
+                              </Grid>
+                          )
+                      })
+                  }
+
+                  {/*   DISPLAY PROFILE BUTTON IF LOGIN   */}
+                  {
+                    user.role !== "" &&
+                    <Grid item>
+                      <Button
+                          color="inherit"
+                          className={classes.menuButton}
+                          component={Link}
+                          to={"/profile"}
+                      >
+                          Profile
+                      </Button>
+                    </Grid>
+
+                  }
+
+                  {/*   ADMINS BUTTON IF LOGIN    */}
+                  {
+                    (user.role == "ROLE_ADMIN") &&
+                      <Grid item>
+                        <Button color="inherit" component={Link} to={"/users"} className={classes.menuButton}>Users</Button>
+                      </Grid>
+                  }
+                </Grid>
+                {/*    END OF MIDDLE APP BUTTONS     */}
+
+
+                {/*    START RIGHTS APP BUTTONS     */}
                 {
-                    navigationItems.map((navigationItem, key) => {
-                        return (
-                            <Button
-                                color="inherit"
-                                className={classes.menuButton}
-                                component={Link}
-                                to={navigationItem.url}
-                                key={key}
-                            >
-                                {navigationItem.label}
-                            </Button>
-                        )
-                    })
+                    user.role === ""  &&
+                      <Grid container justify="flex-end" direction="row"  item xs={4}>
+                        <Button color="inherit" component={Link} to={"/login"} className={classes.menuButton}>Login</Button>
+                        <Button color="inherit" component={Link} to={"/register"} className={classes.menuButton}>Register</Button>
+                      </Grid>
                 }
-                <Grid container item xs={4}></Grid>
-                <Button color="inherit" component={Link} to={"/users"} className={classes.menuButton}>Users</Button>
-                <Button color="inherit" component={Link} to={"/login"} className={classes.menuButton}>Login</Button>
-                <Button color="inherit" component={Link} to={"/register"} className={classes.menuButton}>Register</Button>
+
+                {
+                  user.role !== "" &&
+                      <Grid container justify="flex-end" direction="row"  alignItems="center" item xs={4}>
+
+                          <Grid item style={{textAlign: "center"}}>
+                            <Typography variant="h6">
+                              {user.firstname + ' ' + user.lastname }
+                            </Typography>
+                          </Grid>
+                          <Grid item style={{textAlign: "center"}}>
+                            <IconButton className={classes.menuButton} color="inherit" aria-label="menu" onClick={logout}>
+                              <ExitToAppIcon />
+                            </IconButton>
+                          </Grid>
+
+                      </Grid>
+                }
+                {/*    END RIGHTS APP BUTTONS     */}
+
         </Toolbar>
       </AppBar>
     </div>

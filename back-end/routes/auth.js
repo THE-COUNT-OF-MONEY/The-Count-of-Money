@@ -31,20 +31,19 @@ async function loginWithProvider(req, res)
     if (providers.includes(provider) === false)
         return res.status(400).send({'message': 'Unkown provider.'})
     
-    const token = req.query.token;
+    const token = req.headers.authorization;
 
     if (token === undefined)
         return res.status(400).send({'message': 'The token is missing in query.'})
 
-    const status = await authService.googleAuth(token)
+    const result = await authService.googleAuth(token)
 
-    if (status === false)
+    if (result === false)
         return res.status(400).send({'message': 'Oauth2 for provider ' + provider + ' failed.'})
 
-    
     const response = {
         'content': {
-            'token': token
+            'token': result
         },
         'message': 'OAuth2 successfully done.'
     }

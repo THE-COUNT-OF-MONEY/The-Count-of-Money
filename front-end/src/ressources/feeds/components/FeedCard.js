@@ -27,8 +27,8 @@ export const FeedCard = ({feed}) => {
     }
 
     const getText = (content) => {
-        let startOfContent = content.indexOf("<p>") + 3;
-        let endOfContent = content.indexOf("</p>") - startOfContent;
+        let startOfContent = content.indexOf("<p>") + 11;
+        let endOfContent = content.indexOf("</p>") - (startOfContent+9);
         let text = content.substr(startOfContent, endOfContent);
 
         return text;
@@ -37,11 +37,6 @@ export const FeedCard = ({feed}) => {
     const getLink = (content) => {
         let startOfContent = content.indexOf("href=") + 6
         let split = content.slice(startOfContent);
-
-        console.log(content)
-        console.log("split here: ", split);
-
-        
         let endOfContent = split.indexOf('">');
 
         return split.substr(0, endOfContent);
@@ -50,7 +45,6 @@ export const FeedCard = ({feed}) => {
     feed.picture = getPicture(feed.content)
     feed.text = getText(feed.content)
     feed.link = getLink(feed.content)
-
 
     return (
         <div>
@@ -73,7 +67,7 @@ export const FeedCard = ({feed}) => {
 
             <CardActions>
                 <Button size="small" href={feed.link}>
-                    En savoir plus
+                    To Know More
                 </Button>
             </CardActions>
             
