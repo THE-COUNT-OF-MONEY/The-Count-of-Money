@@ -11,6 +11,10 @@ async function findnoerror(userId) {
   return await database.getOneUserNoError('Users', userId);
 }
 
+function findAll() {
+  return database.getCollection('Users');
+}
+
 function create(data) {
   return database.newUser(data);
 }

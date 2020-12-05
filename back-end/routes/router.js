@@ -16,6 +16,13 @@ router.route('/users/logout').post(userRoutes.logout);
 router.route('/users/auth/:provider').get();
 router.route('/users/auth/:provider/callback').get();
 
+const user = require('./user.js');
+const auth = require('./auth.js');
+
+router.route('/users').get(user.getAllUsers);
+
+router.route('/users/profile').get(user.getProfile).put(user.editProfile);
+
 // Currencies General
 router.route('/currencies/setAll').get(currenciesRoutes.setAll); // Appel pour syncro les cryptos via api externe
 router.route('/currencies/getAll').get(currenciesRoutes.getAllCrypto); // Appel pour syncro les cryptos via api externe
@@ -25,6 +32,12 @@ router
 router
   .route('/currencies/getOneCrypto/:CurId')
   .delete(currenciesRoutes.deleteOneCryptoDocument);
+router.route('/users/register').post(user.register);
+
+router
+  .route('/users/login')
+
+  .post(auth.login);
 
 //Crypto Bank
 router
@@ -33,6 +46,10 @@ router
 router
   .route('/currencies/getOneCryptos/:UserId/:CurrId')
   .get(cryptosbankRoutes.getOneCryptos);
+router.route('/users/logout').post(auth.logout);
+
+router.route('/users/auth/:provider').get(auth.loginWithProvider);
+
 router
   .route('/currencies/setOneCryptos/:UserId/:CurrId')
   .get(cryptosbankRoutes.setOneCrypto);
