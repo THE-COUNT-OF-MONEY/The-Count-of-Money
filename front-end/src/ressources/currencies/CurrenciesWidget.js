@@ -11,18 +11,13 @@ export const Currencies = () => {
 
     useEffect(() => {
 
-        console.log("passed inside currencies")
-
         const getData = async () => {
             let response = await Api.getCurrencies();
-
-            console.log("response: ", response.data);
             setCurrencies(response.data)
             setIsLoading(false)
         }
 
         if (isLoading === true) {
-            console.log("is loading")
             getData();
         }
     })

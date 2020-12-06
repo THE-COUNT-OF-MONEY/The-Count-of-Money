@@ -107,6 +107,22 @@ export const Navbar = () => {
 
                   }
 
+                  {/*   DISPLAY CyptoBank BUTTON IF LOGIN   */}
+                  {
+                    user.role !== "" &&
+                    <Grid item>
+                      <Button
+                          color="inherit"
+                          className={classes.menuButton}
+                          component={Link}
+                          to={"/CryptoBank"}
+                      >
+                          CyptoBank
+                      </Button>
+                    </Grid>
+
+                  }
+
                   {/*   ADMINS BUTTON IF LOGIN    */}
                   {
                     (user.role === "ROLE_ADMIN") &&

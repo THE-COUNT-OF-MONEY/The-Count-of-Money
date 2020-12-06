@@ -92,8 +92,19 @@ export const Api = {
         return new Promise((resolve) =>{
             apiRequest.get('/currencies')
                 .then((res) => {
-                    console.log("here: ", res)
                     resolve(res);
+                }).catch((error) => {
+                    resolve(error.response.data.message);
+                });
+        })
+    },
+
+    getOneCurrency(currencyID) {
+        const url = '/currencies/' + currencyID
+        return new Promise((resolve) =>{
+            apiRequest.get(url)
+                .then((res) => {
+                    resolve(res.data);
                 }).catch((error) => {
                     resolve(error.response.data.message);
                 });
@@ -161,5 +172,51 @@ export const Api = {
                 }).catch((error) => {
                 });
         })
-    }
+    },
+
+    GetAllUserCryptos(userID) {
+        const url = '/users/' + userID + '/currencies'
+        return new Promise((resolve) =>{
+            var AllCurrencies= [];
+            apiRequest.get(url)
+                .then((res) => {
+                    var CurriencyIds = res.data                    
+                    CurriencyIds.forEach(element => {
+                        this.getOneCurrency(element.currency).then((result) =>{
+                            AllCurrencies.push(result)                                                   
+                        })                        
+                    });                    
+                    resolve(AllCurrencies)
+
+                }).catch((error) => {
+                    resolve(null)
+                });
+        })
+    },
+    AddUserCurrency(userID, CurrencyID) {
+        const url = '/users/'+ userID + '/currencies/' + CurrencyID
+        return new Promise((resolve) =>{
+            apiRequest.put(url)
+                .then((res) => {
+                    console.log(res)
+                    resolve(true)
+
+                }).catch((error) => {
+                    resolve(false)
+                });
+        })
+    },
+    RemoveUserCurrency(userID, CurrencyID) {
+        const url = '/users/'+ userID + '/currencies/' + CurrencyID
+        return new Promise((resolve) =>{
+            apiRequest.delete(url)
+                .then((res) => {
+                    console.log(res)
+                    resolve(true)
+
+                }).catch((error) => {
+                    resolve(false)
+                });
+        })
+    },
 }

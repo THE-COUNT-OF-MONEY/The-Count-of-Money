@@ -1,4 +1,4 @@
-import {React, useContext} from "react"
+import React from "react"
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
@@ -7,8 +7,6 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardMedia from '@material-ui/core/CardMedia';
-import { UserContext } from "../../../context/userContext";
-import { Api } from "../../../services/Api";
 
 const useStyles = makeStyles({
     root: {
@@ -21,22 +19,10 @@ const useStyles = makeStyles({
       }
 });
 
-export const CurrencyCard = ({currency}) => {
-    const { user } = useContext(UserContext);
+export const UserCryptoCard = ({currency}) => {
     const classes = useStyles();
 
     let picture = currency.BaseImageUrl + currency.ImageUrl;
-
-    function handleAddCurrency(){
-        if(user.id != null && currency.id != null)
-        {
-            console.log(user.id)
-            console.log(currency.id)
-            Api.AddUserCurrency(user.id, currency.id).then((result) =>{
-                console.log(result)
-            })
-        }        
-    }
 
     return (
         <Card className={classes.root}>
@@ -58,10 +44,9 @@ export const CurrencyCard = ({currency}) => {
                 <CardActions className={classes.actions}>
                     <Button variant={"contained"}
                             size={"small"}
-                            color={"primary"}
-                            onClick={handleAddCurrency}
+                            color={"secondary"}
                         >
-                        Add
+                        Remove
                     </Button>
                     <Button color="default"
                             variant={"contained"}

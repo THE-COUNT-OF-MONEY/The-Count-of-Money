@@ -13,7 +13,6 @@ export const Feeds = () => {
             const feeds = await Rss.getCryptos();
 
             if (feeds)
-            console.log(feeds)
                 setFeeds(feeds.data.items);
 
             setIsLoading(false);

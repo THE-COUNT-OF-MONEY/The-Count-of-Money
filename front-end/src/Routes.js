@@ -6,6 +6,7 @@ import { Profile } from './components/Profile';
 import Register from './components/Register';
 import { UserContext } from './context/userContext';
 import { Currencies } from './ressources/currencies/CurrenciesWidget';
+import { CryptoBank } from './ressources/currencies/CryptoBankWidget';
 import { Feeds } from './ressources/feeds/FeedsWidget';
 import { Settings } from './ressources/settings/Settings';
 import Users from './ressources/Users/Users';
@@ -41,6 +42,11 @@ export const Routes = () => {
         {
             path: '/profile',
             widget: Profile,
+            role: ['', 'ROLE_USER', 'ROLE_ADMIN']
+        },
+        {
+            path: '/cryptoBank',
+            widget: CryptoBank,
             role: ['', 'ROLE_USER', 'ROLE_ADMIN']
         },
         {
