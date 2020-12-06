@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center"
   },
   menuButton: {
-    marginRight: theme.spacing(2),
+    marginRight: theme.spacing(1),
   },
   title: {
     flexGrow: 1,
@@ -44,7 +44,7 @@ export const Navbar = () => {
   const { user } = useContext(UserContext);
 
   const logout = async () => {
-    const result = await Api.logout();
+    await Api.logout();
     window.location.reload();
     return true
   }
@@ -54,7 +54,7 @@ export const Navbar = () => {
       <AppBar position="static" width="100%" className={classes.root}>
         <Toolbar>
 
-              <Grid container justify="flex-start" alignItems="center" item xs={4}>
+              <Grid container justify="flex-start" alignItems="center" item xs={3}>
                 <Grid item >
                   <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
                       <MenuIcon />
@@ -70,7 +70,7 @@ export const Navbar = () => {
 
 
                 {/*    START MIDDLE APP BUTTONS     */}
-                <Grid container justify="center" item xs={4}>
+                <Grid container justify="center" item xs={6}>
 
                   {/*   COMMONS BUTTON    */}
                   {
@@ -109,11 +109,15 @@ export const Navbar = () => {
 
                   {/*   ADMINS BUTTON IF LOGIN    */}
                   {
-                    (user.role == "ROLE_ADMIN") &&
+                    (user.role === "ROLE_ADMIN") &&
+                    <div>
                       <Grid item>
                         <Button color="inherit" component={Link} to={"/users"} className={classes.menuButton}>Users</Button>
+                        <Button color="inherit" component={Link} to={"/settings"} className={classes.menuButton}>Settings</Button>
                       </Grid>
+                    </div>
                   }
+  
                 </Grid>
                 {/*    END OF MIDDLE APP BUTTONS     */}
 
@@ -121,7 +125,7 @@ export const Navbar = () => {
                 {/*    START RIGHTS APP BUTTONS     */}
                 {
                     user.role === ""  &&
-                      <Grid container justify="flex-end" direction="row"  item xs={4}>
+                      <Grid container justify="flex-end" direction="row"  item xs={3}>
                         <Button color="inherit" component={Link} to={"/login"} className={classes.menuButton}>Login</Button>
                         <Button color="inherit" component={Link} to={"/register"} className={classes.menuButton}>Register</Button>
                       </Grid>
@@ -129,7 +133,7 @@ export const Navbar = () => {
 
                 {
                   user.role !== "" &&
-                      <Grid container justify="flex-end" direction="row"  alignItems="center" item xs={4}>
+                      <Grid container justify="flex-end" direction="row"  alignItems="center" item xs={3}>
 
                           <Grid item style={{textAlign: "center"}}>
                             <Typography variant="h6">

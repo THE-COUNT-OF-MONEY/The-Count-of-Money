@@ -135,6 +135,18 @@ export const Api = {
         })
     },
 
+    getSettings(userId) {
+        const url = '/settings/' + userId;
+        return new Promise((resolve) =>{
+            apiRequest.get(url)
+                .then((res) => {
+                    resolve(res);
+                }).catch((error) => {
+                    resolve(error.response.data.message);
+                });
+        })
+    },
+
     logout() {
         return new Promise((resolve) =>{
             apiRequest.post('/users/logout')

@@ -7,6 +7,7 @@ import Register from './components/Register';
 import { UserContext } from './context/userContext';
 import { Currencies } from './ressources/currencies/CurrenciesWidget';
 import { Feeds } from './ressources/feeds/FeedsWidget';
+import { Settings } from './ressources/settings/Settings';
 import Users from './ressources/Users/Users';
 
 export const Routes = () => {
@@ -16,6 +17,11 @@ export const Routes = () => {
             path: '/',
             widget: Currencies,
             role: ['', 'ROLE_USER', 'ROLE_ADMIN']
+        },
+        {
+            path: '/bank',
+            widget: Currencies,
+            role: ['ROLE_USER']
         },
         {
             path: '/feeds',
@@ -40,7 +46,12 @@ export const Routes = () => {
         {
             path: '/users',
             widget: Users,
-            role: ['', 'ROLE_USER', 'ROLE_ADMIN']
+            role: ['ROLE_ADMIN']
+        },
+        {
+            path: '/settings',
+            widget: Settings,
+            role: ['ROLE_ADMIN']
         },
     ]
 

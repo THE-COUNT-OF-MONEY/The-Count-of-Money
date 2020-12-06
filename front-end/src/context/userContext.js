@@ -27,7 +27,7 @@ export const UserProvider = ({ children }) => {
       }
     }
 
-    if (localStorage.token && user.role === ""){
+    if (localStorage.token && user.role === "") {
       updateUserContext();
     }
   })
