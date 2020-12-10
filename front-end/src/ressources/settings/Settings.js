@@ -13,6 +13,7 @@ import { Api } from '../../services/Api';
 import { parse } from 'querystring';
 import Alert from '@material-ui/lab/Alert';
 import AlertTitle from '@material-ui/lab/AlertTitle';
+import { LimitContext } from '../../context/limitContext';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -38,30 +39,14 @@ const useStyles = makeStyles((theme) => ({
 
 export const Settings = () => {
 
-    const [maxFeeds, setMaxFeeds] = useState(undefined);
-    const [maxCurrencies, setMaxCurrencies] = useState(undefined);
+    const {limit, setLimit} = useContext(LimitContext);
+    const {user} = useContext(UserContext);
+    const [maxFeeds, setMaxFeeds] = useState(limit.feedLimit);
+    const [maxCurrencies, setMaxCurrencies] = useState(limit.cryptoLimit);
     const [readOnly, setReadOnly] = useState(true);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(false);
     const classes = useStyles();
-    const {user} = useContext(UserContext)
-
-    useEffect(() => {
-
-        const getData = async () => {
-            const response = await Api.getSettings(user.id)
-            const data = response.data[0];
-
-            setMaxFeeds(data.feedLimit)
-            setMaxCurrencies(data.cryptoLimit)
-
-            setIsLoading(false)
-        }
-
-        if (isLoading === true) {
-            getData();
-        }
-    })
 
     const onMaxFeedsChange = (e) => {
         setMaxFeeds(e.target.value);
@@ -77,24 +62,24 @@ export const Settings = () => {
         return true;
     }
 
-    const putSettings = () => {
+    const putSettings = async () => {
 
         if (!isPositiveNumber(maxFeeds) || !isPositiveNumber(maxCurrencies)) {
-            console.log("error")
             setError("The numbers must be positive");
             return;
         }
 
-        // const userId = user.id;
+        const data = {
+          feedLimit: parseInt(maxFeeds),
+          cryptoLimit: parseInt(maxCurrencies)
+        }
 
-        // console.log("user: ", user.id);
+        const response = await Api.updateSettings(data);
 
-        // const data = {
-        //     maxFeeds: maxFeeds,
-        //     maxCurrencies: maxCurrencies
-        // }
-        // console.log("data: ", data)
-        setReadOnly(!readOnly)
+        if (response.status === 200) {
+          setLimit(data)
+          setReadOnly(!readOnly)
+        }
     }
       
 

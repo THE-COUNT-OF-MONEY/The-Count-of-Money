@@ -10,7 +10,6 @@ const settingFunctions = require('./settingsRoutes.js');
 const none = () => {}
 
 
-
 const setupRoutes = (routes) => {
   // Basic route format : { path: string, method: 'GET' || 'POST' || 'PUT' || 'DELETE', bind: function }
   routes.forEach(route => {
@@ -59,8 +58,8 @@ const cryptoBankRoutes = new Array(
 
 // Settings
 const settingsRoutes = new Array(
-  { path: '/settings/:UserId', method: 'PUT', bind: settingFunctions.update },
-  { path: '/settings/:UserId', method: 'GET', bind: settingFunctions.getSettings },
+  { path: '/settings', method: 'PUT', bind: settingFunctions.update },
+  { path: '/settings', method: 'GET', bind: settingFunctions.getSettings },
 )
 
 setupRoutes(userRoutes)

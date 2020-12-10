@@ -146,10 +146,23 @@ export const Api = {
         })
     },
 
-    getSettings(userId) {
-        const url = '/settings/' + userId;
+    getSettings() {
+        const url = '/settings';
         return new Promise((resolve) =>{
             apiRequest.get(url)
+                .then((res) => {
+                    resolve(res);
+                }).catch((error) => {
+                    resolve(error.response.data.message);
+                });
+        })
+    },
+
+    updateSettings(data) {
+        const url = '/settings';
+
+        return new Promise((resolve) =>{
+            apiRequest.put(url, data)
                 .then((res) => {
                     resolve(res);
                 }).catch((error) => {

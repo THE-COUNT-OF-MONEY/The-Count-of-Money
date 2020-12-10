@@ -4,6 +4,7 @@ import Navbar from "./components/Navbar";
 import { Grid } from "@material-ui/core";
 import { UserProvider } from "./context/userContext";
 import { Routes } from './Routes';
+import { LimitProvider } from "./context/limitContext";
 
 const App = () => {
   return (
@@ -11,13 +12,14 @@ const App = () => {
       <Grid container direction="column" spacing={2}>
           <Router>
             <UserProvider>
+              <LimitProvider>
 
-              <Grid item>
-                <Navbar></Navbar>
-              </Grid>
+                <Grid item>
+                  <Navbar></Navbar>
+                </Grid>
 
-              <Routes/>
-
+                <Routes/>
+              </LimitProvider>
             </UserProvider>
           </Router>
       </Grid>

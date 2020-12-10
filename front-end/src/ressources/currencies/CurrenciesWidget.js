@@ -1,13 +1,16 @@
-import React from "react"
+import React, { useContext } from "react"
 import Grid from '@material-ui/core/Grid';
 import { useState, useEffect } from 'react';
 import { Api } from "../../services/Api";
 import { CurrencyCard } from './components/CurrenciesCard'
+import { LimitContext } from "../../context/limitContext";
 
 export const Currencies = () => {
   
     const [currencies, setCurrencies] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+
+    const {limit} = useContext(LimitContext);
 
     useEffect(() => {
 
@@ -27,13 +30,14 @@ export const Currencies = () => {
             <Grid container alignItems="flex-start" justify="flex-start" spacing={2}>
                 {
                     currencies.map((currency, key) => {
-                        return(
-                            <Grid item xs={2} key={key} >
-                                <Grid container justify="center">
-                                    <CurrencyCard currency={currency}></CurrencyCard>
+                        if (limit.cryptoLimit && key < limit.cryptoLimit)
+                            return(
+                                <Grid item xs={2} key={key} >
+                                    <Grid container justify="center">
+                                        <CurrencyCard currency={currency}></CurrencyCard>
+                                    </Grid>
                                 </Grid>
-                            </Grid>
-                        )
+                            )
                     })
                 }
             </Grid>
