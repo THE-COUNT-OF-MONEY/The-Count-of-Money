@@ -44,8 +44,8 @@ async function editProfile(req, res)
         return res.status(400).send({message: 'No parameters founded.'})
         
     const data = {
-        'firstname': req.body.firstname ?? user.firstname,
-        'lastname': req.body.lastname ?? user.lastname,
+        'firstname': req.body.firstname,
+        'lastname': req.body.lastname,
     };
     userService.update(user.id, data)
 

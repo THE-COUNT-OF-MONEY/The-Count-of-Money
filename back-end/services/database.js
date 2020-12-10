@@ -205,8 +205,8 @@ exports.signInWithGoogle = async function (idToken) {
         const names = googleUser.displayName.split(' ');
         const data = {
           email: googleUser.email,
-          firstname: names[0] ?? '',
-          lastname: names[1] ?? '',
+          firstname: names[0],
+          lastname: names[1],
           role: 'ROLE_USER'
         };
         this.newDocumentWithId('Users', data, id);
