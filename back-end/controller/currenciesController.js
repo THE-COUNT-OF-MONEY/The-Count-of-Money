@@ -3,11 +3,15 @@
 const https = require('https');
 const request = require('request');
 
+const database = require('../services/database.js'); // c comme ca quon import une klasse
 const { CurrencyService } = require('../services/currencyService.js'); // c comme ca quon import une klasse
 
 let CryptoDb = new CurrencyService();
 
 class CurrencyController {
+
+  constructor() {}
+
   delay() {
     // `delay` returns a promise
     return new Promise(function (resolve, reject) {
@@ -18,189 +22,99 @@ class CurrencyController {
     });
   }
 
-  async pushIt(res, body) {
-    let ObjRes = new Object();
-    let idx = 0;
-    ObjRes = {
-      Cryptos: []
-    };
-    try {
-      await request(
-        'https://min-api.cryptocompare.com/data/all/coinlist',
-        { json: true },
-        (err, newres, body) => {
-          if (err) {
-            //console.log(err);
-            return 'Error api request';
-          }
-          Object.keys(body).forEach((key) => {
-            // console.log(x[body]); // the value of the current key.
-            Object.keys(body[key]).forEach((newkey) => {
-              if (isNaN(newkey.toString()) && idx < 25) {
-                // console.log(body[key][newkey].Id);        // the name of the current key.
-                ObjRes.Cryptos.push({
-                  Id: body[key][newkey].Id,
-                  Name: body[key][newkey].Name,
-                  Description: body[key][newkey].Description,
-                  ImageUrl: body[key][newkey].ImageUrl,
-                  BaseImageUrl: body['BaseImageUrl']
-                });
-                idx++;
-              }
-            });
-          });
-          res.status(200).send(ObjRes);
-        }
-      );
-      await this.delay();
-      return await ObjRes;
-    } catch (e) {
-      res.status(400).send('Error');
-      return 'Error 400 On Api Request';
-      // unpushit();
-      // return ('Error');
-      // next(e);
+  async getHistoDay(limit, symbol, type) {
+    let url = "https://min-api.cryptocompare.com/data/v2/histoday"
+
+    url += '?fsym=' + symbol;
+    url += '&tsym=' + type;
+    url += '&limit=' + limit;
+
+    return new Promise((resolve, reject) => {
+      request(url, { json: true }, (err, newres, body) => {
+
+        if (err)
+          resolve([]);
+
+        resolve(body.Data.Data);
+      })
+    })
+  }
+
+
+  async formatCrypto(crypto, BaseImageUrl) {
+
+    const histoday = await this.getHistoDay(2, crypto.Symbol, "EUR");
+
+    const data = {
+      symbol: crypto.Symbol,
+      description: crypto.Description,
+      name: crypto.CoinName,
+      image: BaseImageUrl + crypto.ImageUrl,
+      cryptoId: crypto.Id,
+      historic: histoday
     }
-    return null;
+
+    return data;
   }
 
-  constructor() {
-    // const options = {
-    //     hostname: 'min-api.cryptocompare.com',
-    //     headers: {
-    //         // 'Host' : 'min-api.cryptocompare.com',
-    //         'Content-Type': 'application/json',
-    //         'Authorization': 'Bearer d0577735aa68c35cdca389fef9a263ffa5d6aa59c23c3985c9de2aa33669f839'
-    //     },
-    //     port: 8000,
-    //     path: '/data/all/coinlist',
-    //     method: 'GET'
-    // }
-  }
-  // find(cureId) {
-  // }
-  async getAllCryptos(data, res) {
-    let myres;
-    myres = await CryptoDb.getall();
-    // myres.then(function(doc) {
-    if (myres.length != 0) {
-      res.status(200).send(myres);
-    } else {
-      console.log('No such document!');
-      res.status(400).send("This doesn't exist in this DB");
+  async formatCryptos(body, limit) {
+    const data = body.Data;
+    const cryptos = [];
+    let count = 0;
+  
+    for (const [key, element] of Object.entries(data)) {
+
+      if (count > limit)
+        return cryptos;
+
+      let crypto = await this.formatCrypto(element, body.BaseImageUrl);
+
+      cryptos.push(crypto);
+      count += 1;
     }
-    // });
-    // }).catch(function(error) {
-    //     console.log("Error getting document:", error);
-    // });
 
-    // console.log(myres);
-    return await myres;
+    return cryptos;
   }
 
-  setAll(data, res) {
-    const request = require('request');
-    var x = this.pushIt(res);
-    var Obj;
-    x.then(function (result) {
-      Obj = result;
-      Object.keys(result).forEach(function (key) {
-        // console.log(key, result[key]);
-        CryptoDb.create(result);
-      });
-    });
+  async getCryptosFromExternalApi() {
+    
+    const url = 'https://min-api.cryptocompare.com/data/all/coinlist';
+  
+    return new Promise((resolve, reject) => {
+      request(url, { json: true }, async (err, newres, body) => {
 
-    // var tmp = currenciesService.find(1);
-    // console.log(" Ttmp ==> " + tmp);
-    // if (x != 'Error')
-    // return x;
-    // return x;
-    // console.log("AfTr? " + user);
-    // const req = http.request(this.options, res => {
-    //     console.log(`statusCode: ${res.statusCode}`)
+        if (err)
+          return res.status(400).send({'message': 'An error occur during data recuperation.'});
 
-    //     res.on('data', d => {
-    //       process.stdout.write(d)
-    //     })
-    //   })
-
-    //   req.on('error', error => {
-    //     console.error(error)
-    //   })
-    //   req.end()
-    // if (data === undefined)
-    // return res.status(400).send({message: 'Error API is down'})
-
-    return Obj;
+        const cryptos = await this.formatCryptos(body, 1);
+        resolve(cryptos);
+      })
+    })
   }
 
-  async getOne(data, res) {
-    let myres;
-    myres = await CryptoDb.find(data.params.CurId);
-    // myres.then(function(doc) {
-    if (myres.exists) {
-      console.log('Document data:', myres.exists);
-      res.status(200).send(myres.data());
-    } else {
-      console.log('No such document!');
-      res.status(400).send("This ID doesn't exist in this DB");
-    }
-    // });
-    // }).catch(function(error) {
-    //     console.log("Error getting document:", error);
-    // });
-
-    // console.log(myres);
-    return await myres;
+  async getAllCryptos() {
+    return await database.getCollection('Cryptos');
   }
 
-  async deleteOne(data, res) {
-    let mycheckres;
-    let myres;
-    let id = data.params.CurId;
-    mycheckres = await CryptoDb.find(data.params.CurId);
-    // myres.then(function(doc) {
-    if (mycheckres.exists) {
-      console.log('HERE ' + mycheckres.exists);
-      myres = await CryptoDb.delete(data.params.CurId).then(function (data) {
-        res.status(200).send(id + ' Deleted');
-      });
-    } else {
-      console.log('Not HERE ' + mycheckres.exists);
-      // console.error("Error removing document: ", error);
-      res.status(400).send("This ID doesn't exist in this DB");
-    }
-    return await myres;
+  async setAll() {
+    var cryptos = await this.getCryptosFromExternalApi();
+
+    for (const [key, crypto] of Object.entries(cryptos))
+      database.newDocumentWithId('CryptoTests', crypto, crypto.symbol)
+
+    return cryptos;
   }
 
-  async createOne(data, res) {
-    let myres;
+  async getOne(currencyId) {
+    return await database.getDocument('Cryptos', currencyId);
+  }
 
-    myres = await CryptoDb.findByName(data.body.Name);
-    if (myres) {
-      // console.log("Document data:", myres.exists);
-      res
-        .status(400)
-        .send(
-          'This Cryptocurrency Document Name is already in database ' +
-            data.body.Name
-        );
-    } else {
-      // console.log("No such document!");
-      res
-        .status(200)
-        .send("This Crypto doesn't exist in this DB " + data.body.Name);
-      let fields = new Object();
-      fields.BaseImageUrl = data.body.BaseImageUrl;
-      fields.Description = data.body.Description;
-      // fields.Id = data.body.Id;
-      fields.ImageUrl = data.body.ImageUrl;
-      fields.Name = data.body.Name;
-      // fields.id = newId + "Manual";//data.body.id;
-      await CryptoDb.newCryptowithId('Cryptos', fields);
-      return 'Pushed Successfully';
-    }
-    return null;
+  async deleteOne(currencyId) {
+    return await database.deleteDocument('Cryptos', currencyId);
+  }
+
+  async createOne(data) {
+    return database.newDocumentWithId('Cryptos', data, data.symbol);
   }
 }
 

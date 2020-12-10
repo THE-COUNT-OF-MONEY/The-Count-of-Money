@@ -91,29 +91,28 @@ exports.getDocuments = async function (collectionName, ids) {
 
     return data;
   }),
-  (exports.newDocumentWithId = async function (collectionName, data, id) {
-    const db = firebase.firestore();
-    const collectionRef = db.collection(collectionName);
-    const newDocumentReference = collectionRef.doc(id);
 
-    newDocumentReference
-      .set(data)
-      .then((documentReference) => {
-        data.id = documentReference.id;
-        return data;
-      })
-      .catch((error) => {
-        console.log('Error newDocumentWithId: ', error);
-        return undefined;
-      });
-  }),
-  (exports.updateDocument = async function (collectionName, data, id) {
+exports.newDocumentWithId = async function (collectionName, data, id) {
+  const db = firebase.firestore();
+  const collectionRef = db.collection(collectionName);
+  const newDocumentReference = collectionRef.doc(id);
+
+  newDocumentReference.set(data)
+    .then((documentReference) => {
+      return true;
+    })
+    .catch((error) => {
+      return undefined;
+    });
+},
+
+exports.updateDocument = async function (collectionName, data, id) {
     var db = firebase.firestore();
 
     db.collection(collectionName).doc(id).update(data);
 
     return 'updated';
-  });
+};
 
 exports.deleteDocument = async function (collectionName, id) {
   const db = firebase.firestore();

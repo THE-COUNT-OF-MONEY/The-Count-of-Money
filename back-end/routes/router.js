@@ -46,6 +46,7 @@ const currenciesRoutes = new Array(
   { path: '/currencies', method: 'GET', bind: currenciesFunctions.getAllCrypto },
   { path: '/currencies/:CurId', method: 'GET', bind: currenciesFunctions.getOneCrypto },
   { path: '/currencies/:CurId', method: 'DELETE', bind: currenciesFunctions.deleteOneCryptoDocument },
+  { path: '/currencies', method: 'POST', bind: currenciesFunctions.createOneCryptoDocument },
 )
 
 // Crypto Bank
