@@ -25,8 +25,6 @@ export const CurrencyCard = ({currency}) => {
     const { user } = useContext(UserContext);
     const classes = useStyles();
 
-    let picture = currency.BaseImageUrl + currency.ImageUrl;
-
     function handleAddCurrency(){
         if(user.id != null && currency.id != null)
         {
@@ -41,17 +39,17 @@ export const CurrencyCard = ({currency}) => {
     return (
         <Card className={classes.root}>
                 <CardHeader
-                    title={currency.Name}
+                    title={currency.name}
                 />
                 <CardMedia
                     className={classes.media}
                     component="img"
-                    src={picture}
+                    src={currency.image}
                     title="picture"
                 />
                 <CardContent  style={{maxHeight: 200, overflow: 'auto'}}>
                     <Typography variant="body2" color="textSecondary" component="p">
-                        {currency.Description}
+                        {currency.description}
                     </Typography>                    
                 </CardContent>
 

@@ -16,7 +16,9 @@ export const Currencies = () => {
 
         const getData = async () => {
             let response = await Api.getCurrencies();
-            setCurrencies(response.data)
+            const cryptos = response.data.content.cryptos;
+
+            setCurrencies(cryptos)
             setIsLoading(false)
         }
 
