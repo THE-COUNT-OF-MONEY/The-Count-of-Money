@@ -51,10 +51,10 @@ const currenciesRoutes = new Array(
 
 // Crypto Bank
 const cryptoBankRoutes = new Array(
-  { path: '/users/:UserId/currencies', method: 'GET', bind: cryptosBankFunctions.getAllhisCryptos },
-  { path: '/users/:UserId/currencies/:CurrId', method: 'GET', bind: cryptosBankFunctions.getOneCryptos },
-  { path: '/users/:UserId/currencies/:CurrId', method: 'PUT', bind: cryptosBankFunctions.setOneCrypto },
-  { path: '/users/:UserId/currencies/:CurrId', method: 'DELETE', bind: cryptosBankFunctions.deleteOneCrypto },
+  { path: '/users/:userId/currencies', method: 'GET', bind: cryptosBankFunctions.getUserCryptos },
+  { path: '/users/:userId/currencies/:currencyId', method: 'PUT', bind: cryptosBankFunctions.addCryptoToBank },
+  // { path: '/users/:userId/currencies/:CurrId', method: 'GET', bind: cryptosBankFunctions.getOneCryptos },
+  { path: '/users/:userId/currencies/:currencyId', method: 'DELETE', bind: cryptosBankFunctions.deleteCryptoFromBank },
 )
 
 // Settings

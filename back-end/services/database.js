@@ -65,6 +65,26 @@ exports.getDocuments = async function (collectionName, ids) {
   return data;
 };
 
+
+exports.getDocumentsWhere = async (collectionName, field, value) => {
+  const db = firebase.firestore();
+  const collectionRef = db.collection(collectionName);
+  const snapshots = await collectionRef.where(field, '==', value).get();
+  
+  if (snapshots.empty)
+    return [];
+  
+  const data = [];
+
+  snapshots.forEach((snapshot) => {
+    let tmp = snapshot.data();
+    tmp['id'] = snapshot.id;
+    data.push(tmp);
+  });
+
+  return data;
+}
+
 (exports.getCollection = async function (collectionName) {
   const db = firebase.firestore();
   const collectionRef = db.collection(collectionName);
