@@ -86,7 +86,7 @@ class CurrencyController {
         if (err)
           return res.status(400).send({'message': 'An error occur during data recuperation.'});
 
-        const cryptos = await this.formatCryptos(body, 1);
+        const cryptos = await this.formatCryptos(body, 10);
         resolve(cryptos);
       })
     })
