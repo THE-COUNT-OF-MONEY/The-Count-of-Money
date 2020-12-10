@@ -51,8 +51,8 @@ async function addCryptoToBank(req, res) {
 
   const currencies = database.getDocumentsWhere('UserCurrencies', 'currencyId', currencyId);
 
-  if (currencies !== [])
-    return res.status(400).send({message: 'Ressource already added.'})
+  // if (currencies !== [])
+  //   return res.status(400).send({message: 'Ressource already added.'})
     
   const data = {
     'userId': userId,
