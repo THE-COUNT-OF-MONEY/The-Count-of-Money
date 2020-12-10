@@ -100,7 +100,7 @@ class CurrencyController {
     var cryptos = await this.getCryptosFromExternalApi();
 
     for (const [key, crypto] of Object.entries(cryptos))
-      database.newDocumentWithId('CryptoTests', crypto, crypto.symbol)
+      database.newDocumentWithId('Cryptos', crypto, crypto.symbol)
 
     return cryptos;
   }
