@@ -22,29 +22,47 @@ const useStyles = makeStyles(theme => ({
     }
 }))
 
-const columns = [
-    { id: 'image', label: 'Image', type: 'image' },
-    { id: 'name', label: 'Name', type: 'string'},
-    { id: 'symbol', label: 'Symbol', type: 'string' },
-    { id: 'lowest', label: 'Lowest', type: 'string' },
-    { id: 'highest', label: 'Highest', type: 'string' },
-    { id: 'close', label: 'Close', type: 'string' },
-    { id: 'actions', label: 'Actions', disableSorting: true,
-        buttons: [
-            {
-                handleClick: undefined,
-                label: <RemoveIcon/>,
-            },
-        ],
-        type: "buttons"
-    }
-]
-
 export const CryptoBank = () => {
   
     const { user } = useContext(UserContext);
     const [cryptoBank, setCryptoBank] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [itemRemoved, setItemRemoved] = useState(false);
+
+    function HandleRemoveButton(currencyId)
+    {
+        console.log('user Id : ', user.id)
+        console.log('currency Id : ', currencyId)
+
+        const removeData = async () => {
+            const response = await Api.RemoveUserCurrency(user.id, currencyId);
+
+            if (response.status === 200) {
+                console.log("SUCCESS")
+                setItemRemoved(true)
+            }
+        }
+        removeData();
+    }
+
+    const columns = [
+        { id: 'image', label: 'Image', type: 'image' },
+        { id: 'name', label: 'Name', type: 'string'},
+        { id: 'symbol', label: 'Symbol', type: 'string' },
+        { id: 'lowest', label: 'Lowest', type: 'string' },
+        { id: 'highest', label: 'Highest', type: 'string' },
+        { id: 'close', label: 'Close', type: 'string' },
+        { id: 'actions', label: 'Actions', disableSorting: true,
+            buttons: [
+                {
+                    handleClick: HandleRemoveButton,
+                    label: <RemoveIcon/>,
+                },
+            ],
+            type: "buttons"
+        }
+    ]
+
 
     useEffect(() => {
 
