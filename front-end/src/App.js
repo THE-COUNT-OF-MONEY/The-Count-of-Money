@@ -14,16 +14,16 @@ const App = () => {
       <Grid container direction="column" spacing={2}>
           <Router>
             <CsrfProvider>
-              <UserProvider>
-                <LimitProvider>
+              <LimitProvider>
+                <UserProvider>
 
                   <Grid item>
                     <Navbar></Navbar>
                   </Grid>
 
                   <Routes/>
-                </LimitProvider>
-              </UserProvider>
+                </UserProvider>
+              </LimitProvider>
             </CsrfProvider>
 
           </Router>

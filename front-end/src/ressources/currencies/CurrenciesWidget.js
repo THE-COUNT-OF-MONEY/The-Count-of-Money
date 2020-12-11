@@ -17,9 +17,6 @@ export const Currencies = () => {
 
     function HandleAddButton(currencyId)
     {
-        console.log('user Id : ', user.id)
-        console.log('currency Id : ', currencyId)
-
         const addData = async () => {
             const response = await Api.AddUserCurrency(user.id, currencyId);
 
@@ -58,19 +55,25 @@ export const Currencies = () => {
     useEffect(() => {
 
         const parseCryptos = (cryptos) => {
-            const array = [];
+            const array = []
+            const max = limit.cryptoLimit
+            let count = 0
 
             for (const [key, crypto] of Object.entries(cryptos)) {
-                let format = {
-                    image: crypto.image,
-                    name: crypto.name,
-                    symbol: crypto.symbol,
-                    highest: crypto.historic[0].high,
-                    lowest: crypto.historic[0].low,
-                    close: crypto.historic[0].close,
-                    id: crypto.symbol
+
+                if (count < max) {
+                    let format = {
+                        image: crypto.image,
+                        name: crypto.name,
+                        symbol: crypto.symbol,
+                        highest: crypto.historic[0].high,
+                        lowest: crypto.historic[0].low,
+                        close: crypto.historic[0].close,
+                        id: crypto.symbol
+                    }
+                    array.push(format);
                 }
-                array.push(format);
+                count += 1;
             }
 
             return array;
@@ -84,14 +87,14 @@ export const Currencies = () => {
             setIsLoading(false)
         }
 
-        if (isLoading === true) {
+        if (limit.cryptoLimit !== 0 && isLoading === true) {
             getData();
         }
     })
 
     return (
-       <div>
-           <Datatable columns={columns} rows={currencies}/>
-       </div>
+        <div>
+            <Datatable columns={columns} rows={currencies}/>
+        </div>
     )
 }

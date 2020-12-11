@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom"
 import { Login } from './components/Login';
-import NotFound from './components/NotFound';
 import { Profile } from './components/Profile';
 import Register from './components/Register';
 import { UserContext } from './context/userContext';

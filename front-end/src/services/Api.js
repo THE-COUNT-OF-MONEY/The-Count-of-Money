@@ -16,7 +16,7 @@ axiosInstance.interceptors.request.use(function (config) {
   }, function (error) {
     return Promise.reject(error);
 });
-  
+
 const apiRequest = {
     get(url, config) {
         return axiosInstance.get(url, config)
@@ -41,7 +41,8 @@ export const Api = {
                 .then((res) => {
                     resolve(res);
                 }).catch((error) => {
-                    resolve(error.response.data.message);
+                    console.log("error", error);
+                    resolve(undefined);
                 });
         })
     },
@@ -65,11 +66,8 @@ export const Api = {
 
         return firebase.auth().signInWithPopup(provider)
             .then(function(googleUser) {
-                // const token = googleUser.token
                 const token = googleUser.credential.idToken;
-
                 return token;
-                // redirect to dashboard
             })
             .catch(function(error){
                 console.log(error)
@@ -84,7 +82,8 @@ export const Api = {
                 .then((res) => {
                     resolve(res)
                 }).catch((error) => {
-                    resolve(false);
+                    console.log("error: ", error)
+                    resolve(undefined);
                 });
         })
 
@@ -95,9 +94,9 @@ export const Api = {
             apiRequest.post('/users/register', userData)
                 .then((res) => {
                     resolve('created');
-                    
                 }).catch((error) => {
-                    resolve(error.response.data.message);
+                    console.log("error: ", error)
+                    resolve(undefined);
                 });
         })
     },
@@ -108,7 +107,8 @@ export const Api = {
                 .then((res) => {                    
                     resolve(res);
                 }).catch((error) => {
-                    resolve(error.response.data.message);
+                    console.log("error: ", error)
+                    resolve(undefined);
                 });
         })
     },
@@ -120,7 +120,8 @@ export const Api = {
                 .then((res) => {
                     resolve(res.data);
                 }).catch((error) => {
-                    resolve(error.response.data.message);
+                    console.log("error: ", error)
+                    resolve(undefined);
                 });
         })
     },
@@ -131,6 +132,7 @@ export const Api = {
                 .then((res) => {
                     resolve(res);
                 }).catch((error) => {
+                    console.log("error: ", error)
                     resolve(false);
                 });
         })
@@ -144,7 +146,8 @@ export const Api = {
                 .then((res) => {
                     resolve(true);
                 }).catch((error) => {
-                    resolve(false);
+                    console.log("error: ", error);
+                    resolve(undefined);
                 });
         })
     },
@@ -155,7 +158,8 @@ export const Api = {
                 .then((res) => {
                     resolve(res);
                 }).catch((error) => {
-                    resolve(error.response.data.message);
+                    console.log("error: ", error);
+                    resolve(undefined);
                 });
         })
     },
@@ -167,7 +171,8 @@ export const Api = {
                 .then((res) => {
                     resolve(res);
                 }).catch((error) => {
-                    resolve(error.response.data.message);
+                    console.log("error: ", error);
+                    resolve(undefined)
                 });
         })
     },
@@ -180,7 +185,8 @@ export const Api = {
                 .then((res) => {
                     resolve(res);
                 }).catch((error) => {
-                    resolve(error.response.data.message);
+                    console.log("error: ", error);
+                    resolve(undefined);
                 });
         })
     },
@@ -193,9 +199,9 @@ export const Api = {
                     firebase.auth().signOut().then(function() {
                         resolve(true)
                     }).catch(function(error) {
-                        resolve(error)
+                        console.log("error: ", error);
+                        resolve(undefined);
                     });
-
                 }).catch((error) => {
                 });
         })
@@ -208,31 +214,30 @@ export const Api = {
                 .then((res) => {   
                     resolve(res.data.content.cryptos)
                 }).catch((error) => {
-                    resolve(null)
+                    console.log("error: ", error);
+                    resolve(undefined);
                 });
         })
     },
+
     AddUserCurrency(userID, CurrencyID) {
         const url = '/users/'+ userID + '/currencies/' + CurrencyID
         return new Promise((resolve) =>{
             apiRequest.put(url)
                 .then((res) => {
-                    console.log(res)
-                    resolve(true)
-
+                    resolve(true);
                 }).catch((error) => {
                     resolve(false)
                 });
         })
     },
+
     RemoveUserCurrency(userID, CurrencyID) {
         const url = '/users/'+ userID + '/currencies/' + CurrencyID
         return new Promise((resolve) =>{
             apiRequest.delete(url)
                 .then((res) => {
-                    console.log(res)
                     resolve(true)
-
                 }).catch((error) => {
                     resolve(false)
                 });

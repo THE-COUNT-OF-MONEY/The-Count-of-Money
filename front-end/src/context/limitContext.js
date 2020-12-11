@@ -7,19 +7,14 @@ export const LimitContext = React.createContext();
 
 export const LimitProvider = ({ children }) => {
 
-  const { user } = useContext(UserContext);
-
   const limitData = {
-    limitArticle: undefined,
-    limitCryptos: undefined,
+    feedLimit: 0,
+    cryptoLimit: 0,
   }
 
   const [limit, setLimit] = useState(limitData);
-  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-
-
     const updateLimitContext = async () => {
 
             const response = await Api.getSettings()
@@ -28,11 +23,11 @@ export const LimitProvider = ({ children }) => {
                 const settings = response.data.settings
                 setLimit(settings);
             }
-            setIsLoading(false)
     }
 
-    if (isLoading)
+    if (limit.cryptoLimit === 0) {
         updateLimitContext();
+    }
   })
 
   return (
