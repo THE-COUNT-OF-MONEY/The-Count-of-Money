@@ -11,6 +11,7 @@ const axiosInstance = Axios.create({
 
 axiosInstance.interceptors.request.use(function (config) {
     config.headers.authorization = localStorage.getItem('token')
+    config.headers.csrfToken = localStorage.getItem('csrf')
     return config;
   }, function (error) {
     return Promise.reject(error);
@@ -32,6 +33,19 @@ const apiRequest = {
 }
 
 export const Api = {
+
+    getCsrf () {
+        const url = '/csrf';
+        return new Promise((resolve) =>{
+            apiRequest.get(url)
+                .then((res) => {
+                    resolve(res);
+                }).catch((error) => {
+                    resolve(error.response.data.message);
+                });
+        })
+    },
+
     login(userData) {
 
         return new Promise((resolve) => {

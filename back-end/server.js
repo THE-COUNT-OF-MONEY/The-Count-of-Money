@@ -21,7 +21,6 @@ db.initialize(database.credentials, database.databaseUrl);
 
 app.use(express.json());
 
-
 swagger.initialize(router)
 app.use(router);
 

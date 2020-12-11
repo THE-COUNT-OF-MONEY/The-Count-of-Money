@@ -2,16 +2,38 @@ const csrf = require('csurf');
 const cors = require('cors')
 const cookieParser = require('cookie-parser')
 
-exports.initializeCSRF = (app) => {
-  // app.use(cookieParser())
+exports.initializeCSRF = (app, router) => {
+  app.use(cookieParser())
 
-  // const csrfMiddleware = csrf({ cookie: true, httpOnly: true})
-  // app.use(csrfMiddleware)
+  const csrfProtection = csrf({ cookie: true, httpOnly: true })
 
-  // app.all("*", (req, res, next) => {
-  //   res.cookie("XSRF-TOKEN", req.csrfToken());
-  //   next();
-  // })
+  app.use(cookieParser())
+
+  app.all("*", (req, res, next) => {
+
+    if (req.url === '/csrf') {
+      next();
+    } else {
+      try {
+        res.cookie("XSRF-TOKEN", req.csrfToken());
+      } catch (e) {
+        console.log('An error occur');
+      }
+    }
+    next();
+  })
+
+  app.get('/csrf', csrfProtection, (req, res) => {
+    // pass the csrfToken to the view
+    const response = {
+      'message': 'csrfToken successfully gotten',
+      'content': {
+        'csrfToken': req.csrfToken(),
+      }
+    }
+    res.send(response);
+  })
+
 }
 
 exports.initializeCORS = (app) => {
