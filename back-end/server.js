@@ -4,6 +4,7 @@ const router = require('./routes/router.js');
 const security = require('./config/security');
 const express = require('express');
 const app = express();
+const swagger = require('./config/swagger');
 
 security.initializeCORS(app);
 security.initializeCSRF(app);
@@ -19,7 +20,11 @@ let { database, server } = env.getVariables();
 db.initialize(database.credentials, database.databaseUrl);
 
 app.use(express.json());
+
+
+swagger.initialize(router)
 app.use(router);
+
 
 app.listen(server.port);
 
