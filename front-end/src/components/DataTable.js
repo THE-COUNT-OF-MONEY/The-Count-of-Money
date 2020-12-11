@@ -43,13 +43,15 @@ export const DataTable = ({columns, rows}) => {
         })
     }
 
-
-    const getButtons = (buttons) => {
+    const getButtons = (item, buttons) => {
 
         const elements = [];
         
         buttons.forEach((button, key) => {
-            elements.push(<Button key={key}>{button.label}</Button>)
+            elements.push(
+                <Button id={item.id} key={key} onClick={(e) => {button.handleClick(e.currentTarget.id)}}>
+                    {button.label}
+                </Button>)
         })
 
         return (
@@ -75,7 +77,7 @@ export const DataTable = ({columns, rows}) => {
         }
 
         if (type === "buttons" && column.buttons) {
-            element = getButtons(column.buttons)
+            element = getButtons(item, column.buttons)
         }
 
         return (

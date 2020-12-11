@@ -7,55 +7,53 @@ import Datatable from "../../components/DataTable";
 import AddIcon from '@material-ui/icons/Add';
 import { UserContext } from "../../context/userContext";
 
-const useStyles = makeStyles(theme => ({
-    pageContent: {
-        margin: theme.spacing(5),
-        padding: theme.spacing(3)
-    },
-    searchInput: {
-        width: '75%'
-    },
-    newButton: {
-        position: 'absolute',
-        right: '10px',
-        textTransform: 'none',
-        margin: theme.spacing(0.5)
-    }
-}))
-
-function HandleAddButton()
-{
-    const { user } = useContext(UserContext);
-    console.log('user : ', user)
-
-
-}
-
-
-const columns = [
-    { id: 'image', label: 'Image', type: 'image' },
-    { id: 'name', label: 'Name', type: 'string'},
-    { id: 'symbol', label: 'Symbol', type: 'string' },
-    { id: 'lowest', label: 'Lowest', type: 'string' },
-    { id: 'highest', label: 'Highest', type: 'string' },
-    { id: 'close', label: 'Close', type: 'string' },
-    { id: 'actions', label: 'Actions', disableSorting: true,
-        buttons: [
-            {
-                handleClick: HandleAddButton,
-                label: <AddIcon></AddIcon>,
-            },
-
-        ],
-        type: "buttons"
-    }
-]
 
 export const Currencies = () => {
   
     const [currencies, setCurrencies] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const {limit} = useContext(LimitContext);
+    const {user} = useContext(UserContext);
+
+    function HandleAddButton(currencyId)
+    {
+        console.log('user Id : ', user.id)
+        console.log('currency Id : ', currencyId)
+
+        const addData = async () => {
+            const response = await Api.AddUserCurrency(user.id, currencyId);
+
+            if (response.status === 200) {
+                console.log("SUCCESS")
+            }
+        }
+        addData();
+    }
+
+    const columns = [
+        { id: 'image', label: 'Image', type: 'image' },
+        { id: 'name', label: 'Name', type: 'string'},
+        { id: 'symbol', label: 'Symbol', type: 'string' },
+        { id: 'lowest', label: 'Lowest', type: 'string' },
+        { id: 'highest', label: 'Highest', type: 'string' },
+        { id: 'close', label: 'Close', type: 'string' },
+    ]
+
+    if (user.id !== undefined) {
+        const buttons = {
+            id: 'actions',
+            label: 'Actions',
+            disableSorting: true,
+            buttons: [
+                {
+                    handleClick: HandleAddButton,
+                    label: <AddIcon></AddIcon>,
+                },
+            ],
+            type: "buttons"
+        }
+        columns.push(buttons)
+    }
 
     useEffect(() => {
 
