@@ -16,6 +16,7 @@
     "firebase": "^8.1.1",
     "formik": "^2.2.5",
     "framer": "^1.2.10",
+    "js-cookie": "^2.2.1",
     "material-ui-search-bar": "^1.0.0",
     "mobx": "^6.0.4",
     "mobx-react": "^7.0.5",
@@ -26,14 +27,17 @@
     "react-firebase": "^2.2.8",
     "react-google-button": "^0.7.1",
     "react-google-login": "^5.1.25",
+    "react-native-cookie": "^0.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.0",
     "react-user-profile": "^1.0.3",
     "rss-reader": "^1.0.0",
+    "set-cookie-parser": "^2.4.6",
     "web-vitals": "^0.2.4",
     "yup": "^0.31.1"
   },
   "scripts": {
+    "starttmp": "set PORT=80&&react-app-rewired start",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -56,5 +60,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "react-app-rewired": "^2.1.7"
   }
 }
