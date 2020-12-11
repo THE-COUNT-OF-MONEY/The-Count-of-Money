@@ -22,6 +22,7 @@ const apiRequest = {
         return axiosInstance.get(url, config)
     },
     post(url, data, config) {
+        data['_csrf'] = localStorage.getItem('csrf');
         return axiosInstance.post(url, data, config)
     },
     put(url, data, config) {
@@ -34,7 +35,7 @@ const apiRequest = {
 
 export const Api = {
 
-    getCsrf () {
+    getCsrf() {
         const url = '/csrf';
         return new Promise((resolve) =>{
             apiRequest.get(url)
