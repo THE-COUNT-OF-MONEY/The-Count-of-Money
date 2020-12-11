@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
@@ -8,9 +8,7 @@ import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import SaveIcon from '@material-ui/icons/Save';
 import CancelIcon from '@material-ui/icons/Cancel';
-import { UserContext } from '../../context/userContext';
 import { Api } from '../../services/Api';
-import { parse } from 'querystring';
 import Alert from '@material-ui/lab/Alert';
 import AlertTitle from '@material-ui/lab/AlertTitle';
 import { LimitContext } from '../../context/limitContext';
@@ -35,16 +33,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-
-
 export const Settings = () => {
 
     const {limit, setLimit} = useContext(LimitContext);
-    const {user} = useContext(UserContext);
     const [maxFeeds, setMaxFeeds] = useState(limit.feedLimit);
     const [maxCurrencies, setMaxCurrencies] = useState(limit.cryptoLimit);
     const [readOnly, setReadOnly] = useState(true);
-    const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(false);
     const classes = useStyles();
 

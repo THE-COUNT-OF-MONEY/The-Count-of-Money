@@ -1,7 +1,6 @@
 import React, { useContext } from "react"
 import { useState, useEffect } from 'react';
 import { Api } from "../../services/Api";
-import { makeStyles } from '@material-ui/core/styles';
 import { LimitContext } from "../../context/limitContext";
 import Datatable from "../../components/DataTable";
 import AddIcon from '@material-ui/icons/Add';
@@ -59,8 +58,8 @@ export const Currencies = () => {
             const max = limit.cryptoLimit
             let count = 0
 
+            // eslint-disable-next-line
             for (const [key, crypto] of Object.entries(cryptos)) {
-
                 if (count < max) {
                     let format = {
                         image: crypto.image,

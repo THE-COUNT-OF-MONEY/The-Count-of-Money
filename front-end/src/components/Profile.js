@@ -11,7 +11,6 @@ import CancelIcon from '@material-ui/icons/Cancel';
 import { Api } from '../services/Api'
 import Alert from '@material-ui/lab/Alert';
 import AlertTitle from '@material-ui/lab/AlertTitle';
-import { useHistory } from 'react-router-dom';
 import { UserContext } from "../context/userContext";
 
 const useStyles = makeStyles((theme) => ({

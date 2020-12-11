@@ -1,7 +1,6 @@
 import {React, useContext} from "react"
 import { useState, useEffect } from 'react';
 import { Api } from "../../services/Api";
-import { makeStyles } from '@material-ui/core/styles';
 import Datatable from "../../components/DataTable";
 import RemoveIcon from '@material-ui/icons/Remove';
 import { UserContext } from "../../context/userContext";
@@ -69,6 +68,7 @@ export const CryptoBank = () => {
         const parseCryptos = (cryptos) => {
             const array = [];
 
+            // eslint-disable-next-line
             for (const [key, crypto] of Object.entries(cryptos)) {
                 let format = {
                     image: crypto.image,
