@@ -17,7 +17,7 @@ if (env.isConform() === false)
 let { database, server } = env.getVariables();
 
 // Initialize Database
-db.initialize(database.credentials, database.databaseUrl);
+db.initialize(database.credentials, database.config, database.databaseUrl);
 
 app.use(express.json());
 
