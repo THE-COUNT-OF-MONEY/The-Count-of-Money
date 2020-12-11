@@ -57,7 +57,7 @@ export default function Users() {
         let target = e.target;
         setFilterFn({
             fn: items => {
-                if (target.value == "")
+                if (target.value === "")
                     return items;
                 else
                     return items.filter(x => x.firstname.toLowerCase().includes(target.value))
@@ -66,7 +66,7 @@ export default function Users() {
     }
 
     const addOrEdit = (employee, resetForm) => {
-        if (employee.id == 0)
+        if (employee.id === 0)
             //employeeService.insertEmployee(employee)
             console.log('test');
         else

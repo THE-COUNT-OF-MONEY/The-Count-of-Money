@@ -35,7 +35,7 @@ export const DataTable = ({columns, rows}) => {
         let target = e.target;
         setFilterFn({
             fn: items => {
-                if (target.value == "")
+                if (target.value === "")
                     return items;
                 else
                     return items.filter(x => x.firstname.toLowerCase().includes(target.value))

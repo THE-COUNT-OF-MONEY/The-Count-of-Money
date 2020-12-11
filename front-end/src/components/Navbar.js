@@ -5,12 +5,12 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
 import { Link } from 'react-router-dom';
 import { Grid } from '@material-ui/core';
 
 import { UserContext } from "../context/userContext";
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import {Api} from '../services/Api';
 
 const useStyles = makeStyles((theme) => ({
@@ -55,11 +55,6 @@ export const Navbar = () => {
         <Toolbar>
 
               <Grid container justify="flex-start" alignItems="center" item xs={3}>
-                <Grid item >
-                  <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-                      <MenuIcon />
-                  </IconButton>
-                </Grid>
 
                 <Grid item >
                   <Typography variant="h6" className={classes.title}>
@@ -82,7 +77,7 @@ export const Navbar = () => {
                                     className={classes.menuButton}
                                     component={Link}
                                     to={navigationItem.url}
-                                    key={key}
+                                    key={key} 
                                 >
                                     {navigationItem.label}
                                 </Button>
@@ -91,23 +86,7 @@ export const Navbar = () => {
                       })
                   }
 
-                  {/*   DISPLAY PROFILE BUTTON IF LOGIN   */}
-                  {
-                    user.role !== "" &&
-                    <Grid item>
-                      <Button
-                          color="inherit"
-                          className={classes.menuButton}
-                          component={Link}
-                          to={"/profile"}
-                      >
-                          Profile
-                      </Button>
-                    </Grid>
-
-                  }
-
-                  {/*   DISPLAY CyptoBank BUTTON IF LOGIN   */}
+                  {/*   DISPLAY CRYPTOBANK BUTTON IF LOGIN   */}
                   {
                     user.role !== "" &&
                     <Grid item>
@@ -139,12 +118,29 @@ export const Navbar = () => {
 
 
                 {/*    START RIGHTS APP BUTTONS     */}
+
                 {
                     user.role === ""  &&
                       <Grid container justify="flex-end" direction="row"  item xs={3}>
                         <Button color="inherit" component={Link} to={"/login"} className={classes.menuButton}>Login</Button>
                         <Button color="inherit" component={Link} to={"/register"} className={classes.menuButton}>Register</Button>
                       </Grid>
+                }
+
+                {/*   DISPLAY PROFILE BUTTON IF LOGIN   */}
+                {
+                  user.role !== "" &&
+                  <Grid item>
+                    <IconButton
+                        color="inherit"
+                        className={classes.menuButton}
+                        component={Link}
+                        to={"/profile"}
+                    >
+                      <AccountCircleIcon />
+                    </IconButton>
+                  </Grid>
+
                 }
 
                 {
