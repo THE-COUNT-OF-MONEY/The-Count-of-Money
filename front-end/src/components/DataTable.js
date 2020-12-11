@@ -1,16 +1,9 @@
 import React, { useState, useEffect } from 'react'
-//import PeopleOutlineTwoToneIcon from '@material-ui/icons/PeopleOutlineTwoTone';
 import { Paper, makeStyles, TableBody, TableRow, TableCell, Toolbar, InputAdornment, Avatar } from '@material-ui/core';
-//import * as employeeService from "../../services/employeeService";
 import { Search } from "@material-ui/icons";
-import AddIcon from '@material-ui/icons/Add';
-import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
-import CloseIcon from '@material-ui/icons/Close';
 import { TextField } from '@material-ui/core';
 import { Button} from "@material-ui/core";
 import useTable from "./useTable";
-
-import { green, purple } from '@material-ui/core/colors';
 
 
 const useStyles = makeStyles(theme => ({

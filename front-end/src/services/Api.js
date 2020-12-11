@@ -92,6 +92,7 @@ export const Api = {
         return new Promise((resolve) =>{
             apiRequest.get('/currencies')
                 .then((res) => {
+                    console.log(res);
                     resolve(res);
                 }).catch((error) => {
                     resolve(error.response.data.message);
@@ -192,14 +193,17 @@ export const Api = {
         return new Promise((resolve) =>{
             var AllCurrencies= [];
             apiRequest.get(url)
-                .then((res) => {
-                    var CurriencyIds = res.data                    
-                    CurriencyIds.forEach(element => {
-                        this.getOneCurrency(element.currency).then((result) =>{
-                            AllCurrencies.push(result)                                                   
-                        })                        
-                    });                    
-                    resolve(AllCurrencies)
+                .then((res) => {   
+                    resolve(res.data.content.cryptos)                 
+                    // var CurriencyIds = res.data.content.cryptos
+                    // console.log("GetAllUserCryptos : ", CurriencyIds )                    
+                    // CurriencyIds.forEach(element => {
+                    //     this.getOneCurrency(element.currency).then((result) =>{
+                    //         AllCurrencies.push(result)                                                   
+                    //     })                        
+                    // });
+                    // console.log(AllCurrencies)                    
+                    // resolve(AllCurrencies)
 
                 }).catch((error) => {
                     resolve(null)
