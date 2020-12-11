@@ -91,28 +91,27 @@ exports.getDocuments = async function (collectionName, ids) {
 
     return data;
   }),
+  (exports.newDocumentWithId = async function (collectionName, data, id) {
+    const db = firebase.firestore();
+    const collectionRef = db.collection(collectionName);
+    const newDocumentReference = collectionRef.doc(id);
 
-exports.newDocumentWithId = async function (collectionName, data, id) {
-  const db = firebase.firestore();
-  const collectionRef = db.collection(collectionName);
-  const newDocumentReference = collectionRef.doc(id);
-
-  newDocumentReference.set(data)
-    .then((documentReference) => {
-      return true;
-    })
-    .catch((error) => {
-      return undefined;
-    });
-},
-
-exports.updateDocument = async function (collectionName, data, id) {
+    newDocumentReference
+      .set(data)
+      .then((documentReference) => {
+        return true;
+      })
+      .catch((error) => {
+        return undefined;
+      });
+  }),
+  (exports.updateDocument = async function (collectionName, data, id) {
     var db = firebase.firestore();
 
     db.collection(collectionName).doc(id).update(data);
 
     return 'updated';
-};
+  });
 
 exports.deleteDocument = async function (collectionName, id) {
   const db = firebase.firestore();
@@ -251,6 +250,38 @@ exports.getOneCryptoDocumentByName = async function (collectionName, name) {
     status = true;
   }
   return await status;
+};
+
+exports.getDocumentsByUserID = async function (collectionName, userID) {
+  const db = firebase.firestore();
+  const changesRef = db.collection(collectionName);
+
+  // Create a query against the collection
+  const ChangesRes = await changesRef.where('UserID', '==', userID).get();
+
+  // if (ChangesRes.empty) {
+  //   console.log('No matching documents.');
+  //   return;
+  // }
+  let tmpArr = [];
+  ChangesRes.forEach((doc) => {
+    let tmp = doc.data();
+    tmp.id = doc.id;
+    tmpArr.push(tmp);
+  });
+  return tmpArr;
+};
+
+exports.deleteDocumentsByUserID = async function (collectionName, userID) {
+  const db = firebase.firestore();
+  const changesRef = db.collection(collectionName);
+
+  const ChangesRes = await changesRef.where('UserID', '==', userID).get();
+
+  ChangesRes.forEach((doc) => {
+    this.deleteDocument(collectionName, doc.id);
+  });
+  return;
 };
 
 exports.deleteOneCryptoDocument = async function (collectionName, id) {
