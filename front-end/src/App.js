@@ -5,7 +5,7 @@ import { Grid } from "@material-ui/core";
 import { UserProvider } from "./context/userContext";
 import { Routes } from './Routes';
 import { LimitProvider } from "./context/limitContext";
-import { CsrfProvider } from "./context/csrfContext";
+// import { CsrfProvider } from "./context/csrfContext";
 
 const App = () => {
   
@@ -13,7 +13,7 @@ const App = () => {
     <div>
       <Grid container direction="column" spacing={2}>
           <Router>
-            <CsrfProvider>
+            {/* <CsrfProvider> */}
               <LimitProvider>
                 <UserProvider>
 
@@ -24,7 +24,7 @@ const App = () => {
                   <Routes/>
                 </UserProvider>
               </LimitProvider>
-            </CsrfProvider>
+            {/* </CsrfProvider> */}
 
           </Router>
       </Grid>

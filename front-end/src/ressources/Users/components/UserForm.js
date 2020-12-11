@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react'
-import { Grid, } from '@material-ui/core';
+import React from 'react';
+import {useEffect} from 'react';
+import { Grid } from '@material-ui/core';
 import { useForm, Form } from './Form';
 import { TextField } from '@material-ui/core';
 import { Button, makeStyles} from "@material-ui/core";
@@ -61,10 +62,12 @@ export default function UserForm(props) {
     }
 
     useEffect(() => {
-        if (recordForEdit != null)
+        if (recordForEdit != null) {
             setValues({
                 ...recordForEdit
             })
+        }
+    // eslint-disable-next-line
     }, [recordForEdit])
 
     return (

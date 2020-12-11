@@ -1,26 +1,9 @@
 import {React, useContext} from "react"
 import { useState, useEffect } from 'react';
 import { Api } from "../../services/Api";
-import { makeStyles } from '@material-ui/core/styles';
 import Datatable from "../../components/DataTable";
 import RemoveIcon from '@material-ui/icons/Remove';
 import { UserContext } from "../../context/userContext";
-
-const useStyles = makeStyles(theme => ({
-    pageContent: {
-        margin: theme.spacing(5),
-        padding: theme.spacing(3)
-    },
-    searchInput: {
-        width: '75%'
-    },
-    newButton: {
-        position: 'absolute',
-        right: '10px',
-        textTransform: 'none',
-        margin: theme.spacing(0.5)
-    }
-}))
 
 const columns = [
     { id: 'image', label: 'Image', type: 'image' },
@@ -51,6 +34,7 @@ export const CryptoBank = () => {
         const parseCryptos = (cryptos) => {
             const array = [];
 
+            // eslint-disable-next-line
             for (const [key, crypto] of Object.entries(cryptos)) {
                 let format = {
                     image: crypto.image,

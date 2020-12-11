@@ -28,7 +28,7 @@ export const Feeds = () => {
             <Grid container alignItems="center" justify="center" spacing={2}>
                 {
                     feeds.map((feed, key) => {
-                        if (limit.feedLimit && key < limit.feedLimit)
+                        if (limit.feedLimit && key < limit.feedLimit) {
                             return(
                                 <Grid item xs={4} key={key} >
                                     <Grid container justify="center">
@@ -36,6 +36,9 @@ export const Feeds = () => {
                                     </Grid>
                                 </Grid>
                             )
+                        } else {
+                            return (<div></div>)
+                        }
                     })
                 }
             </Grid>

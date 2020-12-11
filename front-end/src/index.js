@@ -4,8 +4,6 @@ import App from './App';
 import { grey } from '@material-ui/core/colors';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core'
 
-import firebase from './firebase';
-
 const theme = createMuiTheme({
   palette: {
     primary: {

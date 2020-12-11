@@ -1,7 +1,6 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Api } from '../services/Api'
-import { UserContext } from "./userContext";
 
 export const LimitContext = React.createContext();
 
