@@ -5,6 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { LimitContext } from "../../context/limitContext";
 import Datatable from "../../components/DataTable";
 import AddIcon from '@material-ui/icons/Add';
+import { UserContext } from "../../context/userContext";
 
 const useStyles = makeStyles(theme => ({
     pageContent: {
@@ -22,6 +23,14 @@ const useStyles = makeStyles(theme => ({
     }
 }))
 
+function HandleAddButton()
+{
+    const { user } = useContext(UserContext);
+    console.log('user : ', user)
+
+
+}
+
 
 const columns = [
     { id: 'image', label: 'Image', type: 'image' },
@@ -33,7 +42,7 @@ const columns = [
     { id: 'actions', label: 'Actions', disableSorting: true,
         buttons: [
             {
-                handleClick: undefined,
+                handleClick: HandleAddButton,
                 label: <AddIcon></AddIcon>,
             },
 
@@ -44,7 +53,6 @@ const columns = [
 
 export const Currencies = () => {
   
-    const classes = useStyles();
     const [currencies, setCurrencies] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const {limit} = useContext(LimitContext);
