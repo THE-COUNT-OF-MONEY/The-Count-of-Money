@@ -11,7 +11,8 @@ const axiosInstance = Axios.create({
 
 axiosInstance.interceptors.request.use(function (config) {
     config.headers.authorization = localStorage.getItem('token')
-    config.headers.csrfToken = localStorage.getItem('csrf')
+    config.withCredentials = true;
+
     return config;
   }, function (error) {
     return Promise.reject(error);
@@ -22,7 +23,8 @@ const apiRequest = {
         return axiosInstance.get(url, config)
     },
     post(url, data, config) {
-        data['_csrf'] = localStorage.getItem('csrf');
+        data = data ?? {}
+        data._csrf = localStorage.csrf;
         return axiosInstance.post(url, data, config)
     },
     put(url, data, config) {
@@ -49,7 +51,6 @@ export const Api = {
     },
 
     login(userData) {
-
         return new Promise((resolve) => {
             apiRequest.post('/users/login', userData)
                 .then((res) => {

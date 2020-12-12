@@ -4,12 +4,13 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 
 exports.initializeCSRF = (app, router) => {
-  var csrfProtection = csrf({ cookie: true });
-  var parseForm = bodyParser.json({ extended: false });
-
+  
   app.use(cookieParser());
 
-  app.get('/csrf', parseForm, csrfProtection, function (req, res) {
+  var csrfProtection = csrf({ cookie: true });
+  var parseForm = bodyParser.json({ extended: false });
+  
+  router.get('/csrf', parseForm, csrfProtection, function (req, res) {
     const response = {
       message: 'csrfToken successfully gotten',
       content: {
@@ -18,16 +19,9 @@ exports.initializeCSRF = (app, router) => {
     };
     res.send(response);
   });
-
-  app.post('*', parseForm, csrfProtection, function (req, res, next) {
+  
+  router.post('*', parseForm, csrfProtection, function (req, res, next) {
     next();
-  });
-
-  app.post('/test', parseForm, csrfProtection, function (req, res) {
-    const response = {
-      message: 'Nice you came inside!!!'
-    };
-    res.send(response);
   });
 };
 

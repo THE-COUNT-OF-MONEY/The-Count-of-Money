@@ -7,7 +7,8 @@ const app = express();
 const swagger = require('./config/swagger');
 
 security.initializeCORS(app);
-security.initializeCSRF(app);
+
+security.initializeCSRF(app, router)
 
 // Check environment required variables persistence
 if (env.isConform() === false)

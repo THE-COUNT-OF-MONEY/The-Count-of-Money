@@ -5,27 +5,13 @@ import Datatable from "../../components/DataTable";
 import RemoveIcon from '@material-ui/icons/Remove';
 import { UserContext } from "../../context/userContext";
 
-const useStyles = makeStyles(theme => ({
-    pageContent: {
-        margin: theme.spacing(5),
-        padding: theme.spacing(3)
-    },
-    searchInput: {
-        width: '75%'
-    },
-    newButton: {
-        position: 'absolute',
-        right: '10px',
-        textTransform: 'none',
-        margin: theme.spacing(0.5)
-    }
-}))
 
 export const CryptoBank = () => {
   
     const { user } = useContext(UserContext);
     const [cryptoBank, setCryptoBank] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    // eslint-disable-next-line
     const [itemRemoved, setItemRemoved] = useState(false);
 
     function HandleRemoveButton(currencyId)

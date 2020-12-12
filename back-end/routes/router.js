@@ -9,7 +9,6 @@ const settingFunctions = require('./settingsRoutes.js');
 
 const none = () => {}
 
-
 const setupRoutes = (routes) => {
   // Basic route format : { path: string, method: 'GET' || 'POST' || 'PUT' || 'DELETE', bind: function }
   routes.forEach(route => {
