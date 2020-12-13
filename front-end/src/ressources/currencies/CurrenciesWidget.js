@@ -5,6 +5,7 @@ import { LimitContext } from "../../context/limitContext";
 import Datatable from "../../components/DataTable";
 import AddIcon from '@material-ui/icons/Add';
 import { UserContext } from "../../context/userContext";
+import Alert from '@material-ui/lab/Alert';
 
 
 export const Currencies = () => {
@@ -13,14 +14,17 @@ export const Currencies = () => {
     const [isLoading, setIsLoading] = useState(true);
     const {limit} = useContext(LimitContext);
     const {user} = useContext(UserContext);
+    const [alert, setAlert] = useState(undefined)
 
     function HandleAddButton(currencyId)
     {
         const addData = async () => {
             const response = await Api.AddUserCurrency(user.id, currencyId);
 
-            if (response.status === 200) {
-                console.log("SUCCESS")
+            if (response) {
+                setAlert({'message': 'Crypto successfully added.', status: 'success'})
+            } else {
+                setAlert({'message': "Crypto can't be added.", status: 'error'})
             }
         }
         addData();
@@ -93,6 +97,10 @@ export const Currencies = () => {
 
     return (
         <div>
+            {
+                alert !== undefined && 
+                <Alert severity={alert.status}>{alert.message}</Alert>
+            }
             <Datatable columns={columns} rows={currencies} />
         </div>
     )

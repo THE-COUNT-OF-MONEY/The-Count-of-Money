@@ -24,7 +24,7 @@ const useStyles = makeStyles(theme => ({
 
 export const DataTable = ({columns, rows}) => {
     const classes = useStyles();
-    const [filterFn, setFilterFn] = useState({ fn: items => { return items; } })
+    const [filterFn] = useState({ fn: items => { return items; } })
     const [search, setSearch] = useState("");
 
     const {
@@ -84,7 +84,7 @@ export const DataTable = ({columns, rows}) => {
                 <TableBody>
                     {
                         rows.filter((value) => {
-                            if (search == "")
+                            if (search === "")
                                 return value;
                             else if (value.name.toLowerCase().includes(search.toLowerCase()))
                                 return value;

@@ -4,6 +4,7 @@ import { Api } from "../../services/Api";
 import Datatable from "../../components/DataTable";
 import RemoveIcon from '@material-ui/icons/Remove';
 import { UserContext } from "../../context/userContext";
+import Alert from '@material-ui/lab/Alert';
 
 
 export const CryptoBank = () => {
@@ -13,18 +14,18 @@ export const CryptoBank = () => {
     const [isLoading, setIsLoading] = useState(true);
     // eslint-disable-next-line
     const [itemRemoved, setItemRemoved] = useState(false);
+    const [alert, setAlert] = useState(undefined)
 
     function HandleRemoveButton(currencyId)
     {
-        console.log('user Id : ', user.id)
-        console.log('currency Id : ', currencyId)
-
         const removeData = async () => {
             const response = await Api.RemoveUserCurrency(user.id, currencyId);
 
-            if (response.status === 200) {
-                console.log("SUCCESS")
-                setItemRemoved(true)
+            if (response === true) {
+                setAlert({'message': 'Crypto successfully added.', status: 'success'})
+                window.location.reload();
+            } else {
+                setAlert({'message': "Crypto can't be added.", status: 'error'})
             }
         }
         removeData();
@@ -89,6 +90,10 @@ export const CryptoBank = () => {
 
     return (
         <div>
+            {
+                alert !== undefined && 
+                    <Alert severity={alert.status}>{alert.message}</Alert>
+            }
             <Datatable columns={columns} rows={cryptoBank}/>
         </div>
     )
