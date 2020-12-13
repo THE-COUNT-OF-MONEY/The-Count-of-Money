@@ -47,23 +47,12 @@ export default function Users() {
     const [openPopup, setOpenPopup] = useState(false)
     const [users, setUsers] = useState([]);
     const [isLoading, setIsLoading] = useState(true)
+    const [search, setSearch] = useState("")
 
     const {
         TblContainer,
         TblHead,
     } = useTable(records, headCells, filterFn);
-
-    const handleSearch = e => {
-        let target = e.target;
-        setFilterFn({
-            fn: items => {
-                if (target.value === "")
-                    return items;
-                else
-                    return items.filter(x => x.firstname.toLowerCase().includes(target.value))
-            }
-        })
-    }
 
     const addOrEdit = (employee, resetForm) => {
         if (employee.id === 0)
@@ -113,7 +102,8 @@ export default function Users() {
                                 <Search />
                             </InputAdornment>)
                         }}
-                        onChange={handleSearch}
+                        onChange={(e) => { setSearch(e.target.value)}}
+                        value={search}
                     />
                     <Button
                         text="Add New"
@@ -129,7 +119,13 @@ export default function Users() {
                     <TblHead />
                     <TableBody>
                         {
-                            users.map(item =>
+                            users.filter((value) => {
+                                if (search == "")
+                                    return value;
+                                else if (value.email.toLowerCase().includes(search.toLowerCase()))
+                                    return value;
+                                return;
+                            }).map(item =>
                                 (<TableRow key={item.id}>
                                     <TableCell>{item.firstname}</TableCell>
                                     <TableCell>{item.lastname}</TableCell>

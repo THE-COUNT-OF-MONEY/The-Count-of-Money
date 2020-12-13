@@ -25,23 +25,12 @@ const useStyles = makeStyles(theme => ({
 export const DataTable = ({columns, rows}) => {
     const classes = useStyles();
     const [filterFn, setFilterFn] = useState({ fn: items => { return items; } })
+    const [search, setSearch] = useState("");
 
     const {
         TblContainer,
         TblHead,
     } = useTable(rows, columns, filterFn);
-
-    const handleSearch = e => {
-        let target = e.target;
-        setFilterFn({
-            fn: items => {
-                if (target.value === "")
-                    return items;
-                else
-                    return items.filter(x => x.firstname.toLowerCase().includes(target.value))
-            }
-        })
-    }
 
     const getButtons = (item, buttons) => {
 
@@ -87,22 +76,6 @@ export const DataTable = ({columns, rows}) => {
         )
     }
 
-    const SearchBar = () => {
-        return (
-            <Toolbar>
-                <TextField
-                    label="Search Crypto"
-                    className={classes.searchInput}
-                    InputProps={{
-                        startAdornment: (<InputAdornment position="start">
-                            <Search />
-                        </InputAdornment>)
-                    }}
-                    onChange={handleSearch}
-                />
-            </Toolbar>
-        )
-    }
 
     const CustomTable = () => {
         return (
@@ -110,7 +83,13 @@ export const DataTable = ({columns, rows}) => {
                 <TblHead />
                 <TableBody>
                     {
-                        rows.map((item, key) =>
+                        rows.filter((value) => {
+                            if (search == "")
+                                return value;
+                            else if (value.name.toLowerCase().includes(search.toLowerCase()))
+                                return value;
+                            return;
+                        }).map((item) =>
                             <TableRow key={item.id}>
                             {
                                 columns.map(column => {
@@ -133,7 +112,19 @@ export const DataTable = ({columns, rows}) => {
 
     return (
         <Paper className={classes.pageContent}>
-            <SearchBar/>
+            <Toolbar>
+                <TextField
+                    label="Search Crypto"
+                    className={classes.searchInput}
+                    InputProps={{
+                        startAdornment: (<InputAdornment position="start">
+                            <Search />
+                        </InputAdornment>)
+                    }}
+                    onChange={(e) => { setSearch(e.target.value)}}
+                    value={search}
+                />
+            </Toolbar>
             <CustomTable/>
         </Paper>
     )

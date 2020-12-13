@@ -93,7 +93,7 @@ export const Currencies = () => {
 
     return (
         <div>
-            <Datatable columns={columns} rows={currencies}/>
+            <Datatable columns={columns} rows={currencies} />
         </div>
     )
 }
