@@ -127,25 +127,20 @@ export const Navbar = () => {
                       </Grid>
                 }
 
-                {/*   DISPLAY PROFILE BUTTON IF LOGIN   */}
-                {
-                  user.role !== "" &&
-                  <Grid item>
-                    <IconButton
-                        color="inherit"
-                        className={classes.menuButton}
-                        component={Link}
-                        to={"/profile"}
-                    >
-                      <AccountCircleIcon />
-                    </IconButton>
-                  </Grid>
-
-                }
 
                 {
                   user.role !== "" &&
                       <Grid container justify="flex-end" direction="row"  alignItems="center" item xs={3}>
+                          <Grid item style={{textAlign: "center"}}>
+                            <IconButton
+                                  color="inherit"
+                                  className={classes.menuButton}
+                                  component={Link}
+                                  to={"/profile"}
+                              >
+                                <AccountCircleIcon />
+                              </IconButton>
+                          </Grid>
 
                           <Grid item style={{textAlign: "center"}}>
                             <Typography variant="h6">
