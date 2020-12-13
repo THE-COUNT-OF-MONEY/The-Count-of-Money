@@ -88,7 +88,7 @@ export const DataTable = ({columns, rows}) => {
                                 return value;
                             else if (value.name.toLowerCase().includes(search.toLowerCase()))
                                 return value;
-                            return;
+                            return undefined;
                         }).map((item) =>
                             <TableRow key={item.id}>
                             {

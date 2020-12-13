@@ -46,6 +46,7 @@ export const Navbar = () => {
   const logout = async () => {
     await Api.logout();
     window.location.reload();
+    window.location.path = '/';
     return true
   }
 

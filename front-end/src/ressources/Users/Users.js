@@ -5,12 +5,12 @@ import { Paper, makeStyles, TableBody, TableRow, TableCell, Toolbar, InputAdornm
 import useTable from "./components/useTable";
 //import * as employeeService from "../../services/employeeService";
 import { Search } from "@material-ui/icons";
-import AddIcon from '@material-ui/icons/Add';
+// import AddIcon from '@material-ui/icons/Add';
 import Popup from "./components/Popup";
-import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
-import CloseIcon from '@material-ui/icons/Close';
+// import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
+// import CloseIcon from '@material-ui/icons/Close';
 import { TextField } from '@material-ui/core';
-import { Button} from "@material-ui/core";
+// import { Button} from "@material-ui/core";
 import { Api } from "../../services/Api";
 
 const useStyles = makeStyles(theme => ({
@@ -43,7 +43,7 @@ export default function Users() {
     const classes = useStyles();
     const [recordForEdit, setRecordForEdit] = useState(null)
     const [records] = useState(null)
-    const [filterFn, setFilterFn] = useState({ fn: items => { return items; } })
+    const [filterFn] = useState({ fn: items => { return items; } })
     const [openPopup, setOpenPopup] = useState(false)
     const [users, setUsers] = useState([]);
     const [isLoading, setIsLoading] = useState(true)
@@ -84,10 +84,10 @@ export default function Users() {
             getData();
     })
 
-    const openInPopup = item => {
-        setRecordForEdit(item)
-        setOpenPopup(true)
-    }
+    // const openInPopup = item => {
+    //     setRecordForEdit(item)
+    //     setOpenPopup(true)
+    // }
 
     return (
         <div>
@@ -120,17 +120,17 @@ export default function Users() {
                     <TableBody>
                         {
                             users.filter((value) => {
-                                if (search == "")
+                                if (search === "")
                                     return value;
                                 else if (value.email.toLowerCase().includes(search.toLowerCase()))
                                     return value;
-                                return;
+                                return undefined;
                             }).map(item =>
                                 (<TableRow key={item.id}>
-                                    <TableCell>{item.firstname}</TableCell>
-                                    <TableCell>{item.lastname}</TableCell>
-                                    <TableCell>{item.email}</TableCell>
-                                    <TableCell>{item.role === "ROLE_USER" ? "Basic User": "Administrator"}</TableCell>
+                                    <TableCell key={item.id + '-' + item.firstname}>{item.firstname}</TableCell>
+                                    <TableCell key={item.id + '-' + item.lastname}>{item.lastname}</TableCell>
+                                    <TableCell key={item.id + '-' + item.email}>{item.email}</TableCell>
+                                    <TableCell key={item.id + '-' + item.role}>{item.role === "ROLE_USER" ? "Basic User": "Administrator"}</TableCell>
                                     {/* <TableCell>
                                         <Button
                                             color="primary"
