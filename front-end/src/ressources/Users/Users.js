@@ -35,7 +35,7 @@ const headCells = [
     { id: 'lastname', label: 'Last Name' },
     { id: 'email', label: 'Email Address' },
     { id: 'role', label: 'Role' },
-    { id: 'actions', label: 'Actions', disableSorting: true }
+    // { id: 'actions', label: 'Actions', disableSorting: true }
 ]
 
 export default function Users() {
@@ -105,7 +105,7 @@ export default function Users() {
                         onChange={(e) => { setSearch(e.target.value)}}
                         value={search}
                     />
-                    <Button
+                    {/* <Button
                         text="Add New"
                         variant="outlined"
                         startIcon={<AddIcon />}
@@ -113,7 +113,7 @@ export default function Users() {
                         onClick={() => { setOpenPopup(true); setRecordForEdit(null); }}
                     >
                         Add User
-                    </Button>
+                    </Button> */}
                 </Toolbar>
                 <TblContainer>
                     <TblHead />
@@ -130,8 +130,8 @@ export default function Users() {
                                     <TableCell>{item.firstname}</TableCell>
                                     <TableCell>{item.lastname}</TableCell>
                                     <TableCell>{item.email}</TableCell>
-                                    <TableCell>{item.role}</TableCell>
-                                    <TableCell>
+                                    <TableCell>{item.role === "ROLE_USER" ? "Basic User": "Administrator"}</TableCell>
+                                    {/* <TableCell>
                                         <Button
                                             color="primary"
                                             onClick={() => { openInPopup(item) }}>
@@ -141,7 +141,7 @@ export default function Users() {
                                             color="secondary">
                                             <CloseIcon fontSize="small" />
                                         </Button>
-                                    </TableCell>
+                                    </TableCell> */}
                                 </TableRow>)
                             )
                         }
