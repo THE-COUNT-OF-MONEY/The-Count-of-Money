@@ -54,8 +54,8 @@ class Register extends Component{
     if(this.state.firstname && this.state.lastname && this.state.email && this.state.password )
     {
       let data = {'firstname' : this.state.firstname, 'lastname': this.state.lastname, 'email': this.state.email, 'password': this.state.password}
-      let dataJson = JSON.stringify(data)
-      Api.register(dataJson).then((result)=>{
+
+      Api.register(data).then((result)=>{
         if(result === 'created')
         {
           this.setState({redirect: true});
